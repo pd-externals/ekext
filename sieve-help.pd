@@ -1,5 +1,4 @@
-#N canvas 3 89 595 504 10;
-#X declare -path ekext;
+#N canvas 228 185 738 504 10;
 #X obj 94 346 sieve;
 #X msg 147 276 set 2 1;
 #X msg 198 276 set 7 0.86;
@@ -108,7 +107,109 @@ for Pd-extended 0.42 to conform to the PDDP template.;
 #X text 12 125 OUTLET_0 list;
 #X text 12 145 OUTLET_1 list;
 #X restore 538 474 pd META;
-#X obj 455 143 declare -path ekext;
+#N canvas 288 89 1015 622 markovChains 1;
+#X obj 108 411 sieve;
+#X msg 108 302 bang;
+#X msg 301 321 anneal 100;
+#X floatatom 57 444 5 0 0 3 location - -;
+#X floatatom 143 444 5 0 0 3 probability - -;
+#X floatatom 64 302 5 0 9 0 - - -;
+#X msg 297 377 weight 4 0.5;
+#X msg 316 436 markov;
+#X text 298 229 ...so we need another sieve to hold the markov probablities
+for each group \, not the probabilities themselves but al1 the positive
+and negative weights \, for a group to repeat. The rest can be random
+values \, but if we first anneal and then weight the array \, we can
+use the markov function in the sieve object to jump between groups.
+;
+#X msg 387 377 weight whichSlotToPrefer weight;
+#X text 365 430 generates a random slot based on the total value of
+the list elements (the aim) and decides on which slot to output in
+terms of its probability (based on annealing and weighting);
+#X text 82 20 these functions add Markov-chains to sieve \, but also
+to weight and anneal the probabilities. The pseudo-random number generator
+is within the sieve object.;
+#X text 85 65 instead of just storing an array of numbers (which it
+still does) the VALUE is a probability that the next value generated
+by the markov message will be the same \, but realtive to all the other
+possible slots.;
+#X text 95 120 the list can be "annealed" meaning that the total of
+all values will ad up to an "aimed" value \, so you can set a whole
+lot of random values as the array and then "anneal" them to a specified
+sum-value;
+#X text 110 172 that means you can generate Markov chains - where the
+probability of one value is based on how much of the range of all values
+represents the probability;
+#N canvas 3 89 385 326 init 0;
+#X obj 48 104 until;
+#X obj 48 126 t b b;
+#X obj 48 148 cup;
+#X obj 48 39 loadbang;
+#X obj 48 60 t b b;
+#X msg 100 124 0;
+#X obj 86 146 random 500;
+#X obj 48 170 pack f f;
+#X obj 48 192 list prepend set;
+#X obj 48 214 list trim;
+#X msg 48 82 10;
+#X msg 154 192 clear;
+#N canvas 3 89 450 300 bugs 0;
+#X msg 125 123 debug 1;
+#X msg 145 90 debug 2;
+#X msg 161 63 debug 3;
+#X msg 186 33 debug 4;
+#X obj 135 174 outlet;
+#X connect 0 0 4 0;
+#X connect 1 0 4 0;
+#X connect 2 0 4 0;
+#X connect 3 0 4 0;
+#X restore 110 233 pd bugs;
+#X obj 48 270 outlet;
+#X obj 136 43 inlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 6 0;
+#X connect 2 0 7 0;
+#X connect 3 0 4 0;
+#X connect 4 0 10 0;
+#X connect 4 1 5 0;
+#X connect 4 1 11 0;
+#X connect 5 0 2 0;
+#X connect 6 0 7 1;
+#X connect 7 0 8 0;
+#X connect 8 0 9 0;
+#X connect 9 0 13 0;
+#X connect 10 0 0 0;
+#X connect 11 0 13 0;
+#X connect 12 0 13 0;
+#X connect 14 0 4 0;
+#X restore 108 325 pd init;
+#X text 371 321 -->;
+#X text 399 314 all array elements will be adjusted to add-up to this
+value. This is caled the "aim" of annealing. In this case all values
+will add up to 100 \, the "aim".;
+#X text 591 354 weight value should be between 0 and 1 \, but not 0
+\, and not 1 This will make one slot (whichSlotToPrefer) more likely
+\, but this gradient can be gradual (e.g. 0.02) or extreme (e.g. 0.9)
+as it is a change in the whole value list and affects the likelyhood
+of a markov-chain probability;
+#X text 540 75 0.2 0.5 0.8 1.4 1.7 3.8 9.6;
+#X text 631 88 ^;
+#X text 631 95 |;
+#X text 713 75 <--- list values in sieve;
+#X text 624 110 1.6 ---> random value leads to index location (here
+\, index is 3 \, since the VALUE is between the 3rd and fourth location
+in the list) - but remember the first value in the list is at location
+0;
+#X connect 0 0 3 0;
+#X connect 0 1 4 0;
+#X connect 1 0 15 0;
+#X connect 2 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X connect 7 0 0 0;
+#X connect 15 0 0 0;
+#X restore 514 235 pd markovChains;
 #X connect 0 0 6 0;
 #X connect 0 1 7 0;
 #X connect 0 2 8 0;
