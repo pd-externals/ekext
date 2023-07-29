@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
+
 #ifdef __APPLE__
 #include <sys/types.h>
 #include <sys/time.h>
@@ -47,7 +52,7 @@ typedef struct _markovChains {
   t_float seed1, seed2, seed3;
   t_float normValue, runningTot; //do we need runningTot ?
   t_int current, totLen, isInit;
-  t_int thisOffset, thisSlot, thisLen, maxLen, addLen, addOffset, addSlot;
+  t_int thisOffset, thisSlot, thisLen, maxLen, addLen, addOffset, addSlot, noZero;
   t_int nextSlot, maxSlot, nextOffset, nextLen, maxOffset;
   t_int autoNorm;
 
@@ -108,10 +113,10 @@ void markovChains_bang(t_markovChains *x)
   if(x->autoNorm && x->thisTot > 0)
     {
       lastB = 0;
-      if(x->thisTot < 1) x->thisRand = x->thisRand / x->thisTot;
+      if(x->thisTot < 1 && x->thisTot > 0) x->thisRand = x->thisRand / x->thisTot;
       for(i=0; i < x->thisLen; i++)
 	{
-	  bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
+	  bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
 	  bVal = bVal / x->thisTot;
 	  if(x->thisRand > lastB && x->thisRand < bVal)
 	    {
@@ -165,8 +170,6 @@ void markovChains_bang(t_markovChains *x)
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
       outlet_float(x->index, (t_float)x->thisIndex);
-
-
     }
 }
 
@@ -190,7 +193,7 @@ void markovChains_float(t_markovChains *x, t_floatarg f) // go to a slot and mak
 	  x->thisRand = x->thisRand / x->thisTot;
 	  for(i = 0; i < x->thisLen; i++)
 	    {
-	      bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
+	      bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
 	      bVal = bVal / x->thisTot;
 	      if(x->thisRand > lastB && x->thisRand < bVal)
 		{
@@ -204,7 +207,7 @@ void markovChains_float(t_markovChains *x, t_floatarg f) // go to a slot and mak
 	{
 	  for(i = 0; i < x->thisLen; i++)
 	    {
-	      bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
+	      bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
 	      if(x->thisRand > lastB && x->thisRand < bVal)
 		{
 		  x->lastBound = lastB;
@@ -318,7 +321,6 @@ void markovChains_noZeros(t_markovChains *x, t_floatarg f)
     {
 
     }
-
 }
 
 void markovChains_clear(t_markovChains *x, t_floatarg f)
@@ -385,6 +387,11 @@ void markovChains_setSlot(t_markovChains *x, t_floatarg f)
 void markovChains_autoNorm(t_markovChains *x, t_floatarg f)
 {
   x->autoNorm = f > 0 ? f > 1 ? 2 : 1 : 0;
+}
+
+void markovChains_noZero(t_markovChains *x, t_floatarg f)
+{
+  x->noZero = f == 0 ? 0 : 1;
 }
 
 void markovChains_debug(t_markovChains *x, t_floatarg f)
@@ -458,6 +465,7 @@ void *markovChains_new(t_floatarg f) // f = maxlength
 	  //SETFLOAT[&x->map.normalize[i], 100];
 	  SETFLOAT(&x->map.normalize[i], 100);
 	}
+      x->noZero = 1;
     }
   
   x->map.current[0] = 0; // slot 0 will be a buffer with maxlength = f
@@ -513,5 +521,6 @@ void markovChains_setup(void)
 
   class_addmethod(markovChains_class, (t_method)markovChains_debug, gensym("debug"), A_DEFFLOAT, 0);
   class_addmethod(markovChains_class, (t_method)markovChains_clear, gensym("clear"), A_DEFFLOAT, 0);
+  class_addmethod(markovChains_class, (t_method)markovChains_noZero, gensym("noZero"), A_DEFFLOAT, 0);
   
 }

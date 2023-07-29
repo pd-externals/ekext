@@ -1,11 +1,11 @@
 /*
  * cupd counts up ^_^ and down _^_
- * Copyright (c) 2012 Edward Kelly <morph_2016@yahoo.co.uk>
- *
  * Oh, for goodness sake. This counts up and down! That's all. 
  * What grain of sand do I own on the beach that prevents you from walking on it?
  * Go ahead - make your own sandcastle.
- */
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
 

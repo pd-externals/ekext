@@ -1,6 +1,9 @@
 /* takes a map like 0 1 3 4 7 and only returns the number if it is present */
 /* based on sieve by Edward Kelly
-/* in the map. */
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
+
 #include "m_pd.h"
 #define MAXENTRIES 1024
 #define LASTENTRY 1023

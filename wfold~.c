@@ -1,3 +1,9 @@
+/* wfold~
+ * control rate adjusted wavefolder~
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
+
 #include "m_pd.h"
 #include <math.h>
 

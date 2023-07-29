@@ -5,11 +5,9 @@
  * across multiple bars**
 
  **but of course limited to 4000000 samples (about 90s). Bring on pd-double!
-
- * Edward Kelly 2012 - 2017
- * Simplified BSD License
-
- */
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 
 #include "m_pd.h"

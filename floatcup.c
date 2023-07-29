@@ -1,9 +1,8 @@
 /* floatcup counts up in floating-point steps ^_-
- * 2019 Edward Kelly <morph_2016@yahoo.co.uk>
- *
- * you can set a negative step for it to count down.
- *
- */
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution.
+ * you can set a negative step for it to count down. */
  
 #include "m_pd.h"
 

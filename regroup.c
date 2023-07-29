@@ -1,6 +1,8 @@
-/* regroup 2019 Edward Kelly
- * only allow standard lengths for rhythmic notation
+/* only allow standard lengths for rhythmic notation
  * part of the gemnotes system
+ * Copyright (c) 2005-2023 Edward Kelly
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
  */
  
 #include "m_pd.h"
