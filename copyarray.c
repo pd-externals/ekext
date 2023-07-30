@@ -1,32 +1,14 @@
-/* ------------------------- copyarray  --------------------------------------- */
-/*                                                                              */
-/* Copy data from one array to another .                                        */
-/* Written by Olaf Matthes <olaf.matthes@gmx.de>                                */
-/* Get source at http://www.akustische-kunst.org/puredata/maxlib/               */
-/**********fixed by Ed Kelly*****************************************************/
-/*                                                                              */
-/* This program is free software; you can redistribute it and/or                */
-/* modify it under the terms of the GNU General Public License                  */
-/* as published by the Free Software Foundation; either version 2               */
-/* of the License, or (at your option) any later version.                       */
-/*                                                                              */
-/* This program is distributed in the hope that it will be useful,              */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of               */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                */
-/* GNU General Public License for more details.                                 */
-/*                                                                              */
-/* You should have received a copy of the GNU General Public License            */
-/* along with this program; if not, write to the Free Software                  */
-/* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.  */
-/*                                                                              */
-/* Based on PureData by Miller Puckette and others.                             */
-/*                                                                              */
-/* ---------------------------------------------------------------------------- */
+/*
+ * copy data from one array into another
+ * Copyright (c) 2005-2023 Edward Kelly and others
+ * Based on arraycopy from maxlib (Olaf Matthes) <olaf.matthes@gmx.de>
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
 #include <stdlib.h>
 
-static char *version = "copyarray v0.2.1, written by Olaf Matthes <olaf.matthes@gmx.de>";
+static char *version = "copyarray v0.2.1, written by Olaf Matthes <olaf.matthes@gmx.de>, adapted by Edward Kelly <synchroma@gmail.com>";
 
 typedef struct copyarray
 {
