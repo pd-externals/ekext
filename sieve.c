@@ -38,8 +38,8 @@ typedef struct _map
 
 typedef struct _sieve
 {
-  struct timeval tv;
   t_object x_obj;
+  struct timeval tv;
   t_map x_map;
   t_float input, mode, outmap, myBug, aim, markovResult, weight, slotVal;
   t_int markovIndex, max, favourite, urnRem, rLoc, uLoc, umax;
