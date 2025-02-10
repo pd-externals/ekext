@@ -113,9 +113,9 @@ static void copyarray_docopy(t_copyarray *x)
     }
 
   if (!(A = (t_garray *)pd_findbyclass(x->x_destarray, garray_class)))
-    error("copyarray: %s: no such array", x->x_destarray->s_name);
+    pd_error(x, "copyarray: %s: no such array", x->x_destarray->s_name);
   else if (!array_getarray(A, &destsize, &vec))
-    error("copyarray: %s: bad template ", x->x_destarray->s_name);
+    pd_error(x, "copyarray: %s: bad template ", x->x_destarray->s_name);
   else
     {
       if(x->x_start > sourcesize)

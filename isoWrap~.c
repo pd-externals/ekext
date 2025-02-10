@@ -133,7 +133,7 @@ void isoWrap_tilde_setFraction(t_isoWrap_tilde *x, t_symbol *s, int argc, t_atom
       denIn = (int)atom_getfloat(argv+1);
       if(numIn <= 0 || denIn <= 0)
         {
-          error("Numerator and denominator of fraction must be integers > 0!");
+          pd_error(x, "Numerator and denominator of fraction must be integers > 0!");
         }
       else
         {
