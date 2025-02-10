@@ -222,7 +222,7 @@ t_int randLoc(t_sieve *x, t_float range)
   return((t_int)x->random);
 }
 
-void sieve_umap(t_sieve *x, t_floatarg um)
+void sieve_umap(t_sieve *x)
 {
   t_int i;
   t_float f;
@@ -315,13 +315,13 @@ void sieve_urn(t_sieve *x)
       }*/
   // we need to work out whether there is a value at a randomly generated location (using the randLoc() function above)
   // if there is we need to output the location and value, then delete the value
-  // a de-accumulator would be good to use, check for "no non-values (0) left" status - i.e. sarts off full and ends up 0
+  // a de-accumulator would be good to use, check for "no non-values (0) left" status - i.e. starts off full and ends up 0
   // when there are no values left, the omap table resets the map table (or what do we do if it is annealed? - another array?)
   // we can probably do away with the onomap array
   // it can be worked out from the omap table with some math (1-f, or 1/f? perhaps new modes, but always !=0)
   // also to reset annealing in map table when urn mode is reset
     }
-} 
+}
 
 void sieve_set(t_sieve *x, t_floatarg fmap, t_floatarg fval) /* set one value in the array */
 {

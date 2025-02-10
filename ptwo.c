@@ -1,7 +1,7 @@
 /* power of two?(1) or not?(0)
  * Copyright (c) 2005-2023 Edward Kelly
  * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
- * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
+ * WARRANTIES, see the file "LICENSE.txt," in this distribution.
  */
  
 #include "m_pd.h"
