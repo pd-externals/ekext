@@ -39,15 +39,33 @@ typedef struct _map
 typedef struct _sieve
 {
   t_object x_obj;
-  struct timeval tv;
   t_map x_map;
   t_float input, mode, outmap, myBug, aim, markovResult, weight, slotVal;
   t_int markovIndex, max, favourite, urnRem, rLoc, uLoc, umax;
   t_outlet *mapped, *value, *mapout, *inst;
   unsigned short int seed16v[3];
   double random;
-  long int mod1, mod2, mod3, seed1, seed2, seed3;
+  long int mod1, mod2, mod3;
 } t_sieve;
+
+static void sieve_makeseed(t_sieve *x) {
+  int seed1 = 21717;
+  int seed2 = 23129;
+  int seed3 = 7886;
+  struct timeval tv;
+  gettimeofday(&tv, 0);
+
+  seed1 = (tv.tv_usec % x->mod1) + (tv.tv_sec % x->mod2);
+  seed1 = seed1 % x->mod3;
+  seed2 = (tv.tv_usec % x->mod2) + (tv.tv_sec % x->mod3);
+  seed2 = seed2 % x->mod1;
+  seed3 = (tv.tv_usec % x->mod3) + (tv.tv_sec % x->mod1);
+  seed3 = seed3 % x->mod2;
+
+  x->seed16v[2] = (unsigned short int)seed3;
+  x->seed16v[1] = (unsigned short int)seed2;
+  x->seed16v[0] = (unsigned short int)seed1;
+}
 
 void sieve_markov(t_sieve *x) //maybe move this in the code when it's finished!
 {
@@ -79,7 +97,7 @@ void sieve_markov(t_sieve *x) //maybe move this in the code when it's finished!
 
 void sieve_float(t_sieve *x, t_floatarg fin)
 {
-  int i, ip, in, arg, arga, argb, argaout, argbout, argxa, argxb, itest, itesta, itestb, iresult;
+  int arg, arga, argb, argxa, argxb, itest, itesta, itestb, iresult;
   itest = itesta = itestb = iresult = arga = argb = arg = 0;
   t_float test, testa, testb, fresult;
   test = testa = testb = fresult = 0;
@@ -200,18 +218,7 @@ void sieve_float(t_sieve *x, t_floatarg fin)
 t_int randLoc(t_sieve *x, t_float range)
 {
   //timeval tv;
-  gettimeofday(&x->tv, 0);
-
-  x->seed1 = (x->tv.tv_usec % x->mod1) + (x->tv.tv_sec % x->mod2);
-  x->seed1 = x->seed1 % x->mod3;
-  x->seed2 = (x->tv.tv_usec % x->mod2) + (x->tv.tv_sec % x->mod3);
-  x->seed2 = x->seed2 % x->mod1;
-  x->seed3 = (x->tv.tv_usec % x->mod3) + (x->tv.tv_sec % x->mod1);
-  x->seed3 = x->seed3 % x->mod2;
-
-  x->seed16v[2] = (unsigned short int)x->seed3;
-  x->seed16v[1] = (unsigned short int)x->seed2;
-  x->seed16v[0] = (unsigned short int)x->seed1;
+  sieve_makeseed(x);
   seed48(x->seed16v);
 
   x->random = (drand48() * range) + 0.9; // I need to check whether the 0.9 is necessary to get the last value!
@@ -245,7 +252,6 @@ void sieve_urn(t_sieve *x)
       x->rLoc = randLoc(x, x->umax);
       x->slotVal = -1;
 
-      t_int i = 0;
       t_int uLoc = 0;
 
       //x->urnRem = x->umax; // set this in sieve_umap, not here!
@@ -403,7 +409,6 @@ void sieve_weight(t_sieve *x, t_floatarg which, t_floatarg weighting)// make a c
   x->weight = weighting;
   t_int index;
   t_float thisValue = 0;
-  t_float inverse = 1;
   if(x->favourite >= x->max) post("that location is out-of-range. favour = %d, x->max = %d",x->favourite,x->max);
   if(x->weight >= 1.0) post("warning - you are making it impossible for outher outcomes! weight == %f", x->weight);
   else if(x->weight <= 0) post("warning - you can't have a weight of 0 - it would crash! weight == %f", x->weight);
@@ -502,7 +507,6 @@ void sieve_shunt(t_sieve *x, t_floatarg loc) /* move down and decrement subseque
 void sieve_shift(t_sieve *x, t_floatarg loc) /* move up and increment subsequent */
 {
   int location = (int)loc;
-  int addloc;
   int maxentry = x->max+1;
   int i;
   t_float buffer, shift;
@@ -671,22 +675,7 @@ void sieve_init(t_sieve *x, t_floatarg f)
   x->mod1 = 320;
   x->mod2 = 26364;
   x->mod3 = 1202;
-  x->seed1 = 21717;
-  x->seed2 = 23129;
-  x->seed3 = 7886;
-  //timeval tv;
-  gettimeofday(&x->tv, 0);
-
-  x->seed1 = (x->tv.tv_usec % x->mod1) + (x->tv.tv_sec % x->mod2);
-  x->seed1 = x->seed1 % x->mod3;
-  x->seed2 = (x->tv.tv_usec % x->mod2) + (x->tv.tv_sec % x->mod3);
-  x->seed2 = x->seed2 % x->mod1;
-  x->seed3 = (x->tv.tv_usec % x->mod3) + (x->tv.tv_sec % x->mod1);
-  x->seed3 = x->seed3 % x->mod2;
-
-  x->seed16v[2] = (unsigned short int)x->seed3;
-  x->seed16v[1] = (unsigned short int)x->seed2;
-  x->seed16v[0] = (unsigned short int)x->seed1;
+  sieve_makeseed(x);
   seed48(x->seed16v);
 }
 
@@ -709,31 +698,15 @@ void *sieve_new(t_floatarg f)
   x->mod1 = 1120;
   x->mod2 = 12364;
   x->mod3 = 3003;
-  x->seed1 = 21217;
-  x->seed2 = 33129;
-  x->seed3 = 9286;
-  //timeval x->tv;
-  gettimeofday(&x->tv, 0);
-
-  x->seed1 = (x->tv.tv_usec % x->mod1) + (x->tv.tv_sec % x->mod2);
-  x->seed1 = x->seed1 % x->mod3;
-  x->seed2 = (x->tv.tv_usec % x->mod2) + (x->tv.tv_sec % x->mod3);
-  x->seed2 = x->seed2 % x->mod1;
-  x->seed3 = (x->tv.tv_usec % x->mod3) + (x->tv.tv_sec % x->mod1);
-  x->seed3 = x->seed3 % x->mod2;
-
-
-  x->seed16v[2] = (unsigned short int)x->seed3;
-  x->seed16v[1] = (unsigned short int)x->seed2;
-  x->seed16v[0] = (unsigned short int)x->seed1;
+  sieve_makeseed(x);
   seed48(x->seed16v);
   //  srand(time(NULL));
-  post("initializing pseudo-random number generator: %d, %d, %d",(int)x->seed1,(int)x->seed2,(int)x->seed3);
+  post("initializing pseudo-random number generator: %d, %d, %d",(int)x->seed16v[0],(int)x->seed16v[1],(int)x->seed16v[2]);
 
-  x->mapped = outlet_new(&x->x_obj, &s_float);
-  x->value = outlet_new(&x->x_obj, &s_float);
-  x->mapout = outlet_new(&x->x_obj, &s_list);
-  x->inst = outlet_new(&x->x_obj, &s_bang);
+  x->mapped = outlet_new(&x->x_obj, gensym("float"));
+  x->value = outlet_new(&x->x_obj, gensym("float"));
+  x->mapout = outlet_new(&x->x_obj, gensym("list"));
+  x->inst = outlet_new(&x->x_obj, gensym("bang"));
   return (void *)x;
 }
 
