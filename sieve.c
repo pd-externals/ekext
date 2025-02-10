@@ -15,6 +15,9 @@
 #include "m_pd.h"
 #include <math.h>
 #include <string.h>
+
+#include "rand48.h"
+
 #define MAXENTRIES 8192 // increased to 8192 in 2019
 #define LASTENTRY 8191
 #define DEFAULTTARGET 100

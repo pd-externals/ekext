@@ -15,6 +15,8 @@
 
 #include "m_pd.h"
 
+#include "rand48.h"
+
 #define ARRAYSIZE 1024
 #define HALFARRAY 512
 
