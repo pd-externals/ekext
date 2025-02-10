@@ -161,9 +161,9 @@ static void *scalefilter_new(t_floatarg length, t_floatarg maximum)
 void scalefilter_setup(void)
 {
   scalefilter_class = class_new(gensym("scalefilter"),
-  (t_newmethod)scalefilter_new,
-  0, sizeof(t_scalefilter),
-  0, A_DEFFLOAT, A_DEFFLOAT, 0);
+                                (t_newmethod)scalefilter_new,
+                                0, sizeof(t_scalefilter),
+                                0, A_DEFFLOAT, A_DEFFLOAT, 0);
   post("_-^scalefilter^-_ by Ed Kelly, 2013");
 
   class_addfloat(scalefilter_class, scalefilter_float);

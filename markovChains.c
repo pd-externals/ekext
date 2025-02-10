@@ -116,7 +116,7 @@ void markovChains_bang(t_markovChains *x)
           lastB = bVal;
         }
       if(x->noZero)
-          x->thisSlot += 1;
+        x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -136,7 +136,7 @@ void markovChains_bang(t_markovChains *x)
           lastB = bVal;
         }
       if(x->noZero)
-          x->thisSlot += 1;
+        x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -161,7 +161,7 @@ void markovChains_bang(t_markovChains *x)
           lastB = bVal;
         }
       if(x->noZero)
-          x->thisSlot += 1;
+        x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -214,7 +214,7 @@ void markovChains_float(t_markovChains *x, t_floatarg f) // go to a slot and mak
             }
         }
       if(x->noZero)
-          x->thisSlot += 1;
+        x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -555,9 +555,9 @@ void *markovChains_new(t_floatarg f) // f = maxlength
 void markovChains_setup(void)
 {
   markovChains_class = class_new(gensym("markovChains"),
-  (t_newmethod)markovChains_new,
-  0, sizeof(t_markovChains),
-  0, A_DEFFLOAT, 0);
+                                 (t_newmethod)markovChains_new,
+                                 0, sizeof(t_markovChains),
+                                 0, A_DEFFLOAT, 0);
   post("markovChains: chains of markov chains");
   post("|^^^^^^^--Edward Kelly 2021--^^^^^^^|");
 

@@ -51,9 +51,9 @@ void *floatcup_new(t_floatarg f)
 void floatcup_setup(void)
 {
   floatcup_class = class_new(gensym("floatcup"),
-  (t_newmethod)floatcup_new,
-  0, sizeof(t_floatcup),
-  0, A_DEFFLOAT, 0);
+                             (t_newmethod)floatcup_new,
+                             0, sizeof(t_floatcup),
+                             0, A_DEFFLOAT, 0);
   post("floatcup counts up ^_^");
 
   class_addbang(floatcup_class, floatcup_bang);

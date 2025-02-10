@@ -44,9 +44,9 @@ void *doubledelta_new(t_floatarg f)
 void doubledelta_setup(void)
 {
   doubledelta_class = class_new(gensym("doubledelta"),
-  (t_newmethod)doubledelta_new,
-  0, sizeof(t_doubledelta),
-  0, A_DEFFLOAT, 0);
+                                (t_newmethod)doubledelta_new,
+                                0, sizeof(t_doubledelta),
+                                0, A_DEFFLOAT, 0);
   post("delta & delta-delta values, <morph_2016@yahoo.co.uk>");
 
   class_addbang(doubledelta_class, doubledelta_bang);

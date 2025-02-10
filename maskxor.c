@@ -204,9 +204,9 @@ void *maskxor_new(t_symbol *s, t_floatarg fmode)
 void maskxor_setup(void)
 {
   maskxor_class = class_new(gensym("maskxor"),
-  (t_newmethod)maskxor_new,
-  0, sizeof(t_maskxor),
-  CLASS_DEFAULT, A_DEFFLOAT, 0);
+                            (t_newmethod)maskxor_new,
+                            0, sizeof(t_maskxor),
+                            CLASS_DEFAULT, A_DEFFLOAT, 0);
   post("|..-.--.-..-maskxor.-...--.-..|");
   post("|    exclusive-or mask-map    |");
   post("|.--.- Edward Kelly 2006 ---.-|");

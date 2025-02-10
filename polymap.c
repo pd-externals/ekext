@@ -103,21 +103,21 @@ void polymap_next(t_polymap *x, t_symbol *s, int argc, t_atom *argv)
       else
         //xLow
         for(thisNext = lowBound; thisNext <= highBound; thisNext++)
-        {
-          wasFull = atom_getfloatarg(thisNext, POLYMAP, x->x_map.polymap);
-          if(x->myBug == 1) post("thisNext = %d, thisNext m32 = %d, thisNext / 32 = %d, wasFull = %d",thisNext,thisNext % 32,thisNext / 32,(int)wasFull);
-          if(wasFull == 0)
-            {
-              SETFLOAT(&x->x_map.note[0],(t_float)(thisNext % MAXPOLY)+1);
-              SETFLOAT(&x->x_map.note[1],(t_float)(thisNext / MAXPOLY)+1);
-              if(x->modeSet)
-                SETFLOAT(&x->x_map.note[2],1);
-              else
-                SETFLOAT(&x->x_map.note[2],0);
-              outlet_list(x->next, &s_list, 3, x->x_map.note);
-              break;
-            }
-        }
+          {
+            wasFull = atom_getfloatarg(thisNext, POLYMAP, x->x_map.polymap);
+            if(x->myBug == 1) post("thisNext = %d, thisNext m32 = %d, thisNext / 32 = %d, wasFull = %d",thisNext,thisNext % 32,thisNext / 32,(int)wasFull);
+            if(wasFull == 0)
+              {
+                SETFLOAT(&x->x_map.note[0],(t_float)(thisNext % MAXPOLY)+1);
+                SETFLOAT(&x->x_map.note[1],(t_float)(thisNext / MAXPOLY)+1);
+                if(x->modeSet)
+                  SETFLOAT(&x->x_map.note[2],1);
+                else
+                  SETFLOAT(&x->x_map.note[2],0);
+                outlet_list(x->next, &s_list, 3, x->x_map.note);
+                break;
+              }
+          }
       if(x->modeSet)
         {
           SETFLOAT(&x->x_map.polymap[thisNext], 1);
@@ -306,9 +306,9 @@ void *polymap_new(t_floatarg poly)
 void polymap_setup(void)
 {
   polymap_class = class_new(gensym("polymap"),
-  (t_newmethod)polymap_new,
-  0, sizeof(t_polymap),
-  0, A_DEFFLOAT, 0);
+                            (t_newmethod)polymap_new,
+                            0, sizeof(t_polymap),
+                            0, A_DEFFLOAT, 0);
   post("|. . . . . . . . .polymap. . . . . . . . .|");
   post("|_- polyphonic chain reaction regulator -_|");
   post("|. . . . . .Edward Kelly 2006-2019. . . . |");

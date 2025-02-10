@@ -183,9 +183,9 @@ void *zeroxpos_tilde_new(t_floatarg f)
 void zeroxpos_tilde_setup(void)
 {
   zeroxpos_tilde_class = class_new(gensym("zeroxpos~"),
-  (t_newmethod)zeroxpos_tilde_new,
-  0, sizeof(t_zeroxpos_tilde),
-  CLASS_DEFAULT, A_DEFFLOAT, 0);
+                                   (t_newmethod)zeroxpos_tilde_new,
+                                   0, sizeof(t_zeroxpos_tilde),
+                                   CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬zeroxpos~``````````````````````|");
   post("|find 1st, 2nd or 3rd etc zero crossing point in frame|");

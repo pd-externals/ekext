@@ -45,9 +45,9 @@ void *simile_new(t_floatarg x_win) {
 
 void simile_setup(void) {
   simile_class = class_new(gensym("simile"),
-  (t_newmethod)simile_new,
-  0, sizeof(t_simile),
-  0, A_DEFFLOAT, 0);
+                           (t_newmethod)simile_new,
+                           0, sizeof(t_simile),
+                           0, A_DEFFLOAT, 0);
   post("|------------->simile<--------------|");
   post("|->weighted similarity measurement<-|");
   post("|-->edward<----->kelly<----->2005<--|");

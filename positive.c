@@ -17,19 +17,19 @@ typedef struct _positive
 
 void positive_float(t_positive *y, t_floatarg f)
 {
-        y->value = f;
-        if(y->value < 0)
-        {
-                int i = (int)y->value;
-                i = i * -1 + 1;
-                y->value += (float)i;
-        }
-        outlet_float(y->positive, y->value);
+  y->value = f;
+  if(y->value < 0)
+    {
+      int i = (int)y->value;
+      i = i * -1 + 1;
+      y->value += (float)i;
+    }
+  outlet_float(y->positive, y->value);
 }
 
 void positive_bang(t_positive *y)
 {
-    outlet_float(y->positive, y->value);
+  outlet_float(y->positive, y->value);
 }
 
 void *positive_new(t_floatarg f)
@@ -43,9 +43,9 @@ void *positive_new(t_floatarg f)
 void positive_setup(void)
 {
   positive_class = class_new(gensym("positive"),
-  (t_newmethod)positive_new,
-  0, sizeof(t_positive),
-                               0, A_DEFFLOAT, 0);
+                             (t_newmethod)positive_new,
+                             0, sizeof(t_positive),
+                             0, A_DEFFLOAT, 0);
   post("positive always returns a positive value");
   post("negative values are shifted up");
 

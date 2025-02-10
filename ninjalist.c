@@ -36,7 +36,7 @@ void ninjalist_float(t_ninjalist *x, t_floatarg fin)
 }
 
 void ninjalist_set(t_ninjalist *x, t_floatarg fmap, t_floatarg fval) /* set one value
-                                                                in the array */
+                                                                        in the array */
 {
   t_float fvaller;
   if(fmap < MAXENTRIES && fmap >= 0)
@@ -187,9 +187,9 @@ void *ninjalist_new(t_floatarg f)
 void ninjalist_setup(void)
 {
   ninjalist_class = class_new(gensym("ninjalist"),
-  (t_newmethod)ninjalist_new,
-  0, sizeof(t_ninjalist),
-  0, A_DEFFLOAT, 0);
+                              (t_newmethod)ninjalist_new,
+                              0, sizeof(t_ninjalist),
+                              0, A_DEFFLOAT, 0);
   post("|^^^^^^^^^^^ninjalist^^^^^^^^^^^|");
   post("|->^^^integer map to floats^^^<-|");
   post("|^^^^^^^Edward Kelly 2012^^^^^^^|");

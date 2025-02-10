@@ -41,9 +41,9 @@ void *ptwo_new(t_floatarg f)
 void ptwo_setup(void)
 {
   ptwo_class = class_new(gensym("ptwo"),
-  (t_newmethod)ptwo_new,
-  0, sizeof(t_ptwo),
-  0, A_DEFFLOAT, 0);
+                         (t_newmethod)ptwo_new,
+                         0, sizeof(t_ptwo),
+                         0, A_DEFFLOAT, 0);
   post("ptwo - is it a power of two?");
 
   class_addbang(ptwo_class, ptwo_bang);

@@ -48,9 +48,9 @@ void *cup_new(t_floatarg f)
 void cup_setup(void)
 {
   cup_class = class_new(gensym("cup"),
-  (t_newmethod)cup_new,
-  0, sizeof(t_cup),
-  0, A_DEFFLOAT, 0);
+                        (t_newmethod)cup_new,
+                        0, sizeof(t_cup),
+                        0, A_DEFFLOAT, 0);
   post("cup counts up ^_^");
 
   class_addbang(cup_class, cup_bang);

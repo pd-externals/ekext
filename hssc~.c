@@ -34,8 +34,8 @@ t_int *hssc_tilde_perform(t_int *w)
   while (n--)
     {
       vectorr = (*real++);
-          vectori = (*imag++);
-          alpha = sqrt((vectorr * vectorr) + (vectori * vectori));
+      vectori = (*imag++);
+      alpha = sqrt((vectorr * vectorr) + (vectori * vectori));
       x->f_maxbin = alpha > max ? incr : x->f_maxbin;
       max = alpha > max ? alpha : max;
       x->f_minbin = alpha > (max / x->f_ratio) ? incr : x->f_minbin;
@@ -71,9 +71,9 @@ void *hssc_tilde_new(t_floatarg f)
 void hssc_tilde_setup(void)
 {
   hssc_tilde_class = class_new(gensym("hssc~"),
-                                     (t_newmethod)hssc_tilde_new,
-                                     0, sizeof(t_hssc_tilde),
-                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                               (t_newmethod)hssc_tilde_new,
+                               0, sizeof(t_hssc_tilde),
+                               CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|=================hssc~==================|");
   post("|=highest significant spectral component=|");

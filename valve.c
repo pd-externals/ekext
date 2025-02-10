@@ -113,9 +113,9 @@ void *valve_new(t_floatarg f)
 void valve_setup(void)
 {
   valve_class = class_new(gensym("valve"),
-  (t_newmethod)valve_new,
-  0, sizeof(t_valve),
-  0, A_DEFFLOAT, 0);
+                          (t_newmethod)valve_new,
+                          0, sizeof(t_valve),
+                          0, A_DEFFLOAT, 0);
   post("|¬~¬~¬~¬~¬~¬valve~¬~¬~¬~¬~¬~¬|");
   post("|~>^^^integer map router^^^<¬|");
   post("|¬~¬~¬Edward Kelly 2007~¬~¬~¬|");

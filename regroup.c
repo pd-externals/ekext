@@ -107,9 +107,9 @@ void *regroup_new()
 void regroup_setup(void)
 {
   regroup_class = class_new(gensym("regroup"),
-  (t_newmethod)regroup_new,
-  0, sizeof(t_regroup),
-  0, A_DEFFLOAT, 0);
+                            (t_newmethod)regroup_new,
+                            0, sizeof(t_regroup),
+                            0, A_DEFFLOAT, 0);
   post("regroup split notes into 2s and 3s - part of gemnotes 0.3");
 
   class_addbang(regroup_class, regroup_bang);

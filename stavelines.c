@@ -94,11 +94,11 @@ void stavelines_liststaves(t_stavelines *z, t_floatarg f)
 }
 
 /*void stavelines_stavemode(t_stavelines *z, t_floatarg f)
-{
+  {
   if(f < 3 && f >= 0)
-    {
-      z->staveMode = (int)f;
-    }
+  {
+  z->staveMode = (int)f;
+  }
   else post("staveMode %f out of bounds!",f);
   }*/
 
@@ -162,9 +162,9 @@ void *stavelines_new(t_floatarg f)
 void stavelines_setup(void)
 {
   stavelines_class = class_new(gensym("stavelines"),
-  (t_newmethod)stavelines_new,
-  0, sizeof(t_stavelines),
-  0, A_DEFFLOAT, 0);
+                               (t_newmethod)stavelines_new,
+                               0, sizeof(t_stavelines),
+                               0, A_DEFFLOAT, 0);
   //post("stavelines");
 
   class_addbang(stavelines_class, stavelines_bang);

@@ -656,9 +656,9 @@ void *groupsplit_new(t_floatarg f)
 void groupsplit_setup(void)
 {
   groupsplit_class = class_new(gensym("groupsplit"),
-  (t_newmethod)groupsplit_new,
-  0, sizeof(t_groupsplit),
-  0, A_DEFFLOAT, 0);
+                               (t_newmethod)groupsplit_new,
+                               0, sizeof(t_groupsplit),
+                               0, A_DEFFLOAT, 0);
   post("groupsplit - part of the gemnotes system");
 
   class_addbang(groupsplit_class, groupsplit_bang);

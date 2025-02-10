@@ -137,9 +137,9 @@ void *ihisto_new(t_floatarg f)
 void ihisto_setup(void)
 {
   ihisto_class = class_new(gensym("ihisto"),
-  (t_newmethod)ihisto_new,
-  0, sizeof(t_ihisto),
-  0, A_DEFFLOAT, 0);
+                           (t_newmethod)ihisto_new,
+                           0, sizeof(t_ihisto),
+                           0, A_DEFFLOAT, 0);
   post("Integer Histogram by Ed Kelly 2011");
 
   class_addfloat(ihisto_class, ihisto_float);

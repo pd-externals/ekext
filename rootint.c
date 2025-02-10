@@ -51,9 +51,9 @@ void *rootint_new()
 void rootint_setup(void)
 {
   rootint_class = class_new(gensym("rootint"),
-  (t_newmethod)rootint_new,
-  0, sizeof(t_rootint),
-  0, A_DEFFLOAT, 0);
+                            (t_newmethod)rootint_new,
+                            0, sizeof(t_rootint),
+                            0, A_DEFFLOAT, 0);
   post("rootint - is it a power of two?");
 
   class_addbang(rootint_class, rootint_bang);

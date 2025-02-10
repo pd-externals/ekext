@@ -40,31 +40,31 @@ typedef struct _isoWrap_tilde {
 
 void *isoWrap_tilde_new(void)
 {
-    t_isoWrap_tilde *x = (t_isoWrap_tilde *)pd_new(isoWrap_tilde_class);
-    outlet_new(&x->x_obj, gensym("signal"));
-    x->phOff = outlet_new(&x->x_obj, &s_float);
-    x->deNormalize = 0;
-    x->deNorm = 1;
-    x->prevDeN = 0;
-    //x->ratioBal = 0;
-    x->reNormFlag = 0;
-    x->f_s = x->f_i = x->f_prev = 0;
-    x->num = 4;
-    x->den = 4;
-    x->lcm = 4;
-    x->result = 1;
-    x->b = 1;
-    x->theCycle = 0;
-    //x->theLimit = 1;
-    x->theOffset = 0.0;
-    x->increment = 0.0;
-    x->waitPhase = 0;
-    x->myBug = 0;
-    return (x);
+  t_isoWrap_tilde *x = (t_isoWrap_tilde *)pd_new(isoWrap_tilde_class);
+  outlet_new(&x->x_obj, gensym("signal"));
+  x->phOff = outlet_new(&x->x_obj, &s_float);
+  x->deNormalize = 0;
+  x->deNorm = 1;
+  x->prevDeN = 0;
+  //x->ratioBal = 0;
+  x->reNormFlag = 0;
+  x->f_s = x->f_i = x->f_prev = 0;
+  x->num = 4;
+  x->den = 4;
+  x->lcm = 4;
+  x->result = 1;
+  x->b = 1;
+  x->theCycle = 0;
+  //x->theLimit = 1;
+  x->theOffset = 0.0;
+  x->increment = 0.0;
+  x->waitPhase = 0;
+  x->myBug = 0;
+  return (x);
 }
 
 /*static void isoWrap_tilde_floatRes(t_isoWrap_tilde *x, t_floatarg f)
-{
+  {
   if(f > 0 && f < 0.1) x->fRes = f;
   else x->fRes = 0;
   }*/
@@ -158,105 +158,105 @@ void isoWrap_tilde_setFraction(t_isoWrap_tilde *x, t_symbol *s, int argc, t_atom
 
 t_int *isoWrap_tilde_perform(t_int *w)
 {
-    t_isoWrap_tilde *x = (t_isoWrap_tilde *)(w[1]);
-    t_sample *in  = (t_sample *)(w[2]);
-    t_sample *out = (t_sample *)(w[3]);
-    t_int n       = (t_int)(w[4]);
-    while(n--)
-      {
-        x->f_i = *in++ * x->inMult;
-        if(x->f_i < x->f_prev)
-          {
-            if(x->waitPhase && x->reNormFlag)
-              {
-                x->theCycle = 0;
-                x->theOffset = 0;
-                x->reNormFlag = 0;
-              }
-            //resetNextPhase and resetNextOffset? need to be dealt with here
-            else if(x->resetNextPhase)// || x->reNormFlag)
-              {
-                x->theCycle = 0;
-                x->theOffset = 0;
-                x->resetNextPhase = 0;
-              }
-            else if(x->deNormalize == 3 && x->num >= x->den)// || x->reNormFlag)
-              {
-                x->theCycle = 0;
-                x->theOffset = 0;
-              }
-            else if(x->deNormalize < 3 || x->num < x->den)// && !x->reNormFlag)
-              {
-                x->theCycle++;
-                x->theCycle = x->theCycle % x->lcm;
-                x->k_s = (int)((t_float)x->theCycle * x->increment);
-                x->theOffset = ((t_float)x->theCycle * x->increment) - x->k_s;
-                if(x->myBug) post("The increment: %f",x->increment);
-              }
-          }
-        x->f_s = x->f_i + x->theOffset;
-        x->k_i = x->f_s;
-        if(x->deNormalize < 3 && (!x->waitPhase || !x->reNormFlag))
-          {
-            x->f_o = x->f_s - x->k_i;
-          }
-        else if(x->deNormalize == 3)
-          {
-            if(x->num >= x->den)
-              {
-                if(x->f_s < 1.0)
-                  {
-                    x->f_o = x->f_s;
-                  }
-                else
-                  {
-                    x->f_o = 1.0;
-                  }
-              }
-            else if(x->num < x->den)
-              {
-                    x->f_o = x->f_s - x->k_i;
-              }
-          }
-        else
-          {
-            x->f_o = x->f_s - x->k_i;
-          }
-        if(x->num >= x->den)
-          {
-            if(x->deNormalize >= 2)// && x->num >= x->den)
-              {
-                x->f_o = x->f_o * x->deNorm;
-              }
-            else if(x->deNormalize == 1)
-              {
-                x->f_o = x->f_o * x->inMult;
-              }
-          }
-        else if(x->num < x->den)
-          {
-            if(x->deNormalize == 3)
-              {
-                x->f_o = x->f_o * x->deNorm;
-                if(x->f_o > 1.0)
-                  {
-                    x->f_o = 1.0;
-                  }
-              }
-            else if(x->deNormalize == 2)
-              {
-                x->f_o = x->f_o * x->inMult;
-              }
-            else if(x->deNormalize == 1)
-              {
-                x->f_o = x->f_o * x->deNorm;
-              }
-          }
-        *out++ = x->f_o;
-        x->f_prev = x->f_i;
-      }
-    outlet_float(x->phOff, x->theOffset);
-    return(w+5);
+  t_isoWrap_tilde *x = (t_isoWrap_tilde *)(w[1]);
+  t_sample *in  = (t_sample *)(w[2]);
+  t_sample *out = (t_sample *)(w[3]);
+  t_int n       = (t_int)(w[4]);
+  while(n--)
+    {
+      x->f_i = *in++ * x->inMult;
+      if(x->f_i < x->f_prev)
+        {
+          if(x->waitPhase && x->reNormFlag)
+            {
+              x->theCycle = 0;
+              x->theOffset = 0;
+              x->reNormFlag = 0;
+            }
+          //resetNextPhase and resetNextOffset? need to be dealt with here
+          else if(x->resetNextPhase)// || x->reNormFlag)
+            {
+              x->theCycle = 0;
+              x->theOffset = 0;
+              x->resetNextPhase = 0;
+            }
+          else if(x->deNormalize == 3 && x->num >= x->den)// || x->reNormFlag)
+            {
+              x->theCycle = 0;
+              x->theOffset = 0;
+            }
+          else if(x->deNormalize < 3 || x->num < x->den)// && !x->reNormFlag)
+            {
+              x->theCycle++;
+              x->theCycle = x->theCycle % x->lcm;
+              x->k_s = (int)((t_float)x->theCycle * x->increment);
+              x->theOffset = ((t_float)x->theCycle * x->increment) - x->k_s;
+              if(x->myBug) post("The increment: %f",x->increment);
+            }
+        }
+      x->f_s = x->f_i + x->theOffset;
+      x->k_i = x->f_s;
+      if(x->deNormalize < 3 && (!x->waitPhase || !x->reNormFlag))
+        {
+          x->f_o = x->f_s - x->k_i;
+        }
+      else if(x->deNormalize == 3)
+        {
+          if(x->num >= x->den)
+            {
+              if(x->f_s < 1.0)
+                {
+                  x->f_o = x->f_s;
+                }
+              else
+                {
+                  x->f_o = 1.0;
+                }
+            }
+          else if(x->num < x->den)
+            {
+              x->f_o = x->f_s - x->k_i;
+            }
+        }
+      else
+        {
+          x->f_o = x->f_s - x->k_i;
+        }
+      if(x->num >= x->den)
+        {
+          if(x->deNormalize >= 2)// && x->num >= x->den)
+            {
+              x->f_o = x->f_o * x->deNorm;
+            }
+          else if(x->deNormalize == 1)
+            {
+              x->f_o = x->f_o * x->inMult;
+            }
+        }
+      else if(x->num < x->den)
+        {
+          if(x->deNormalize == 3)
+            {
+              x->f_o = x->f_o * x->deNorm;
+              if(x->f_o > 1.0)
+                {
+                  x->f_o = 1.0;
+                }
+            }
+          else if(x->deNormalize == 2)
+            {
+              x->f_o = x->f_o * x->inMult;
+            }
+          else if(x->deNormalize == 1)
+            {
+              x->f_o = x->f_o * x->deNorm;
+            }
+        }
+      *out++ = x->f_o;
+      x->f_prev = x->f_i;
+    }
+  outlet_float(x->phOff, x->theOffset);
+  return(w+5);
 }
 
 void isoWrap_tilde_dsp(t_isoWrap_tilde *x, t_signal **sp) {
@@ -266,11 +266,11 @@ void isoWrap_tilde_dsp(t_isoWrap_tilde *x, t_signal **sp) {
 void isoWrap_tilde_setup(void)
 {
   isoWrap_tilde_class = class_new(gensym("isoWrap~"),  (t_newmethod)isoWrap_tilde_new,
-  0, sizeof(t_isoWrap_tilde), CLASS_DEFAULT, A_DEFFLOAT, 0);
-    CLASS_MAINSIGNALIN(isoWrap_tilde_class, t_isoWrap_tilde, f_s);
-    class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_dsp, gensym("dsp"), A_CANT, 0);
-    class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_setFraction, gensym("setFraction"), A_GIMME, 0);
-    class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_resetNextPhase, gensym("resetNextPhase"), A_DEFFLOAT, 0);
-    class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_deNormalize, gensym("deNormalize"), A_DEFFLOAT, 0);
-    class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_debug, gensym("debug"), A_DEFFLOAT, 0);
+                                  0, sizeof(t_isoWrap_tilde), CLASS_DEFAULT, A_DEFFLOAT, 0);
+  CLASS_MAINSIGNALIN(isoWrap_tilde_class, t_isoWrap_tilde, f_s);
+  class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_dsp, gensym("dsp"), A_CANT, 0);
+  class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_setFraction, gensym("setFraction"), A_GIMME, 0);
+  class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_resetNextPhase, gensym("resetNextPhase"), A_DEFFLOAT, 0);
+  class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_deNormalize, gensym("deNormalize"), A_DEFFLOAT, 0);
+  class_addmethod(isoWrap_tilde_class, (t_method)isoWrap_tilde_debug, gensym("debug"), A_DEFFLOAT, 0);
 }

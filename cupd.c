@@ -67,9 +67,9 @@ void *cupd_new(t_floatarg f)
 void cupd_setup(void)
 {
   cupd_class = class_new(gensym("cupd"),
-  (t_newmethod)cupd_new,
-  0, sizeof(t_cupd),
-  0, A_DEFFLOAT, 0);
+                         (t_newmethod)cupd_new,
+                         0, sizeof(t_cupd),
+                         0, A_DEFFLOAT, 0);
   post("cupd counts up ^_^ and down _^_");
 
   class_addbang(cupd_class, cupd_bang);

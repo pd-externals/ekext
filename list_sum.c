@@ -109,7 +109,7 @@ void list_sum_clear(t_list_sum *x)
   int i;
   for(i=0;i<1024;i++)
     {
-    SETFLOAT(&x->contents.list[i], 0);
+      SETFLOAT(&x->contents.list[i], 0);
     }
   x->highest=0;
   x->total=0;
@@ -152,9 +152,9 @@ void *list_sum_new(t_symbol *s, int argc, t_atom *argv)
 
 void list_sum_setup(void) {
   list_sum_class = class_new(gensym("list_sum"),
-  (t_newmethod)list_sum_new,
-  0, sizeof(t_list_sum),
-  0, A_DEFFLOAT, 0);
+                             (t_newmethod)list_sum_new,
+                             0, sizeof(t_list_sum),
+                             0, A_DEFFLOAT, 0);
   post("|<<<<<<<<<<<<<<<<<<<<list_sum>>>>>>>>>>>>>>>>>>>>|");
   post("|<<<calculate the sum of a list, with wrapping>>>|");
   post("|<<<<<<<<<edward-------kelly-------2007>>>>>>>>>>|");

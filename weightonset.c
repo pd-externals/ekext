@@ -101,9 +101,9 @@ void *weightonset_new(t_floatarg f1, t_floatarg f2)
 
 void weightonset_setup(void) {
   weightonset_class = class_new(gensym("weightonset"),
-  (t_newmethod)weightonset_new,
-  0, sizeof(t_weightonset),
-  0, A_DEFFLOAT, A_DEFFLOAT, 0);
+                                (t_newmethod)weightonset_new,
+                                0, sizeof(t_weightonset),
+                                0, A_DEFFLOAT, A_DEFFLOAT, 0);
   post("input values become less and less important");
   post("as entropy brings alternative rewards");
   class_sethelpsymbol(weightonset_class, gensym("help-weightonset"));

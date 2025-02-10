@@ -73,9 +73,9 @@ void *hasc_tilde_new(t_floatarg f)
 void hasc_tilde_setup(void)
 {
   hasc_tilde_class = class_new(gensym("hasc~"),
-                                     (t_newmethod)hasc_tilde_new,
-                                     0, sizeof(t_hasc_tilde),
-                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                               (t_newmethod)hasc_tilde_new,
+                               0, sizeof(t_hasc_tilde),
+                               CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|===============hasc~=================|");
   post("|=highest apparent spectral component=|");

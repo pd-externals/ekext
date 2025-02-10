@@ -57,9 +57,9 @@ void *simile_tilde_new(t_floatarg f) {
 
 void simile_tilde_setup(void) {
   simile_tilde_class = class_new(gensym("simile~"),
-  (t_newmethod)simile_tilde_new,
-  0, sizeof(t_simile_tilde),
-  CLASS_DEFAULT, A_DEFFLOAT, 0);
+                                 (t_newmethod)simile_tilde_new,
+                                 0, sizeof(t_simile_tilde),
+                                 CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|~~~~~~~~~~~~&simile~&~~~~~~~~~~~~~~|");
   post("|~&weighted similarity measurement&~|");
@@ -67,6 +67,6 @@ void simile_tilde_setup(void) {
 
 
   class_addmethod(simile_tilde_class,
-  (t_method)simile_tilde_dsp, gensym("dsp"), 0);
+                  (t_method)simile_tilde_dsp, gensym("dsp"), 0);
   CLASS_MAINSIGNALIN(simile_tilde_class, t_simile_tilde, x_dummy);
 }

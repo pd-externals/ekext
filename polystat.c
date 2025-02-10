@@ -254,9 +254,9 @@ void polystat_setup(void)
 {
 
   polystat_class = class_new(gensym("polystat"),
-  (t_newmethod)polystat_new,
-  0, sizeof(t_polystat),
-  0, A_DEFFLOAT, 0);
+                             (t_newmethod)polystat_new,
+                             0, sizeof(t_polystat),
+                             0, A_DEFFLOAT, 0);
   post("|^^^^^^^^^^^^polystat^^^^^^^^^^^^|");
   post("|->^^^^polyphony statistics^^^^<-|");
   post("|^^^^^^^^Edward Kelly 2006^^^^^^^|");

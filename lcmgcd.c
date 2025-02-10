@@ -3,7 +3,7 @@
  * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
- #include "m_pd.h"
+#include "m_pd.h"
 
 static t_class *lcmgcd_class;
 
@@ -52,34 +52,34 @@ static void lcmgcd_list(t_lcmgcd *z, t_symbol *s, int argc, t_atom *argv)
   z->iterations = 0;
   z->gcdAll = 1;
   if(argc > 1)
-  {
-    z->result = (int)atom_getfloat(argv++);
-    argc--;
-    // make sure the first value is > 0
-    while(z->result < 1 && argc)
-      {
-        z->result = (int)atom_getfloat(argv++);
-        argc--;
-      }
-    for(i=0;i<argc;i++)
-      {
-        z->b = (int)atom_getfloat(argv++);
-        if(z->b > 0)
-          {
-            lcmgcd_calculate_lcm(z);
-            z->result = z->lcm;
-            if(!z->iterations) z->gcdAll = z->gcd;
-            else
-              {
-                lcmgcd_calculate_gcd(z);
-              }
-            z->iterations++;
-          }
-      }
-    outlet_float(z->gcdOut,(t_float)z->gcdAll);
-    outlet_float(z->lcmOut,(t_float)z->lcm);
+    {
+      z->result = (int)atom_getfloat(argv++);
+      argc--;
+      // make sure the first value is > 0
+      while(z->result < 1 && argc)
+        {
+          z->result = (int)atom_getfloat(argv++);
+          argc--;
+        }
+      for(i=0;i<argc;i++)
+        {
+          z->b = (int)atom_getfloat(argv++);
+          if(z->b > 0)
+            {
+              lcmgcd_calculate_lcm(z);
+              z->result = z->lcm;
+              if(!z->iterations) z->gcdAll = z->gcd;
+              else
+                {
+                  lcmgcd_calculate_gcd(z);
+                }
+              z->iterations++;
+            }
+        }
+      outlet_float(z->gcdOut,(t_float)z->gcdAll);
+      outlet_float(z->lcmOut,(t_float)z->lcm);
 
-  }
+    }
   else
     {
       post("You need to provide a list");
@@ -102,6 +102,6 @@ static void *lcmgcd_new()
 void lcmgcd_setup(void)
 {
   lcmgcd_class = class_new(gensym("lcmgcd"), (t_newmethod)lcmgcd_new,
-                              0, sizeof(t_lcmgcd), 0 ,A_GIMME, 0);
+                           0, sizeof(t_lcmgcd), 0 ,A_GIMME, 0);
   class_addlist    (lcmgcd_class, lcmgcd_list);
 }

@@ -63,11 +63,11 @@ static t_int *voicing_detector_tilde_perform(t_int *w)
     {
       temp1 = 0;
       for (j=start;j<=end;j++) /* the Average Magnitude Difference Function */
-          {
-            temp[j] = i + j < l ? in[i+j] : 0.0;
-            temp0 = atom_getfloatarg(i, 4096, ctl->otemp);
-            temp1 += fabs(in[j] - temp[j]);
-          }
+        {
+          temp[j] = i + j < l ? in[i+j] : 0.0;
+          temp0 = atom_getfloatarg(i, 4096, ctl->otemp);
+          temp1 += fabs(in[j] - temp[j]);
+        }
       temp1 += ((float)i / (float)l) * ctl->f_sum_abs;
       SETFLOAT(&ctl->otemp[i], temp1);
     }

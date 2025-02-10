@@ -73,9 +73,9 @@ void *steady_new(t_floatarg f)
 
 void steady_setup(void) {
   steady_class = class_new(gensym("steady"),
-  (t_newmethod)steady_new,
-  0, sizeof(t_steady),
-  0, A_DEFFLOAT, 0);
+                           (t_newmethod)steady_new,
+                           0, sizeof(t_steady),
+                           0, A_DEFFLOAT, 0);
   post("|+++++++++++++++++>steady<------------------|");
   post("|+>max, min and through must not jump more<-|");
   post("|+++++++++>than a specified amount<---------|");

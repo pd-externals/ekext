@@ -73,16 +73,16 @@ t_int *mvcf_tilde_perform(t_int *w) {
     xb4 = saturate(xb4);
     xb4 = xb4 - xb4 * xb4 * xb4 * 0.01f;
     xb0 = i1;
-        if(x->mode == 0) {
-            *out++ = xb4; // lowpass mode
-        } else if (x->mode == 1) {
-        *out++ = i1 - x->b4; // highpass mode
+    if(x->mode == 0) {
+      *out++ = xb4; // lowpass mode
+    } else if (x->mode == 1) {
+      *out++ = i1 - x->b4; // highpass mode
     } else if (x->mode == 2) {
-        *out++ = xb3 - xb4;
+      *out++ = xb3 - xb4;
     }
-// Lowpass  output:  xb4
-// Highpass output:  in - xb4;
-// Bandpass output:  3.0f * (b3 - xb4);
+    // Lowpass  output:  xb4
+    // Highpass output:  in - xb4;
+    // Bandpass output:  3.0f * (b3 - xb4);
 
   }
   x->b0 = xb0;
@@ -90,13 +90,13 @@ t_int *mvcf_tilde_perform(t_int *w) {
   x->b2 = xb2;
   x->b3 = xb3;
   x->b4 = xb4;
-//  if(x->debug != 0) {
-//    x->token +=1;
-//    if(x->token == 15) {
-//      post("q = %f, p=%f, fcoeff=%f, b0=%f, b1=%f, b2=%f, b3=%f, b4=%f",q,p,fcoeff,xb0,xb1,xb2,xb3,xb4);
-//      x->token = 0;
-//    }
-//  }
+  //  if(x->debug != 0) {
+  //    x->token +=1;
+  //    if(x->token == 15) {
+  //      post("q = %f, p=%f, fcoeff=%f, b0=%f, b1=%f, b2=%f, b3=%f, b4=%f",q,p,fcoeff,xb0,xb1,xb2,xb3,xb4);
+  //      x->token = 0;
+  //    }
+  //  }
   return (w+7);
 }
 
@@ -109,7 +109,7 @@ void mvcf_tilde_safety(t_mvcf_tilde *x, t_floatarg f) {
 }
 
 void mvcf_tilde_mode(t_mvcf_tilde *x, t_floatarg f) {
-x->mode = f < 1 ? 0 : f > 1 ? 2 : 1;
+  x->mode = f < 1 ? 0 : f > 1 ? 2 : 1;
 }
 
 
@@ -144,15 +144,15 @@ void *mvcf_tilde_new(t_floatarg f) {
 
 void mvcf_tilde_setup(void) {
   mvcf_tilde_class = class_new(gensym("mvcf~"),
-  (t_newmethod)mvcf_tilde_new,
-  0, sizeof(t_mvcf_tilde),
-  CLASS_DEFAULT, A_DEFFLOAT, 0);
+                               (t_newmethod)mvcf_tilde_new,
+                               0, sizeof(t_mvcf_tilde),
+                               CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("~~~~~~~~~~~~~~~>mvcf~");
   post("~~~>by Ed Kelly, 2012");
 
   class_addmethod(mvcf_tilde_class,
-  (t_method)mvcf_tilde_dsp, gensym("dsp"), 0);
+                  (t_method)mvcf_tilde_dsp, gensym("dsp"), 0);
   CLASS_MAINSIGNALIN(mvcf_tilde_class, t_mvcf_tilde, token);
   class_addmethod(mvcf_tilde_class, (t_method)mvcf_tilde_clear, gensym("clear"), 0);
   class_addmethod(mvcf_tilde_class, (t_method)mvcf_tilde_debug, gensym("debug"), 0);

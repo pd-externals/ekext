@@ -43,7 +43,7 @@ t_int *bmt_tilde_perform(t_int *w)
   t_float block = 0;
   t_float reblock = 0;
   if(x->newLength != x->length && x->newLength <= 128 && x->newLength > 0)
-     x->length = x->newLength;
+    x->length = x->newLength;
   int ilength = (int)(x->length);
   int iblock = 0;
 
@@ -87,7 +87,7 @@ t_int *bmt_tilde_perform(t_int *w)
                   SETFLOAT(&x->binmost[iblock], incr-((int)(block*bsize)));
                 }
             }
-      }
+        }
       incr++;
     }
   outlet_list(x->bins, gensym("list"), ilength, x->binmost);
@@ -127,8 +127,8 @@ void *bmt_tilde_new(t_floatarg nbands)
   x->mode = 0; //make this a creation arg...Ed
   for(i=0;i<128;i++)
     {
-          SETFLOAT(&x->levels[i], 0);
-          SETFLOAT(&x->binmost[i], 0);
+      SETFLOAT(&x->levels[i], 0);
+      SETFLOAT(&x->binmost[i], 0);
     }
   x->bmt = outlet_new(&x->x_obj, gensym("list"));
   x->bins = outlet_new(&x->x_obj, gensym("list"));
@@ -138,9 +138,9 @@ void *bmt_tilde_new(t_floatarg nbands)
 void bmt_tilde_setup(void)
 {
   bmt_tilde_class = class_new(gensym("bmt~"),
-                                     (t_newmethod)bmt_tilde_new,
-                                     0, sizeof(t_bmt_tilde),
-                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                              (t_newmethod)bmt_tilde_new,
+                              0, sizeof(t_bmt_tilde),
+                              CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|=======bmt~========|");
   post("|=bass==mid==treble=|");

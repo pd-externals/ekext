@@ -268,9 +268,9 @@ void *floatcount_new(t_symbol *s, int argc, t_atom *argv)
 void floatcount_setup(void)
 {
   floatcount_class = class_new(gensym("floatcount"),
-  (t_newmethod)floatcount_new,
-  0, sizeof(t_floatcount),
-  0, A_GIMME, 0);
+                               (t_newmethod)floatcount_new,
+                               0, sizeof(t_floatcount),
+                               0, A_GIMME, 0);
   post("floatcount counts floats _.");
   class_addbang(floatcount_class, floatcount_bang);
   class_addfloat(floatcount_class, floatcount_float);

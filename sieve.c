@@ -279,47 +279,47 @@ void sieve_urn(t_sieve *x)
         }
       /*if(x->urnRem > 0)
         {
-          outlet_float(x->mapped, (t_float)x->rLoc);
-          outlet_float(x->value, x->slotVal);
-          x->urnRem--;
+        outlet_float(x->mapped, (t_float)x->rLoc);
+        outlet_float(x->value, x->slotVal);
+        x->urnRem--;
         }
         }*/
       /*
-      if(x->urnRem == 0)
+        if(x->urnRem == 0)
         {
-          if(x->max == 0) x->max == 1;
-          else
+        if(x->max == 0) x->max == 1;
+        else
         {
-          x->urnRem = x->max;
-          // then copy omap (and inverse) to x_map.map (and .nomap)
-          for(i = 0; i < x->rLoc; i++)
-            {
-              //how to anneal afterwards?
-              //or do we only keep the annealed copy? (prefereable - put it in the anneal routine)
-              //maybe we need an amap array (annealed map)
-            }
-          // reset array for urn-like behaviour!
-          {
-          }
+        x->urnRem = x->max;
+        // then copy omap (and inverse) to x_map.map (and .nomap)
+        for(i = 0; i < x->rLoc; i++)
+        {
+        //how to anneal afterwards?
+        //or do we only keep the annealed copy? (prefereable - put it in the anneal routine)
+        //maybe we need an amap array (annealed map)
         }
-    }
-  else if(x->slotVal != 0 && x->urnRem > 0)
-    {
-      //umap is new - urn map - need to trace back through other routines for initialization etc.
-      SETFLOAT(&x->x_map.umap[x->rLoc], x->slotVal);
-      outlet_float(x->value, x->slotVal);
-      outlet_float(x->mapped, (t_float)x->rLoc);
-      SETFLOAT(&x->x_map.map[x->rLoc], 0);
-      SETFLOAT(&x->x_map.nomap[x->rLoc], x->slotVal);
-      x->urnRem--;
-      }*/
-  // we need to work out whether there is a value at a randomly generated location (using the randLoc() function above)
-  // if there is we need to output the location and value, then delete the value
-  // a de-accumulator would be good to use, check for "no non-values (0) left" status - i.e. starts off full and ends up 0
-  // when there are no values left, the omap table resets the map table (or what do we do if it is annealed? - another array?)
-  // we can probably do away with the onomap array
-  // it can be worked out from the omap table with some math (1-f, or 1/f? perhaps new modes, but always !=0)
-  // also to reset annealing in map table when urn mode is reset
+        // reset array for urn-like behaviour!
+        {
+        }
+        }
+        }
+        else if(x->slotVal != 0 && x->urnRem > 0)
+        {
+        //umap is new - urn map - need to trace back through other routines for initialization etc.
+        SETFLOAT(&x->x_map.umap[x->rLoc], x->slotVal);
+        outlet_float(x->value, x->slotVal);
+        outlet_float(x->mapped, (t_float)x->rLoc);
+        SETFLOAT(&x->x_map.map[x->rLoc], 0);
+        SETFLOAT(&x->x_map.nomap[x->rLoc], x->slotVal);
+        x->urnRem--;
+        }*/
+      // we need to work out whether there is a value at a randomly generated location (using the randLoc() function above)
+      // if there is we need to output the location and value, then delete the value
+      // a de-accumulator would be good to use, check for "no non-values (0) left" status - i.e. starts off full and ends up 0
+      // when there are no values left, the omap table resets the map table (or what do we do if it is annealed? - another array?)
+      // we can probably do away with the onomap array
+      // it can be worked out from the omap table with some math (1-f, or 1/f? perhaps new modes, but always !=0)
+      // also to reset annealing in map table when urn mode is reset
     }
 }
 
@@ -742,9 +742,9 @@ void *sieve_new(t_floatarg f, timeval tv)
 void sieve_setup(void)
 {
   sieve_class = class_new(gensym("sieve"),
-  (t_newmethod)sieve_new,
-  0, sizeof(t_sieve),
-  0, A_DEFFLOAT, 0);
+                          (t_newmethod)sieve_new,
+                          0, sizeof(t_sieve),
+                          0, A_DEFFLOAT, 0);
   post("|^^^^^^^^^^^^^sieve^^^^^^^^^^^^^|");
   post("|->^^^integer map to floats^^^<-|");
   post("|^^^^^Edward Kelly 2006-2022^^^^|");
