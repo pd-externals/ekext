@@ -1,7 +1,7 @@
 /*
  * Average Magnitude Difference Function (AMDF) voicing detector for speech analysis
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -27,8 +27,8 @@ typedef struct _voicing_detector_tilde
 
 static t_int *voicing_detector_tilde_perform(t_int *w)
 {
-  t_voicing_detector_tilde     *x =   (t_voicing_detector_tilde *)(w[1]);  
-  t_voicing_control *ctl = (t_voicing_control *)(w[2]);  
+  t_voicing_detector_tilde     *x =   (t_voicing_detector_tilde *)(w[1]);
+  t_voicing_control *ctl = (t_voicing_control *)(w[2]);
   t_int                n =                 (int)(w[3]);
   t_float            *in = ctl->c_input;
   if (x->f_high < x->f_low)
@@ -63,11 +63,11 @@ static t_int *voicing_detector_tilde_perform(t_int *w)
     {
       temp1 = 0;
       for (j=start;j<=end;j++) /* the Average Magnitude Difference Function */
-	  {
-	    temp[j] = i + j < l ? in[i+j] : 0.0;
-	    temp0 = atom_getfloatarg(i, 4096, ctl->otemp);
-	    temp1 += fabs(in[j] - temp[j]);
-	  }
+          {
+            temp[j] = i + j < l ? in[i+j] : 0.0;
+            temp0 = atom_getfloatarg(i, 4096, ctl->otemp);
+            temp1 += fabs(in[j] - temp[j]);
+          }
       temp1 += ((float)i / (float)l) * ctl->f_sum_abs;
       SETFLOAT(&ctl->otemp[i], temp1);
     }
@@ -116,7 +116,7 @@ void *voicing_detector_tilde_new(t_floatarg f)
   x->f_low = 60;
   x->f_high = 500;
 
-  floatinlet_new (&x->x_obj, &x->f_thresh);  
+  floatinlet_new (&x->x_obj, &x->f_thresh);
   x->voiced = outlet_new(&x->x_obj, gensym("float"));
   x->prob = outlet_new(&x->x_obj, gensym("float"));
   return (void *)x;
@@ -125,11 +125,11 @@ void *voicing_detector_tilde_new(t_floatarg f)
 void voicing_detector_tilde_setup(void)
 {
   voicing_detector_tilde_class = class_new(gensym("voicing_detector~"), (t_newmethod)voicing_detector_tilde_new, 0, sizeof(t_voicing_detector_tilde), CLASS_DEFAULT, A_DEFFLOAT, 0);
-  
+
   post("\n-->AMDF voicing detector v0.2");
   post("-->by Nicolas Chetry <okin@altern.org>");
   post("-->& Edward Kelly <morph_2016@yahoo.co.uk>");
-  
+
   class_addmethod(voicing_detector_tilde_class, (t_method)voicing_detector_tilde_bound, gensym("bound"), A_DEFFLOAT, A_DEFFLOAT, 0);
   class_addmethod(voicing_detector_tilde_class, (t_method)voicing_detector_tilde_method, gensym("method"), A_DEFFLOAT, 0);
   class_addmethod(voicing_detector_tilde_class, (t_method)voicing_detector_tilde_dsp, gensym("dsp"), 0);

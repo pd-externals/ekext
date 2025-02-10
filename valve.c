@@ -1,8 +1,8 @@
 /*
- * valve takes a map like 0 1 3 4 7 and a route. if the route and the input are 
+ * valve takes a map like 0 1 3 4 7 and a route. if the route and the input are
  * non-zero in the map, then the route is output from the object
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -51,17 +51,17 @@ void valve_float(t_valve *x, t_floatarg fin)
     testb = x->router < 0 ? 0 : atom_getfloatarg(x->router, x->bufsize, x->map);
     arga = (int)testa;
     argb = (int)testb;
-    if(arga && argb) 
+    if(arga && argb)
       {
-	outlet_float(x->routed, x->router);
+        outlet_float(x->routed, x->router);
       }
     else if (!argb)
       {
-	outlet_float(x->notrouted, argb);
+        outlet_float(x->notrouted, argb);
       }
     else if (!arga && argb)
       {
-	outlet_float(x->notrouted, arga);
+        outlet_float(x->notrouted, arga);
       }
   }
 }
@@ -93,9 +93,9 @@ void valve_debug(t_valve *x)
     post("element %d = %d", i, element);
   }
   post("max = %d", x->max);
-}  
+}
 
-void *valve_new(t_floatarg f) 
+void *valve_new(t_floatarg f)
 {
   t_valve *x = (t_valve *)pd_new(valve_class);
   x->max = 0;
@@ -110,7 +110,7 @@ void *valve_new(t_floatarg f)
   return (void *)x;
 }
 
-void valve_setup(void) 
+void valve_setup(void)
 {
   valve_class = class_new(gensym("valve"),
   (t_newmethod)valve_new,

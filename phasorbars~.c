@@ -6,7 +6,7 @@
 
  **but of course limited to 4000000 samples (about 90s). Bring on pd-double!
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 
@@ -40,17 +40,17 @@
 #endif
 
 #if defined(__unix__) || defined(__APPLE__)
-#if !defined(BYTE_ORDER) || !defined(LITTLE_ENDIAN)                         
-#error No byte order defined                                                    
-#endif                                                                          
+#if !defined(BYTE_ORDER) || !defined(LITTLE_ENDIAN)
+#error No byte order defined
+#endif
 
-#if BYTE_ORDER == LITTLE_ENDIAN                                             
-#define HIOFFSET 1                                                              
-#define LOWOFFSET 0                                                             
-#else                                                                           
-#define HIOFFSET 0    /* word offset to find MSB */                             
-#define LOWOFFSET 1    /* word offset to find LSB */                            
-#endif /* __BYTE_ORDER */                                                       
+#if BYTE_ORDER == LITTLE_ENDIAN
+#define HIOFFSET 1
+#define LOWOFFSET 0
+#else
+#define HIOFFSET 0    /* word offset to find MSB */
+#define LOWOFFSET 1    /* word offset to find LSB */
+#endif /* __BYTE_ORDER */
 #include <sys/types.h>
 #define int32 int32_t
 #endif /* __unix__ or __APPLE__*/
@@ -87,46 +87,46 @@ typedef struct _phasorbars
   int dspon;
 } t_phasorbars;
 
-void phasorbars_tick(t_phasorbars *y)  
+void phasorbars_tick(t_phasorbars *y)
 {
   if(y->countstart)
     {
       /*      if(y->hasLooped){
-	outlet_bang(y->looped);
-	y->hasLooped = 0;
-	} */
+        outlet_bang(y->looped);
+        y->hasLooped = 0;
+        } */
       if(y->isBar){
-	outlet_float(y->x_bar,y->barnumber);
-	y->isBar = 0;
+        outlet_float(y->x_bar,y->barnumber);
+        y->isBar = 0;
       }
       if(y->isCycle){
-	outlet_float(y->x_cycle, y->cycle);
-	y->isCycle = 0;
+        outlet_float(y->x_cycle, y->cycle);
+        y->isCycle = 0;
       }
       if(y->isEight){
-	outlet_float(y->x_8b, y->egths);
-	outlet_float(y->x_8a, y->egths);
-	y->isEight = 0;
+        outlet_float(y->x_8b, y->egths);
+        outlet_float(y->x_8a, y->egths);
+        y->isEight = 0;
       }
       if(y->isEven){
-	outlet_float(y->evens,y->evns);
-	y->isEven = 0;
+        outlet_float(y->evens,y->evns);
+        y->isEven = 0;
       }
       if(y->isSixteen){
-	outlet_float(y->x_16, y->sxtnths);
-	y->isSixteen = 0;
+        outlet_float(y->x_16, y->sxtnths);
+        y->isSixteen = 0;
       }
       if(y->isTwentyFour){
-	outlet_float(y->x_24, y->twfths);
-	y->isTwentyFour = 0;
+        outlet_float(y->x_24, y->twfths);
+        y->isTwentyFour = 0;
       }
     } else {
-	y->isBar = 0;
-	y->isCycle = 0;
-	y->isEight = 0;
-	y->isEven = 0;
-	y->isSixteen = 0;
-	y->isTwentyFour = 0;
+        y->isBar = 0;
+        y->isCycle = 0;
+        y->isEight = 0;
+        y->isEven = 0;
+        y->isSixteen = 0;
+        y->isTwentyFour = 0;
   }
   /*if(y->cflag)
     {
@@ -158,217 +158,217 @@ t_int *phasorbars_perform(t_int *w)
   tf.tf_d = UNITBIT32;
   normhipart = tf.tf_i[HIOFFSET];
   tf.tf_d = dphase;
-  while (n--) 
+  while (n--)
     {
-      //    if(y->dspon) 
-      //	{ 
-	  tf.tf_i[HIOFFSET] = normhipart;
-	  y->ivalue = *in++;
-	  dphase += y->ivalue * conv; //increment
-	  y->value = tf.tf_d - UNITBIT32;
+      //    if(y->dspon)
+      //        {
+          tf.tf_i[HIOFFSET] = normhipart;
+          y->ivalue = *in++;
+          dphase += y->ivalue * conv; //increment
+          y->value = tf.tf_d - UNITBIT32;
       //      y->barnumber = y->cycle + y->baroffset;
 
-	  //	  if(y->pflag && y->countstart)
-	  if(y->countstart)
-	    {
-	      //	      if(y->ivalue > 0)
-	      //		{
-		  if(!y->bflag)
-		    {
-		      if(y->abletonLink > 0) // Added July 2016 to facilitate Ableton Link
-			{
-			  if(y->cycle == 0 && y->twfths == 0)
-			    {
-			      outlet_float(y->linked,y->value);
-			      //			      y->cycle = 0;
-			      y->value == 0;
-			      /*			      if(!y->isBar)
-				{
-				  y->isBar = 1;
-				  y->isCycle = 1;
-				  y->isEight = 1;
-				  y->isEven = 1;
-				  y->isSixteen = 1;
-				  y->isTwentyFour = 1;
-				  clock_delay(y->x_clock,0L);
-				  } */
-			    }
-			  else if(y->cycle == y->length - 1 && y->twfths == 23)
-			    {
-			      outlet_float(y->linked,y->value);
-			      //			      y->cycle = 0;
-			      y->value == 0;
-			      /*			      y->barnumber = y->cycle + y->baroffset;
-			      if(!y->looping)
-				{
-				  y->barnumber = y->baroffset + y->length;
-				  y->cycle = 0;
-				}
-			      else
-				{
-				  y->barnumber = y->cycle + y->baroffset;
-				  if(y->looping != y->wasLooping)
-				    {
-				      y->cycle = (float)((int)y->cycle % (int)y->length);
-				      y->wasLooping = y->looping;
-				    }
-				}
-			      if(!y->isBar)
-				{
-				  y->isBar = 1;
-				  y->isCycle = 1;
-				  y->isEight = 1;
-				  y->isEven = 1;
-				  y->isSixteen = 1;
-				  y->isTwentyFour = 1;
-				  clock_delay(y->x_clock,0L);
-				  } */
+          //      if(y->pflag && y->countstart)
+          if(y->countstart)
+            {
+              //              if(y->ivalue > 0)
+              //                {
+                  if(!y->bflag)
+                    {
+                      if(y->abletonLink > 0) // Added July 2016 to facilitate Ableton Link
+                        {
+                          if(y->cycle == 0 && y->twfths == 0)
+                            {
+                              outlet_float(y->linked,y->value);
+                              //                              y->cycle = 0;
+                              y->value == 0;
+                              /*                              if(!y->isBar)
+                                {
+                                  y->isBar = 1;
+                                  y->isCycle = 1;
+                                  y->isEight = 1;
+                                  y->isEven = 1;
+                                  y->isSixteen = 1;
+                                  y->isTwentyFour = 1;
+                                  clock_delay(y->x_clock,0L);
+                                  } */
+                            }
+                          else if(y->cycle == y->length - 1 && y->twfths == 23)
+                            {
+                              outlet_float(y->linked,y->value);
+                              //                              y->cycle = 0;
+                              y->value == 0;
+                              /*                              y->barnumber = y->cycle + y->baroffset;
+                              if(!y->looping)
+                                {
+                                  y->barnumber = y->baroffset + y->length;
+                                  y->cycle = 0;
+                                }
+                              else
+                                {
+                                  y->barnumber = y->cycle + y->baroffset;
+                                  if(y->looping != y->wasLooping)
+                                    {
+                                      y->cycle = (float)((int)y->cycle % (int)y->length);
+                                      y->wasLooping = y->looping;
+                                    }
+                                }
+                              if(!y->isBar)
+                                {
+                                  y->isBar = 1;
+                                  y->isCycle = 1;
+                                  y->isEight = 1;
+                                  y->isEven = 1;
+                                  y->isSixteen = 1;
+                                  y->isTwentyFour = 1;
+                                  clock_delay(y->x_clock,0L);
+                                  } */
 
-			    }
-			  y->abletonLink = 0;
-			}
-		      if(y->value < y->prevalue) 
-			{
-			  //post("y->cycle start = %f, y->baroffset start = %f",y->cycle,y->baroffset);
-			  y->cycle++;
-			  y->barnumber = y->cycle + y->baroffset;
+                            }
+                          y->abletonLink = 0;
+                        }
+                      if(y->value < y->prevalue)
+                        {
+                          //post("y->cycle start = %f, y->baroffset start = %f",y->cycle,y->baroffset);
+                          y->cycle++;
+                          y->barnumber = y->cycle + y->baroffset;
 
-			  //			  if(!y->looping) 
-			  //			    {
-			      if(y->nextbar >= 0) 
-				{
-				  y->barnumber = y->nextbar;
-				  y->baroffset = y->nextbar;
-				  y->cycle = 0;
-				  y->nextbar = -1;
-				  y->forcebar = -1;
-				}
-			      else if(y->forcebar >= 0)
-				{
-				  y->barnumber = y->forcebar;
-				  y->cycle = y->forcebar - y->baroffset;
-				  y->forcebar = -1;
-				  y->nextbar = -1;
-				}
-			      //			    }
+                          //                      if(!y->looping)
+                          //                        {
+                              if(y->nextbar >= 0)
+                                {
+                                  y->barnumber = y->nextbar;
+                                  y->baroffset = y->nextbar;
+                                  y->cycle = 0;
+                                  y->nextbar = -1;
+                                  y->forcebar = -1;
+                                }
+                              else if(y->forcebar >= 0)
+                                {
+                                  y->barnumber = y->forcebar;
+                                  y->cycle = y->forcebar - y->baroffset;
+                                  y->forcebar = -1;
+                                  y->nextbar = -1;
+                                }
+                              //                            }
 
-			      if(y->cycle >= y->length)
-				{
-				  y->cycle = 0;
-			      //y->hasLooped = 1;
-				  if(!y->looping)
-				    {
-				      y->barnumber = y->baroffset + y->length;
-				      y->cycle = 0;
-				    }
-				  else
-				    {
-				      y->barnumber = y->cycle + y->baroffset;
-				      if(y->looping != y->wasLooping)
-					{
-					  y->cycle = (float)((int)y->cycle % (int)y->length);
-					  y->wasLooping = y->looping;
-					}
-				    }
-				}
-			  //post("y->cycle end = %f, y->baroffset end = %f",y->cycle,y->baroffset);
-			      if(!y->isBar)
-				{
-				  y->isBar = 1;
-				  y->isCycle = 1;
-				  y->isEight = 1;
-				  y->isEven = 1;
-				  y->isSixteen = 1;
-				  y->isTwentyFour = 1;
-				  clock_delay(y->x_clock,0L);
-				}
-			}
-		      /*		      else
-			{
-			  y->barnumber = y->cycle + y->baroffset;
-			  } */
-		    }
-		  else 
-		    {
-		      y->bflag=0;
-		    }
-		  //		}
-		  //  }
-  
-	/*	else if(y->ivalue < 0) {
-	//	    } */
-	  //	  y->pflag = 1;
-	  *out++ = y->value + y->cycle;
+                              if(y->cycle >= y->length)
+                                {
+                                  y->cycle = 0;
+                              //y->hasLooped = 1;
+                                  if(!y->looping)
+                                    {
+                                      y->barnumber = y->baroffset + y->length;
+                                      y->cycle = 0;
+                                    }
+                                  else
+                                    {
+                                      y->barnumber = y->cycle + y->baroffset;
+                                      if(y->looping != y->wasLooping)
+                                        {
+                                          y->cycle = (float)((int)y->cycle % (int)y->length);
+                                          y->wasLooping = y->looping;
+                                        }
+                                    }
+                                }
+                          //post("y->cycle end = %f, y->baroffset end = %f",y->cycle,y->baroffset);
+                              if(!y->isBar)
+                                {
+                                  y->isBar = 1;
+                                  y->isCycle = 1;
+                                  y->isEight = 1;
+                                  y->isEven = 1;
+                                  y->isSixteen = 1;
+                                  y->isTwentyFour = 1;
+                                  clock_delay(y->x_clock,0L);
+                                }
+                        }
+                      /*                      else
+                        {
+                          y->barnumber = y->cycle + y->baroffset;
+                          } */
+                    }
+                  else
+                    {
+                      y->bflag=0;
+                    }
+                  //            }
+                  //  }
+
+        /*      else if(y->ivalue < 0) {
+        //          } */
+          //      y->pflag = 1;
+          *out++ = y->value + y->cycle;
     // here are the CLOCKS
     // and you can use the EVENS outlet to make SWING happen
-	  int squs = (int)(y->value * 16);
-	  int squts = (int)(y->value * 24);
-	  if(squs != y->semiquavers)
-	    {
-	      int even = squs % 2;
-	      int get8ths = squs * 0.5;
-	      t_float eighths = (float)get8ths;
-	      if (!even)
-		{
-	    //	    outlet_float(y->x_8b, eighths);
-	    //	    outlet_float(y->x_8a, eighths);
-	    //	    outlet_float(y->evens, 0);
-		  y->egths = eighths;
-		  y->evns = 0;
-		  if(!y->isEight) 
-		    {
-		      y->isEight = 1;
-		      y->isEven = 1;
-		      y->isSixteen = 1;
-		      y->isTwentyFour = 1;
-		      clock_delay(y->x_clock,0L);
-		    }
-		}
-	      else
-		{
-	  //	  outlet_float(y->evens, 1);
-		  y->evns = 1;
-		  if(!y->isEven)
-		    {
-		      y->isEven = 1;
-		      clock_delay(y->x_clock, 0L);
-		    }
-		}
-	//	outlet_float(y->x_16, (t_float)squs);
-	      y->sxtnths = (t_float)squs;
-	      if(!y->isSixteen) 
-		{
-		  y->isSixteen = 1;
-		  if(!(squs % 2)) 
-		    {
-		      y->isTwentyFour = 1;
-		    }
-		  clock_delay(y->x_clock, 0L);
-		}
-	    }
-	  else if(squts != y->sqtriplets) 
-	    {
+          int squs = (int)(y->value * 16);
+          int squts = (int)(y->value * 24);
+          if(squs != y->semiquavers)
+            {
+              int even = squs % 2;
+              int get8ths = squs * 0.5;
+              t_float eighths = (float)get8ths;
+              if (!even)
+                {
+            //      outlet_float(y->x_8b, eighths);
+            //      outlet_float(y->x_8a, eighths);
+            //      outlet_float(y->evens, 0);
+                  y->egths = eighths;
+                  y->evns = 0;
+                  if(!y->isEight)
+                    {
+                      y->isEight = 1;
+                      y->isEven = 1;
+                      y->isSixteen = 1;
+                      y->isTwentyFour = 1;
+                      clock_delay(y->x_clock,0L);
+                    }
+                }
+              else
+                {
+          //      outlet_float(y->evens, 1);
+                  y->evns = 1;
+                  if(!y->isEven)
+                    {
+                      y->isEven = 1;
+                      clock_delay(y->x_clock, 0L);
+                    }
+                }
+        //      outlet_float(y->x_16, (t_float)squs);
+              y->sxtnths = (t_float)squs;
+              if(!y->isSixteen)
+                {
+                  y->isSixteen = 1;
+                  if(!(squs % 2))
+                    {
+                      y->isTwentyFour = 1;
+                    }
+                  clock_delay(y->x_clock, 0L);
+                }
+            }
+          else if(squts != y->sqtriplets)
+            {
       //      outlet_float(y->x_24, (float)squts);
-	      y->twfths = (t_float)squts;
-	      if(!y->isTwentyFour) 
-		{
-		  y->isTwentyFour = 1;
-		  clock_delay(y->x_clock, 0L);
-		}
-	    }
-	  y->semiquavers = squs;
-	  y->sqtriplets = squts;
-	  tf.tf_d = dphase;
-	  y->prevalue = y->value;
-	}
-    
+              y->twfths = (t_float)squts;
+              if(!y->isTwentyFour)
+                {
+                  y->isTwentyFour = 1;
+                  clock_delay(y->x_clock, 0L);
+                }
+            }
+          y->semiquavers = squs;
+          y->sqtriplets = squts;
+          tf.tf_d = dphase;
+          y->prevalue = y->value;
+        }
+
     // Here is (a possible) problem!
     // When (x->dspon == 0) this runs...
     // maybe this should go! And countstart should be used to make the sound happen??
       else
-	{
-	  *out++ = y->value + y->cycle;
-	}
+        {
+          *out++ = y->value + y->cycle;
+        }
       tf.tf_i[HIOFFSET] = normhipart;
       y->x_phase = tf.tf_d - UNITBIT32;
     // ...and when while(n--) isn't happening, nothing runs!
@@ -550,10 +550,10 @@ void phasorbars_link(t_phasorbars *x)
 void *phasorbars_new(t_symbol *s,int argc,t_atom* argv)
 {
     t_phasorbars *y = (t_phasorbars *)pd_new(phasorbars_class);
-    
+
     y->x_f = 0;
     if (argc) y->x_f = atom_getfloat(argv++),argc--;
-    
+
     inlet_new(&y->x_obj, &y->x_obj.ob_pd, &s_float, gensym("setphase"));
     //    floatinlet_new(&y->x_obj, &y->cycle);
 
@@ -591,11 +591,11 @@ void *phasorbars_new(t_symbol *s,int argc,t_atom* argv)
     y->abletonLink = 0;
 
     outlet_new(&y->x_obj, gensym("signal"));
-    
+
     y->loop = 0;
     if (argc) y->length = atom_getfloat(argv++),argc--;
     if (argc) y->loop = atom_getfloat(argv++),argc--;
-     
+
     //  y->state = 0;
 
     y->x_24 = outlet_new(&y->x_obj, &s_float);
@@ -653,4 +653,3 @@ void phasorbars_tilde_setup(void)
 //    post("a multi-bar phasor");
 
 }
-

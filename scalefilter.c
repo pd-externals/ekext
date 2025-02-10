@@ -1,11 +1,11 @@
 /* scalefilter - maps incoming numbers onto the closest member of a 12TET scale
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
 #include <string.h>
-#define MAXSIZE 256 
+#define MAXSIZE 256
 static t_class *scalefilter_class;
 
 typedef struct _scalefilter
@@ -52,7 +52,7 @@ static void scalefilter_zero(t_scalefilter *x, t_floatarg size)
   x->foundelements = 0;
 }
 
-static void scalefilter_reset(t_scalefilter *x) 
+static void scalefilter_reset(t_scalefilter *x)
 {
   int i;
   for(i=0;i<x->bufsize;i++) {
@@ -77,13 +77,13 @@ static void scalefilter_float(t_scalefilter *x, t_floatarg fin)
     for(i=0;i<x->bufsize;i++) {
       element = atom_getfloatarg(i, MAXSIZE, x->chroma);
       if(element == fin) {
-	found = 1;
-	instances = (int)atom_getfloatarg(i, MAXSIZE, x->instance);
-	if(instances < max) {
-	  SETFLOAT(&x->instance[i],instances + 1);
-	  outlet_float(x->note,fin);
-	  x->foundelements++;
-	}
+        found = 1;
+        instances = (int)atom_getfloatarg(i, MAXSIZE, x->instance);
+        if(instances < max) {
+          SETFLOAT(&x->instance[i],instances + 1);
+          outlet_float(x->note,fin);
+          x->foundelements++;
+        }
       }
     }
   }
@@ -91,14 +91,14 @@ static void scalefilter_float(t_scalefilter *x, t_floatarg fin)
     for(i=0;i<x->elements;i++) {
       element = atom_getfloatarg(i, MAXSIZE, x->chroma);
       if(element == fin) {
-	found = 1;
-	instances = (int)atom_getfloatarg(i, MAXSIZE, x->instance);
-	if(instances < max) {
-	  SETFLOAT(&x->instance[i],instances + 1);
-	  outlet_float(x->note, fin);
-	  x->foundelements++;
-	}
-      } 
+        found = 1;
+        instances = (int)atom_getfloatarg(i, MAXSIZE, x->instance);
+        if(instances < max) {
+          SETFLOAT(&x->instance[i],instances + 1);
+          outlet_float(x->note, fin);
+          x->foundelements++;
+        }
+      }
     }
     if(x->bufsize > x->elements && found == 0) {
       SETFLOAT(&x->chroma[x->elements],fin);
@@ -158,7 +158,7 @@ static void *scalefilter_new(t_floatarg length, t_floatarg maximum)
   return (void *)x;
 }
 
-void scalefilter_setup(void) 
+void scalefilter_setup(void)
 {
   scalefilter_class = class_new(gensym("scalefilter"),
   (t_newmethod)scalefilter_new,

@@ -1,7 +1,7 @@
 /*
  * count and wrap floating-point numbers
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 
@@ -43,17 +43,17 @@ void floatcount_bang(t_floatcount *y)
   if (y->signchange == 0)
     {
       if (y->floatcount < y->low)
-	{
-	  y->difference = fabs(y->low);
-	  y->floatcount = y->floatcount + y->high - y->low;
-	  outlet_bang(y->wrapped);
-	}
+        {
+          y->difference = fabs(y->low);
+          y->floatcount = y->floatcount + y->high - y->low;
+          outlet_bang(y->wrapped);
+        }
       else if (y->floatcount >= y->high)
-	{
-	  y->difference = y->floatcount - y->high;
-	  y->floatcount = y->floatcount - y->high + y->low;
-	  outlet_bang(y->wrapped);
-	}
+        {
+          y->difference = y->floatcount - y->high;
+          y->floatcount = y->floatcount - y->high + y->low;
+          outlet_bang(y->wrapped);
+        }
       y->f_int = (int)y->floatcount;
       y->remainder = y->high - y->floatcount;
       outlet_float(y->isign, y->sign);
@@ -68,17 +68,17 @@ void floatcount_bang(t_floatcount *y)
     {
       y->floatcount = y->prev + y->step;
       if (y->floatcount < y->low)
-	{
-	  y->difference = fabs(y->low);
-	  y->floatcount = y->floatcount + y->high - y->low;
-	  outlet_bang(y->wrapped);
-	}
+        {
+          y->difference = fabs(y->low);
+          y->floatcount = y->floatcount + y->high - y->low;
+          outlet_bang(y->wrapped);
+        }
       else if (y->floatcount >= y->high)
-	{
-	  y->difference = y->floatcount - y->high;
-	  y->floatcount = y->floatcount - y->high + y->low;
-	  outlet_bang(y->wrapped);
-	}
+        {
+          y->difference = y->floatcount - y->high;
+          y->floatcount = y->floatcount - y->high + y->low;
+          outlet_bang(y->wrapped);
+        }
       y->f_int = (int)y->floatcount;
       y->remainder = y->high - y->floatcount;
       outlet_float(y->isign, y->sign);
@@ -166,12 +166,12 @@ void *floatcount_new(t_symbol *s, int argc, t_atom *argv)
       y->step = fstep != 0 ? fstep : 1;
       y->sign = y->step > 0 ? 1 : -1;
       if (flow > fhigh) {
-	y->high = flow;
-	y->low  = fhigh;
+        y->high = flow;
+        y->low  = fhigh;
       }
       else {
-	y->high = fhigh;
-	y->low = flow;
+        y->high = fhigh;
+        y->low = flow;
       }
       y->range = y->high - y->low;
       y->floatcount = atom_getfloat(argv+3);
@@ -186,12 +186,12 @@ void *floatcount_new(t_symbol *s, int argc, t_atom *argv)
       y->step = fstep != 0 ? fstep : 1;
       y->sign = y->step > 0 ? 1 : -1;
       if (flow > fhigh) {
-	y->high = flow;
-	y->low  = fhigh;
+        y->high = flow;
+        y->low  = fhigh;
       }
       else {
-	y->high = fhigh;
-	y->low = flow;
+        y->high = fhigh;
+        y->low = flow;
       }
       y->range = y->high - y->low;
       y->floatcount = atom_getfloat(argv+3);
@@ -206,12 +206,12 @@ void *floatcount_new(t_symbol *s, int argc, t_atom *argv)
       y->step = fstep != 0 ? fstep : 1;
       y->sign = y->step > 0 ? 1 : -1;
       if (flow > fhigh) {
-	y->high = flow;
-	y->low  = fhigh;
+        y->high = flow;
+        y->low  = fhigh;
       }
       else {
-	y->high = fhigh;
-	y->low = flow;
+        y->high = fhigh;
+        y->low = flow;
       }
       y->range = y->high - y->low;
       y->floatcount = y->low;
@@ -225,12 +225,12 @@ void *floatcount_new(t_symbol *s, int argc, t_atom *argv)
       y->step = fstep != 0 ? fstep : 1;
       y->sign = y->step > 0 ? 1 : -1;
       if (fhigh < 0) {
-	y->high = 0;
-	y->low  = fhigh;
+        y->high = 0;
+        y->low  = fhigh;
       }
       else {
-	y->high = fhigh;
-	y->low = 0;
+        y->high = fhigh;
+        y->low = 0;
       }
       y->floatcount = 0;
       y->remfloat = 0;
@@ -265,7 +265,7 @@ void *floatcount_new(t_symbol *s, int argc, t_atom *argv)
   return(void *)y;
 }
 
-void floatcount_setup(void) 
+void floatcount_setup(void)
 {
   floatcount_class = class_new(gensym("floatcount"),
   (t_newmethod)floatcount_new,

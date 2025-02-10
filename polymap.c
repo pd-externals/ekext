@@ -1,7 +1,7 @@
 /*
  * polymap - two-dimensional polyphony-restricted array
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -45,19 +45,19 @@ void polymap_note(t_polymap *x, t_floatarg whosent, t_floatarg whoam, t_floatarg
       voicenow = atom_getfloatarg(mapindex, POLYMAP, x->x_map.polymap);
       if(x->myBug == 1) post("in ono==0: whosentme = %d, mapindex = %d, voicenow = %d, polynow == %f",whosentme,mapindex,voicenow,x->polynow);
       if(voicenow>0&&mapindex>=0)
-	{
-	  voicepoly = atom_getfloatarg(whosentme, MAXPOLY, x->x_map.polybins);
-	  voicepoly--;
-	  x->polynow--;
-	  SETFLOAT(&x->x_map.polybins[whosentme], voicepoly);
-	  SETFLOAT(&x->x_map.polymap[mapindex], 0);
-	  outlet_float(x->poly, x->polynow);
-	  if(x->myBug == 1) post("in SET ALREADY: whosentme = %d, mapindex = %d, voicenow = %d, x->polynow = %f",whosentme,mapindex,voicenow,x->polynow);
-	  if(x->polynow<x->maxpoly)
-	    {
-	      outlet_float(x->note, whosentme);
-	    }
-	}
+        {
+          voicepoly = atom_getfloatarg(whosentme, MAXPOLY, x->x_map.polybins);
+          voicepoly--;
+          x->polynow--;
+          SETFLOAT(&x->x_map.polybins[whosentme], voicepoly);
+          SETFLOAT(&x->x_map.polymap[mapindex], 0);
+          outlet_float(x->poly, x->polynow);
+          if(x->myBug == 1) post("in SET ALREADY: whosentme = %d, mapindex = %d, voicenow = %d, x->polynow = %f",whosentme,mapindex,voicenow,x->polynow);
+          if(x->polynow<x->maxpoly)
+            {
+              outlet_float(x->note, whosentme);
+            }
+        }
       else outlet_list(x->overflow, &s_list, 3, x->x_map.note);
     }
   else
@@ -65,17 +65,17 @@ void polymap_note(t_polymap *x, t_floatarg whosent, t_floatarg whoam, t_floatarg
       voicenow = atom_getfloatarg(mapindex, POLYMAP, x->x_map.polymap);
       if(x->myBug == 1) post("in ono==1: whosentme = %d, mapindex = %d, voicenow = %d, x->polynow = %f",whosentme,mapindex,voicenow,x->polynow);
       if(voicenow==0&&x->polynow<x->maxpoly&&mapindex>=0)
-	{
-	  voicepoly = atom_getfloatarg(whosentme, MAXPOLY, x->x_map.polybins);
-	  voicepoly++;
-	  x->polynow++;
-	  SETFLOAT(&x->x_map.polybins[whosentme], voicepoly);
-	  SETFLOAT(&x->x_map.polymap[mapindex], 1);
-	  if(x->myBug == 1) post("in SET: whosentme = %d, mapindex = %d, voicenow = %d, x->polynow = %f",whosentme,mapindex,voicenow,x->polynow);
-	  x->whoami = whoam;
-	  outlet_float(x->poly, x->polynow);
-	  outlet_float(x->new, whoam);
-	}
+        {
+          voicepoly = atom_getfloatarg(whosentme, MAXPOLY, x->x_map.polybins);
+          voicepoly++;
+          x->polynow++;
+          SETFLOAT(&x->x_map.polybins[whosentme], voicepoly);
+          SETFLOAT(&x->x_map.polymap[mapindex], 1);
+          if(x->myBug == 1) post("in SET: whosentme = %d, mapindex = %d, voicenow = %d, x->polynow = %f",whosentme,mapindex,voicenow,x->polynow);
+          x->whoami = whoam;
+          outlet_float(x->poly, x->polynow);
+          outlet_float(x->new, whoam);
+        }
       else if(voicenow==0) outlet_list(x->overflow, &s_list, 3, x->x_map.note);
     }
 }
@@ -101,29 +101,29 @@ void polymap_next(t_polymap *x, t_symbol *s, int argc, t_atom *argv)
       if(lowBound > highBound) post("low boundary must be less than high boundary");
       else if (lowBound < 0 || highBound < 0 || lowBound >= POLYMAP || highBound >= POLYMAP) post("bounds must be within the range: 0 to %d",POLYMAP - 1);
       else
-	//xLow
-	for(thisNext = lowBound; thisNext <= highBound; thisNext++)
-	{
-	  wasFull = atom_getfloatarg(thisNext, POLYMAP, x->x_map.polymap);
-	  if(x->myBug == 1) post("thisNext = %d, thisNext m32 = %d, thisNext / 32 = %d, wasFull = %d",thisNext,thisNext % 32,thisNext / 32,(int)wasFull);
-	  if(wasFull == 0)
-	    {
-	      SETFLOAT(&x->x_map.note[0],(t_float)(thisNext % MAXPOLY)+1);
-	      SETFLOAT(&x->x_map.note[1],(t_float)(thisNext / MAXPOLY)+1);
-	      if(x->modeSet)
-		SETFLOAT(&x->x_map.note[2],1);
-	      else
-		SETFLOAT(&x->x_map.note[2],0);
-	      outlet_list(x->next, &s_list, 3, x->x_map.note);
-	      break;
-	    }
-	}
+        //xLow
+        for(thisNext = lowBound; thisNext <= highBound; thisNext++)
+        {
+          wasFull = atom_getfloatarg(thisNext, POLYMAP, x->x_map.polymap);
+          if(x->myBug == 1) post("thisNext = %d, thisNext m32 = %d, thisNext / 32 = %d, wasFull = %d",thisNext,thisNext % 32,thisNext / 32,(int)wasFull);
+          if(wasFull == 0)
+            {
+              SETFLOAT(&x->x_map.note[0],(t_float)(thisNext % MAXPOLY)+1);
+              SETFLOAT(&x->x_map.note[1],(t_float)(thisNext / MAXPOLY)+1);
+              if(x->modeSet)
+                SETFLOAT(&x->x_map.note[2],1);
+              else
+                SETFLOAT(&x->x_map.note[2],0);
+              outlet_list(x->next, &s_list, 3, x->x_map.note);
+              break;
+            }
+        }
       if(x->modeSet)
-	{
-	  SETFLOAT(&x->x_map.polymap[thisNext], 1);
-	  x->polynow++;
-	  outlet_float(x->poly, x->polynow);
-	}
+        {
+          SETFLOAT(&x->x_map.polymap[thisNext], 1);
+          x->polynow++;
+          outlet_float(x->poly, x->polynow);
+        }
     }
   else if(argc == 3)
     { //first argument is low bound, 2nd argument is high bound, 3rd argument is direction
@@ -136,42 +136,42 @@ void polymap_next(t_polymap *x, t_symbol *s, int argc, t_atom *argv)
       if(lowBound > highBound) post("low boundary must be less than high boundary");
       else if (lowBound < 0 || highBound < 0 || lowBound >= POLYMAP || highBound >= POLYMAP) post("bounds must be within the range: 0 to %d",POLYMAP - 1);
       else
-	//xLow
-	for(thisNext = lowBound; thisNext <= highBound; thisNext++)
-	  {
-	    if(direction == 0) mapIndex = thisNext;
-	    else
-	      {
-		mapIndex = (thisNext / 32) + ((thisNext % 32) * 32);
-	      }
-	    wasFull = atom_getfloatarg(mapIndex, POLYMAP, x->x_map.polymap);
-	    if(x->myBug == 1) post("thisNext = %d, thisNext m32 = %d, thisNext / 32 = %d, wasFull = %d",thisNext,thisNext % 32,thisNext / 32,(int)wasFull);
-	    if(wasFull == 0)
-	      {
-		if(direction == 0)
-		  {
-		    SETFLOAT(&x->x_map.note[0],(t_float)(thisNext % MAXPOLY)+1);
-		    SETFLOAT(&x->x_map.note[1],(t_float)(thisNext / MAXPOLY)+1);
-		  }
-		else
-		  {
-		    SETFLOAT(&x->x_map.note[0],(t_float)(thisNext / MAXPOLY)+1);
-		    SETFLOAT(&x->x_map.note[1],(t_float)(thisNext % MAXPOLY)+1);
-		  }
-		if(x->modeSet)
-		  SETFLOAT(&x->x_map.note[2],1);
-		else
-		  SETFLOAT(&x->x_map.note[2],0);
-		outlet_list(x->next, &s_list, 3, x->x_map.note);
-		break;
-	      }
-	  }
+        //xLow
+        for(thisNext = lowBound; thisNext <= highBound; thisNext++)
+          {
+            if(direction == 0) mapIndex = thisNext;
+            else
+              {
+                mapIndex = (thisNext / 32) + ((thisNext % 32) * 32);
+              }
+            wasFull = atom_getfloatarg(mapIndex, POLYMAP, x->x_map.polymap);
+            if(x->myBug == 1) post("thisNext = %d, thisNext m32 = %d, thisNext / 32 = %d, wasFull = %d",thisNext,thisNext % 32,thisNext / 32,(int)wasFull);
+            if(wasFull == 0)
+              {
+                if(direction == 0)
+                  {
+                    SETFLOAT(&x->x_map.note[0],(t_float)(thisNext % MAXPOLY)+1);
+                    SETFLOAT(&x->x_map.note[1],(t_float)(thisNext / MAXPOLY)+1);
+                  }
+                else
+                  {
+                    SETFLOAT(&x->x_map.note[0],(t_float)(thisNext / MAXPOLY)+1);
+                    SETFLOAT(&x->x_map.note[1],(t_float)(thisNext % MAXPOLY)+1);
+                  }
+                if(x->modeSet)
+                  SETFLOAT(&x->x_map.note[2],1);
+                else
+                  SETFLOAT(&x->x_map.note[2],0);
+                outlet_list(x->next, &s_list, 3, x->x_map.note);
+                break;
+              }
+          }
       if(x->modeSet)
-	{
-	  SETFLOAT(&x->x_map.polymap[thisNext], 1);
-	  x->polynow++;
-	  outlet_float(x->poly, x->polynow);
-	}
+        {
+          SETFLOAT(&x->x_map.polymap[thisNext], 1);
+          x->polynow++;
+          outlet_float(x->poly, x->polynow);
+        }
     }
 }
 
@@ -204,9 +204,9 @@ void polymap_print(t_polymap *x)
       o = atom_getfloatarg((indx*32)+14, POLYMAP, x->x_map.polymap);
       p = atom_getfloatarg((indx*32)+15, POLYMAP, x->x_map.polymap);
       if(indx<9)
-	post("%d :%d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p);
+        post("%d :%d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p);
       else if(indx>=9)
-	post("%d:%d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p);
+        post("%d:%d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d  %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p);
     }
 }
 
@@ -251,9 +251,9 @@ void polymap_print32(t_polymap *x)
       oo = atom_getfloatarg((indx*32)+30, POLYMAP, x->x_map.polymap);
       pp = atom_getfloatarg((indx*32)+31, POLYMAP, x->x_map.polymap);
       if(indx<9)
-	post("%d :%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp);
+        post("%d :%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp);
       else if(indx>=9)
-	post("%d:%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp);
+        post("%d:%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", indx+1, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp);
     }
 }
 

@@ -1,7 +1,7 @@
 /*
  * wavecutter~ - peak threshold waveshaper and odd/even transformation
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -35,8 +35,8 @@ t_int *wavecutter_tilde_perform(t_int *w) {
     t_float thsample = 0;
     t_float nthsample = 0;
     t_float nsample = 0;
-        
-  while (n--) 
+
+  while (n--)
   {
       insample = *in++;
       thsample = saturate(*thresh++);
@@ -46,11 +46,11 @@ t_int *wavecutter_tilde_perform(t_int *w) {
   }
     return (w+7);
 }
-    
+
 void wavecutter_tilde_dsp(t_wavecutter_tilde *x, t_signal **sp) {
   dsp_add(wavecutter_tilde_perform, 6, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
 }
-          
+
 void *wavecutter_tilde_new(t_floatarg f) {
   t_wavecutter_tilde *x = (t_wavecutter_tilde *)pd_new(wavecutter_tilde_class);
 
@@ -62,8 +62,8 @@ void *wavecutter_tilde_new(t_floatarg f) {
 }
 
 void wavecutter_tilde_setup(void) {
-  wavecutter_tilde_class = class_new(gensym("wavecutter~"), 
-  (t_newmethod)wavecutter_tilde_new, 
+  wavecutter_tilde_class = class_new(gensym("wavecutter~"),
+  (t_newmethod)wavecutter_tilde_new,
   0, sizeof(t_wavecutter_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 

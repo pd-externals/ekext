@@ -1,7 +1,7 @@
 /*
  * Histogram for integers
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -37,26 +37,26 @@ void ihisto_float(t_ihisto *x, t_floatarg fin)
   if(x->mode == 0)
     {
       if(x->count >= x->maxvalue && x->intinput != (int)x->exclude)
-	{
-	  x->max = (float)x->intinput;
-	  x->maxvalue = x->count;
-	}
+        {
+          x->max = (float)x->intinput;
+          x->maxvalue = x->count;
+        }
     }
   else if (x->mode == 1)
     {
       if(x->count >= x->maxvalue && x->intinput >= (int)x->max && x->intinput != (int)x->exclude || x->count > x->maxvalue && x->intinput != (int)x->exclude)
-	{
-	  x->max = (float)x->intinput;
-	  x->maxvalue = x->count;
-	}
+        {
+          x->max = (float)x->intinput;
+          x->maxvalue = x->count;
+        }
     }
   else if (x->mode == 2)
     {
       if(x->count >= x->maxvalue && x->intinput <= (int)x->max && x->intinput != (int)x->exclude || x->count > x->maxvalue && x->intinput != (int)x->exclude)
-	{
-	  x->max = (float)x->intinput;
-	  x->maxvalue = x->count;
-	}
+        {
+          x->max = (float)x->intinput;
+          x->maxvalue = x->count;
+        }
     }
 
   outlet_float(x->current, x->max);
@@ -121,7 +121,7 @@ void *ihisto_new(t_floatarg f)
   x->exclude = -1;
 
   int i;
-  for(i=0;i<MAXENTRIES;i++) 
+  for(i=0;i<MAXENTRIES;i++)
     {
       SETFLOAT(x->histog.histogram+i, 0);
     }
@@ -134,7 +134,7 @@ void *ihisto_new(t_floatarg f)
   return (void *)x;
 }
 
-void ihisto_setup(void) 
+void ihisto_setup(void)
 {
   ihisto_class = class_new(gensym("ihisto"),
   (t_newmethod)ihisto_new,

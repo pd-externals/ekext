@@ -1,10 +1,10 @@
 /*
  * cupd counts up ^_^ and down _^_
- * Oh, for goodness sake. This counts up and down! That's all. 
+ * Oh, for goodness sake. This counts up and down! That's all.
  * What grain of sand do I own on the beach that prevents you from walking on it?
  * Go ahead - make your own sandcastle.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -64,7 +64,7 @@ void *cupd_new(t_floatarg f)
   return(void *)y;
 }
 
-void cupd_setup(void) 
+void cupd_setup(void)
 {
   cupd_class = class_new(gensym("cupd"),
   (t_newmethod)cupd_new,

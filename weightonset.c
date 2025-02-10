@@ -1,7 +1,7 @@
 /*
  * weightonset - onset-weighted average for attack-based fast feature resolution
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -30,37 +30,37 @@ void weightonset_float (t_weightonset *x, t_floatarg fin)
       int len = (int)x->length;
       SETFLOAT(&x->x_datachunk.data[len], fin);
       if(x->length < x->attack)
-	{
-	  int i;
-	  t_float weight = 1;
-	  x->increment = x->length - x->attack;
-	  for(i=0;i<x->increment;i++)
-	    {
-	      weight = weight*x->multiplier;
-	    }
-	  x->accumulator += fin*weight; 
-	  x->divaccum += weight;
-	  x->weighted = x->accumulator / x->divaccum;
-	  outlet_float(x->waverage, x->weighted);
-	}
+        {
+          int i;
+          t_float weight = 1;
+          x->increment = x->length - x->attack;
+          for(i=0;i<x->increment;i++)
+            {
+              weight = weight*x->multiplier;
+            }
+          x->accumulator += fin*weight;
+          x->divaccum += weight;
+          x->weighted = x->accumulator / x->divaccum;
+          outlet_float(x->waverage, x->weighted);
+        }
       else if(x->length == x->attack)
-	{
-	  x->divider = 1;
-	  x->divaccum += 1;
-	  x->accumulator += fin*x->divider;
-	  x->weighted = x->accumulator / x->divaccum;
-	  x->divider *= x->multiplier;
-	  x->divaccum += x->divider;
-	  outlet_float(x->waverage, x->weighted);
-	}
+        {
+          x->divider = 1;
+          x->divaccum += 1;
+          x->accumulator += fin*x->divider;
+          x->weighted = x->accumulator / x->divaccum;
+          x->divider *= x->multiplier;
+          x->divaccum += x->divider;
+          outlet_float(x->waverage, x->weighted);
+        }
       else
-	{
-	  x->accumulator += fin*x->divider;
-	  x->weighted = x->accumulator / x->divaccum;
-	  x->divider *= x->multiplier;
-	  x->divaccum += x->divider;
-	  outlet_float(x->waverage, x->weighted);
-	}
+        {
+          x->accumulator += fin*x->divider;
+          x->weighted = x->accumulator / x->divaccum;
+          x->divider *= x->multiplier;
+          x->divaccum += x->divider;
+          outlet_float(x->waverage, x->weighted);
+        }
       x->length += 1;
     }
 }
@@ -83,7 +83,7 @@ void weightonset_bang (t_weightonset *x)
     }
 }
 
-void *weightonset_new(t_floatarg f1, t_floatarg f2) 
+void *weightonset_new(t_floatarg f1, t_floatarg f2)
 {
   t_weightonset *x = (t_weightonset *)pd_new(weightonset_class);
   x->multiplier = f1 != 0 ? f1 : 0.5;

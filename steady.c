@@ -1,7 +1,7 @@
 /*
  * steady - ignore numbers that jump too far...
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -56,7 +56,7 @@ void steady_bang (t_steady *x)
   x->resetflag=0;
 }
 
-void *steady_new(t_floatarg f) 
+void *steady_new(t_floatarg f)
 {
   t_steady *x = (t_steady *)pd_new(steady_class);
   x->f_min = 1e08;

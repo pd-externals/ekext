@@ -1,9 +1,9 @@
 /* floatcup counts up in floating-point steps ^_-
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution.
  * you can set a negative step for it to count down. */
- 
+
 #include "m_pd.h"
 
 t_class *floatcup_class;
@@ -48,7 +48,7 @@ void *floatcup_new(t_floatarg f)
   return(void *)y;
 }
 
-void floatcup_setup(void) 
+void floatcup_setup(void)
 {
   floatcup_class = class_new(gensym("floatcup"),
   (t_newmethod)floatcup_new,

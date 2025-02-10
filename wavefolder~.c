@@ -2,7 +2,7 @@
  * wavefolder~ - modulation of triangle->sawtooth wave and PWM generation from modulated
  * tri-saw wave.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -40,8 +40,8 @@ t_int *wavefolder_tilde_perform(t_int *w) {
     t_float reciprocal = 0;
     t_float remainder = 0;
     t_float remciprocal = 0;
-        
-  while (n--) 
+
+  while (n--)
   {
       insample = *in++;
       thsample = saturate(*thresh++);
@@ -70,11 +70,11 @@ t_int *wavefolder_tilde_perform(t_int *w) {
 void wavefolder_tilde_bipolar(t_wavefolder_tilde *x, t_floatarg f) {
     x->bipolar = f;
 }
-    
+
 void wavefolder_tilde_dsp(t_wavefolder_tilde *x, t_signal **sp) {
   dsp_add(wavefolder_tilde_perform, 7, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[4]->s_vec, sp[0]->s_n);
 }
-          
+
 void *wavefolder_tilde_new(t_floatarg f) {
   t_wavefolder_tilde *x = (t_wavefolder_tilde *)pd_new(wavefolder_tilde_class);
 
@@ -87,8 +87,8 @@ void *wavefolder_tilde_new(t_floatarg f) {
 }
 
 void wavefolder_tilde_setup(void) {
-  wavefolder_tilde_class = class_new(gensym("wavefolder~"), 
-  (t_newmethod)wavefolder_tilde_new, 
+  wavefolder_tilde_class = class_new(gensym("wavefolder~"),
+  (t_newmethod)wavefolder_tilde_new,
   0, sizeof(t_wavefolder_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 

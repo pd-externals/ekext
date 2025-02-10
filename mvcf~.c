@@ -1,7 +1,7 @@
 /*
  * m0og vcf, 4-pole lowpass resonant filter
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -73,12 +73,12 @@ t_int *mvcf_tilde_perform(t_int *w) {
     xb4 = saturate(xb4);
     xb4 = xb4 - xb4 * xb4 * xb4 * 0.01f;
     xb0 = i1;
-	if(x->mode == 0) {
-	    *out++ = xb4; // lowpass mode
-	} else if (x->mode == 1) {
-    	*out++ = i1 - x->b4; // highpass mode
+        if(x->mode == 0) {
+            *out++ = xb4; // lowpass mode
+        } else if (x->mode == 1) {
+        *out++ = i1 - x->b4; // highpass mode
     } else if (x->mode == 2) {
-    	*out++ = xb3 - xb4;
+        *out++ = xb3 - xb4;
     }
 // Lowpass  output:  xb4
 // Highpass output:  in - xb4;
@@ -143,8 +143,8 @@ void *mvcf_tilde_new(t_floatarg f) {
 }
 
 void mvcf_tilde_setup(void) {
-  mvcf_tilde_class = class_new(gensym("mvcf~"), 
-  (t_newmethod)mvcf_tilde_new, 
+  mvcf_tilde_class = class_new(gensym("mvcf~"),
+  (t_newmethod)mvcf_tilde_new,
   0, sizeof(t_mvcf_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 

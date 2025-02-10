@@ -1,7 +1,7 @@
 /*
  * zeroxpos~ - detect zero-crossings in a block of audio
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -15,7 +15,7 @@ typedef struct _zeroxpos_control
   t_int final_pol;
 } t_zeroxpos_control;
 
-typedef struct _zeroxpos_tilde 
+typedef struct _zeroxpos_tilde
 {
   t_object x_obj;
   t_zeroxpos_control x_ctl;
@@ -24,10 +24,10 @@ typedef struct _zeroxpos_tilde
   t_outlet *f_pos, *f_pol;
 } t_zeroxpos_tilde;
 
-t_int *zeroxpos_tilde_perform(t_int *w) 
+t_int *zeroxpos_tilde_perform(t_int *w)
 {
   t_zeroxpos_tilde     *x =   (t_zeroxpos_tilde *)(w[1]);
-  t_zeroxpos_control *ctl = (t_zeroxpos_control *)(w[2]);  
+  t_zeroxpos_control *ctl = (t_zeroxpos_control *)(w[2]);
   int                   n =                  (int)(w[3]);
   t_float            *in = ctl->c_input;
   x->f_dir = x->f_num >= 0 ? 1 : -1;
@@ -42,96 +42,96 @@ t_int *zeroxpos_tilde_perform(t_int *w)
   if(x->i_mode == 0)
     {
       if(x->f_dir > 0)
-	{
-	  for(i=0;i<n;i++)
-	    {
-	      polarity = in[i] >= 0 ? 1 : -1;
-	      if((polarity < prev || polarity > prev) && count == number && x->i_bang == 1)
-		{
-		  x->i_ndx = i;
-		  x->i_pol = polarity;
-		  count += 1e+06;
-		  x->i_bang = 0;
-		  outlet_float(x->f_pol, (t_float)x->i_pol);
-		  outlet_float(x->f_pos, (t_float)x->i_ndx);
-		}
-	      if((polarity < prev || polarity > prev) && count < number) count++;
-	      if(i==n-1&&count<number)
-		{
-		  ctl->final_pol = polarity;
-		  x->i_count = count;
-		}
-	      prev = polarity;
-	    }
-	}
+        {
+          for(i=0;i<n;i++)
+            {
+              polarity = in[i] >= 0 ? 1 : -1;
+              if((polarity < prev || polarity > prev) && count == number && x->i_bang == 1)
+                {
+                  x->i_ndx = i;
+                  x->i_pol = polarity;
+                  count += 1e+06;
+                  x->i_bang = 0;
+                  outlet_float(x->f_pol, (t_float)x->i_pol);
+                  outlet_float(x->f_pos, (t_float)x->i_ndx);
+                }
+              if((polarity < prev || polarity > prev) && count < number) count++;
+              if(i==n-1&&count<number)
+                {
+                  ctl->final_pol = polarity;
+                  x->i_count = count;
+                }
+              prev = polarity;
+            }
+        }
       else if(x->f_dir < 0)
-	{
-	  for(i=n-1;i>=0;i--)
-	    {
-	      polarity = in[i] >= 0 ? 1 : -1;
-	      if((polarity < prev || polarity > prev) && count == number && x->i_bang == 1)
-		{
-		  x->i_ndx = i;
-		  x->i_pol = polarity;
-		  count += 1e+06;
-		  x->i_bang = 0;
-		  outlet_float(x->f_pol, (t_float)(x->i_pol*-1));
-		  outlet_float(x->f_pos, (t_float)x->i_ndx+1);
-		}
-	      if((polarity < prev || polarity > prev) && count < number) count++;
-	      if(i==0&&count<number)
-		{
-		  ctl->final_pol = polarity;
-		  x->i_count = count;
-		}
-	      prev = polarity;
-	    }
-	}
+        {
+          for(i=n-1;i>=0;i--)
+            {
+              polarity = in[i] >= 0 ? 1 : -1;
+              if((polarity < prev || polarity > prev) && count == number && x->i_bang == 1)
+                {
+                  x->i_ndx = i;
+                  x->i_pol = polarity;
+                  count += 1e+06;
+                  x->i_bang = 0;
+                  outlet_float(x->f_pol, (t_float)(x->i_pol*-1));
+                  outlet_float(x->f_pos, (t_float)x->i_ndx+1);
+                }
+              if((polarity < prev || polarity > prev) && count < number) count++;
+              if(i==0&&count<number)
+                {
+                  ctl->final_pol = polarity;
+                  x->i_count = count;
+                }
+              prev = polarity;
+            }
+        }
     }
   else if(x->i_mode != 0)
     {
       if(x->f_dir > 0)
-	{
-	  for(i=0;i<n;i++)
-	    {
-	      polarity = in[i] >= 0 ? 1 : -1;
-	      if((polarity < prev || polarity > prev) && count == number)
-		{
-		  x->i_ndx = i;
-		  x->i_pol = polarity;
-		  count += 1e+06;
-		  x->i_bang = 0;
-		}
-	      if((polarity < prev || polarity > prev) && count < number) count++;
-	      if(i==n-1&&count<number)
-		{
-		  ctl->final_pol = polarity;
-		  x->i_count = count;
-		}
-	      prev = polarity;
-	    }
-	}
+        {
+          for(i=0;i<n;i++)
+            {
+              polarity = in[i] >= 0 ? 1 : -1;
+              if((polarity < prev || polarity > prev) && count == number)
+                {
+                  x->i_ndx = i;
+                  x->i_pol = polarity;
+                  count += 1e+06;
+                  x->i_bang = 0;
+                }
+              if((polarity < prev || polarity > prev) && count < number) count++;
+              if(i==n-1&&count<number)
+                {
+                  ctl->final_pol = polarity;
+                  x->i_count = count;
+                }
+              prev = polarity;
+            }
+        }
       else if(x->f_dir < 0)
-	{
-	  for(i=n-1;i>=0;i--)
-	    {
-	      polarity = in[i] >= 0 ? 1 : -1;
-	      if((polarity < prev || polarity > prev) && count == number)
-		{
-		  x->i_ndx = i;
-		  x->i_pol = polarity;
-		  count += 1e+06;
-		  x->i_bang = 0;
-		}
-	      if((polarity < prev || polarity > prev) && count < number) count++;
-	      if(i==0&&count<number)
-		{
-		  ctl->final_pol = polarity;
-		  x->i_count = count;
-		}
-	      prev = polarity;
-	    }
-	}
+        {
+          for(i=n-1;i>=0;i--)
+            {
+              polarity = in[i] >= 0 ? 1 : -1;
+              if((polarity < prev || polarity > prev) && count == number)
+                {
+                  x->i_ndx = i;
+                  x->i_pol = polarity;
+                  count += 1e+06;
+                  x->i_bang = 0;
+                }
+              if((polarity < prev || polarity > prev) && count < number) count++;
+              if(i==0&&count<number)
+                {
+                  ctl->final_pol = polarity;
+                  x->i_count = count;
+                }
+              prev = polarity;
+            }
+        }
     }
   return(w+4);
 }
@@ -160,18 +160,18 @@ void zeroxpos_tilde_mode(t_zeroxpos_tilde *x, t_floatarg fmode)
   x->i_mode = (int)fmode;
 }
 
-void *zeroxpos_tilde_dsp(t_zeroxpos_tilde *x, t_signal **sp) 
+void *zeroxpos_tilde_dsp(t_zeroxpos_tilde *x, t_signal **sp)
 {
   x->x_ctl.c_input = sp[0]->s_vec;
   dsp_add(zeroxpos_tilde_perform, 3, x, &x->x_ctl, sp[0]->s_n);
   return (void *)x;
 }
 
-void *zeroxpos_tilde_new(t_floatarg f) 
+void *zeroxpos_tilde_new(t_floatarg f)
 {
   t_zeroxpos_tilde *x = (t_zeroxpos_tilde *)pd_new(zeroxpos_tilde_class);
   x->f_dir = f >= 0 ? 1 : -1;
-  x->f_num = f >= 1 || f <= -1 ? (int)fabs(f) : 1; 
+  x->f_num = f >= 1 || f <= -1 ? (int)fabs(f) : 1;
   x->x_ctl.final_pol = 0;
   x->i_count = 0;
   floatinlet_new (&x->x_obj, &x->f_num);
@@ -180,10 +180,10 @@ void *zeroxpos_tilde_new(t_floatarg f)
   return (void *)x;
 }
 
-void zeroxpos_tilde_setup(void) 
+void zeroxpos_tilde_setup(void)
 {
-  zeroxpos_tilde_class = class_new(gensym("zeroxpos~"), 
-  (t_newmethod)zeroxpos_tilde_new, 
+  zeroxpos_tilde_class = class_new(gensym("zeroxpos~"),
+  (t_newmethod)zeroxpos_tilde_new,
   0, sizeof(t_zeroxpos_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 
@@ -197,4 +197,3 @@ void zeroxpos_tilde_setup(void)
   class_addmethod(zeroxpos_tilde_class, (t_method)zeroxpos_tilde_mode, gensym("mode"), A_DEFFLOAT, 0);
   CLASS_MAINSIGNALIN(zeroxpos_tilde_class, t_zeroxpos_tilde, f_dummy);
 }
-

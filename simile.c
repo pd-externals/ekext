@@ -1,7 +1,7 @@
-/*                                                                              
- * simile : windowed similarity comparison                                      
+/*
+ * simile : windowed similarity comparison
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -26,7 +26,7 @@ void simile_float(t_simile *x, t_floatarg in1) {
   outlet_float(x->x_sign, x->sign);
   outlet_float(x->x_sim, x->x_result);
 }
-	
+
 void simile_bang(t_simile *x) {
   outlet_float(x->x_sign, x->sign);
   outlet_float(x->x_sim, x->x_result);

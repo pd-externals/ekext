@@ -1,7 +1,7 @@
 /*
  * delta and delta-of-delta values. Two successive values gives the difference. Three gives the difference of the difference.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -41,7 +41,7 @@ void *doubledelta_new(t_floatarg f)
   return(void *)y;
 }
 
-void doubledelta_setup(void) 
+void doubledelta_setup(void)
 {
   doubledelta_class = class_new(gensym("doubledelta"),
   (t_newmethod)doubledelta_new,

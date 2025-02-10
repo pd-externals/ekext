@@ -1,14 +1,14 @@
 /*
  * framescore~ : Weighted block comparison.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
- 
+
 #include "m_pd.h"
 
 static t_class *framescore_tilde_class;
 
-typedef struct _framescore_tilde 
+typedef struct _framescore_tilde
 {
   t_object x_obj;
   t_float f;
@@ -47,14 +47,14 @@ t_int *framescore_tilde_perform(t_int *w)
   block_accum /= x->f_max;
   avg = score / block_accum;
   outlet_float(x->f_score, avg);
-  
+
   return(w+5);
 }
 
 void framescore_tilde_dsp(t_framescore_tilde *x, t_signal **sp)
 {
   dsp_add(framescore_tilde_perform, 4, x,
-	  sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
+          sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
 }
 
 void *framescore_tilde_new(t_floatarg f)
@@ -74,16 +74,16 @@ void *framescore_tilde_new(t_floatarg f)
 void framescore_tilde_setup(void)
 {
   framescore_tilde_class = class_new(gensym("framescore~"),
-				     (t_newmethod)framescore_tilde_new,
-				     0, sizeof(t_framescore_tilde),
-				     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                                     (t_newmethod)framescore_tilde_new,
+                                     0, sizeof(t_framescore_tilde),
+                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|+++++++++++framescore~+++++++++++++|");
   post("|+++++weighted block comparison+++++|");
   post("|+++edward+++++++kelly+++++++2005+++|");
 
   class_addmethod(framescore_tilde_class, (t_method)framescore_tilde_dsp,
-		  gensym("dsp"), 0);
+                  gensym("dsp"), 0);
 
   CLASS_MAINSIGNALIN(framescore_tilde_class, t_framescore_tilde, f);
 }

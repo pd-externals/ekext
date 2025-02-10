@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -24,23 +24,23 @@ void maskxor_float(t_maskxor *x, t_floatarg fin)
   if (input >= 0 && input < x->lengthm) {
     if(x->mode == 0)
       {
-	x->f_in = fin;
-	x->yes = atom_getfloatarg(input, x->lengthm, x->maskxor);
-	outlet_float(x->bool, x->yes);
-	if(x->yes != 0)
-	  {
-	    outlet_float(x->thru, x->f_in);
-	  }
+        x->f_in = fin;
+        x->yes = atom_getfloatarg(input, x->lengthm, x->maskxor);
+        outlet_float(x->bool, x->yes);
+        if(x->yes != 0)
+          {
+            outlet_float(x->thru, x->f_in);
+          }
       }
     else if(x->sumr>x->suml)
       {
-	x->f_in = fin;
-	x->yes = atom_getfloatarg(input, x->lengthm, x->maskxor);
-	outlet_float(x->bool, x->yes);
-	if(x->yes != 0)
-	  {
-	    outlet_float(x->thru, x->f_in);
-	  }
+        x->f_in = fin;
+        x->yes = atom_getfloatarg(input, x->lengthm, x->maskxor);
+        outlet_float(x->bool, x->yes);
+        if(x->yes != 0)
+          {
+            outlet_float(x->thru, x->f_in);
+          }
       }
   }
 }
@@ -80,25 +80,25 @@ void maskxor_listl(t_maskxor *x, t_symbol *s, int argc, t_atom *argv)
   for(i=0;i<x->lengthm;i++)
     {
       if(i>=x->lengthm)
-	{
-	  listl_element = 0;
-	}
+        {
+          listl_element = 0;
+        }
       else
-	{
-	  listl_element = atom_getfloat(argv+i);
-	}
-      if(listl_element != 0) 
-	{
-	  x->suml++;
-	}
-      if(i>=x->lengthr) 
-	{
-	  listr_element = 0;
-	}
-      else 
-	{
-	  listr_element = atom_getfloatarg(i,x->lengthr,x->maskr);
-	}
+        {
+          listl_element = atom_getfloat(argv+i);
+        }
+      if(listl_element != 0)
+        {
+          x->suml++;
+        }
+      if(i>=x->lengthr)
+        {
+          listr_element = 0;
+        }
+      else
+        {
+          listr_element = atom_getfloatarg(i,x->lengthr,x->maskr);
+        }
       xor_element = (t_float)((int)listl_element ^ (int)listr_element);
       SETFLOAT(&x->maskxor[i], xor_element);
     }
@@ -125,7 +125,7 @@ void maskxor_listr(t_maskxor *x, t_symbol *s, int argc, t_atom *argv)
     listr_element = atom_getfloat(argv+i);
     if(listr_element != 0)
       {
-	x->sumr++;
+        x->sumr++;
       }
   }
 }
@@ -201,7 +201,7 @@ void *maskxor_new(t_symbol *s, t_floatarg fmode)
   return (void *)x;
 }
 
-void maskxor_setup(void) 
+void maskxor_setup(void)
 {
   maskxor_class = class_new(gensym("maskxor"),
   (t_newmethod)maskxor_new,

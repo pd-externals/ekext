@@ -1,9 +1,9 @@
 /* stavelines
  * part of the gemnotes system
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
- 
+
 #include "m_pd.h"
 
 #define STAVELINES 32
@@ -40,10 +40,10 @@ void stavelines_setlines(t_stavelines *z, t_symbol *s, int argc, t_atom *argv)
   if(argc > 0)
     {
       for(i = 0; i < argc; i++)
-	{
-	  lines = (int)atom_getfloat(argv+i);
-	  z->perclines[i] = lines;
-	}
+        {
+          lines = (int)atom_getfloat(argv+i);
+          z->perclines[i] = lines;
+        }
       z->staveLinesNum = argc;
     }
   else post("No elements to setlines list!");
@@ -67,10 +67,10 @@ void stavelines_staves(t_stavelines *z, t_symbol *s, int argc, t_atom *argv)
   if(argc > 0)
     {
       for(i=0;i<argc;i++)
-	{
-	  staveUsed = (int)atom_getfloat(argv+i);
-	  z->staves[i] = staveUsed;
-	}
+        {
+          staveUsed = (int)atom_getfloat(argv+i);
+          z->staves[i] = staveUsed;
+        }
     }
   else post("Empty list to staves!");
 }
@@ -110,31 +110,31 @@ void stavelines_thisstave(t_stavelines *z, t_floatarg f)
       z->thisStaveNum = (int)f;
       if(z->staves[z->thisStaveNum] == 0) post("This stave is not being shown. Notes will be invisible!");
       else
-	{
-	  if(z->thisStaveNum < z->staveLinesNum)
-	    {
-	      z->fullBreakVal = z->fullStaveVal = 0;
-	      if(z->staveLinesNum < STAVELINES)
-		{
-		  for(i = 0; i < z->thisStaveNum; i++)
-		    {
-		      if(z->staves[i] == 1)
-			{
-			  z->staveVal = z->perclines[i];
-			  z->breakVal = atom_getfloatarg(i, STAVELINES, z->breaks);
-			  z->fullStaveVal += (t_float)z->staveVal;
-			  z->fullBreakVal += z->breakVal;
-			}
-		    }
-		}
-	      else post("z->staveLinesNum > maximum, %d >= %d",z->staveLinesNum,STAVELINES);
-	    }
-	  else post("x->thisStaveNum > z->staveLinesNum");
-	  if(z->staves[z->thisStaveNum] == 1) outlet_float(z->linesNum, (t_float)z->perclines[z->thisStaveNum]);
-	  outlet_float(z->breaksOff, z->fullBreakVal);
-	  outlet_float(z->linesOff, z->fullStaveVal);
-	  post("breaksOff = %f, linesOff = %f",z->fullBreakVal,z->fullStaveVal);
-	}
+        {
+          if(z->thisStaveNum < z->staveLinesNum)
+            {
+              z->fullBreakVal = z->fullStaveVal = 0;
+              if(z->staveLinesNum < STAVELINES)
+                {
+                  for(i = 0; i < z->thisStaveNum; i++)
+                    {
+                      if(z->staves[i] == 1)
+                        {
+                          z->staveVal = z->perclines[i];
+                          z->breakVal = atom_getfloatarg(i, STAVELINES, z->breaks);
+                          z->fullStaveVal += (t_float)z->staveVal;
+                          z->fullBreakVal += z->breakVal;
+                        }
+                    }
+                }
+              else post("z->staveLinesNum > maximum, %d >= %d",z->staveLinesNum,STAVELINES);
+            }
+          else post("x->thisStaveNum > z->staveLinesNum");
+          if(z->staves[z->thisStaveNum] == 1) outlet_float(z->linesNum, (t_float)z->perclines[z->thisStaveNum]);
+          outlet_float(z->breaksOff, z->fullBreakVal);
+          outlet_float(z->linesOff, z->fullStaveVal);
+          post("breaksOff = %f, linesOff = %f",z->fullBreakVal,z->fullStaveVal);
+        }
     }
   else post("this stave %f out of bounds!",f);
 }
@@ -159,7 +159,7 @@ void *stavelines_new(t_floatarg f)
   return(void *)y;
 }
 
-void stavelines_setup(void) 
+void stavelines_setup(void)
 {
   stavelines_class = class_new(gensym("stavelines"),
   (t_newmethod)stavelines_new,

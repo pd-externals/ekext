@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #ifdef __APPLE__
@@ -53,7 +53,7 @@ typedef struct _markovChains {
   t_int outLen, outOffset, outVal;
 
   t_int myBug;
-  
+
   t_outlet *index, *value, *slot, *randOut, *listValues, *debugList;
 
 } t_markovChains;
@@ -62,7 +62,7 @@ typedef struct _markovChains {
  * double randNum;
  * randNum = drand48();
  */
-  
+
 void markovChains_seed(t_markovChains *x, t_symbol *s, int argc, t_atom *argv)
 {
   int i;
@@ -70,22 +70,22 @@ void markovChains_seed(t_markovChains *x, t_symbol *s, int argc, t_atom *argv)
     {
       argc = argc > 3 ? 3 : argc;
       for(i = 0; i < argc; i++)
-	{
-	  switch(i)
-	    {
-	    case 0:
-	      x->seed1 = atom_getfloat(argv);
-	      break;
-	    case 1:
-	      x->seed2 = atom_getfloat(argv+1);
-	      break;
-	    case 2:
-	      x->seed3 = atom_getfloat(argv+2);
-	      break;
-	    default:
-	      break;
-	    }
-	}
+        {
+          switch(i)
+            {
+            case 0:
+              x->seed1 = atom_getfloat(argv);
+              break;
+            case 1:
+              x->seed2 = atom_getfloat(argv+1);
+              break;
+            case 2:
+              x->seed3 = atom_getfloat(argv+2);
+              break;
+            default:
+              break;
+            }
+        }
       x->seed16v[2] = (unsigned short int)x->seed3;
       x->seed16v[1] = (unsigned short int)x->seed2;
       x->seed16v[0] = (unsigned short int)x->seed1;
@@ -105,18 +105,18 @@ void markovChains_bang(t_markovChains *x)
       lastB = 0;
       if(x->thisTot < 1 && x->thisTot > 0) x->thisRand = x->thisRand / x->thisTot;
       for(i=0; i < x->thisLen; i++)
-	{
-	  bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
-	  bVal = bVal / x->thisTot;
-	  if(x->thisRand > lastB && x->thisRand < bVal)
-	    {
-	      x->lastBound = lastB;
-	      x->thisIndex = i > 0 ? i : 0;
-	    }
-	  lastB = bVal;
-	}
+        {
+          bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
+          bVal = bVal / x->thisTot;
+          if(x->thisRand > lastB && x->thisRand < bVal)
+            {
+              x->lastBound = lastB;
+              x->thisIndex = i > 0 ? i : 0;
+            }
+          lastB = bVal;
+        }
       if(x->noZero)
-	  x->thisSlot += 1;
+          x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -126,42 +126,42 @@ void markovChains_bang(t_markovChains *x)
     {
       lastB = 0;
       for(i=0; i < x->thisLen; i++)
-	{
-	  bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
-	  if(x->thisRand > lastB && x->thisRand < bVal)
-	    {
-	      x->lastBound = lastB;
-	      x->thisIndex = i > 0 ? i : 0;
-	    }
-	  lastB = bVal;
-	}
+        {
+          bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
+          if(x->thisRand > lastB && x->thisRand < bVal)
+            {
+              x->lastBound = lastB;
+              x->thisIndex = i > 0 ? i : 0;
+            }
+          lastB = bVal;
+        }
       if(x->noZero)
-	  x->thisSlot += 1;
+          x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
-      outlet_float(x->index, (t_float)x->thisIndex); 
+      outlet_float(x->index, (t_float)x->thisIndex);
     }
   else if(x->autoNorm == 2)
     {
       lastB = 0;
       x->thisRand = x->thisRand * x->thisTot;
       if(x->myBug == 3)
-	{
-	  post("x->thisTot = %f", x->thisTot);
-	}
+        {
+          post("x->thisTot = %f", x->thisTot);
+        }
       for(i=0; i < x->thisLen; i++)
-	{
-	  bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
-	  if(x->thisRand > lastB && x->thisRand < bVal)
-	    {
-	      x->lastBound = lastB;
-	      x->thisIndex = i > 0 ? i - 1 : 0;
-	    }
-	  lastB = bVal;
-	}
+        {
+          bVal = atom_getfloatarg(x->thisOffset + i, ARRAYSIZE, x->map.boundary);
+          if(x->thisRand > lastB && x->thisRand < bVal)
+            {
+              x->lastBound = lastB;
+              x->thisIndex = i > 0 ? i - 1 : 0;
+            }
+          lastB = bVal;
+        }
       if(x->noZero)
-	  x->thisSlot += 1;
+          x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -186,35 +186,35 @@ void markovChains_float(t_markovChains *x, t_floatarg f) // go to a slot and mak
       x->thisLen = x->map.length[x->thisSlot];
       x->thisTot = atom_getfloatarg(x->thisOffset + x->thisLen - 1 + x->noZero, ARRAYSIZE, x->map.boundary);
       if(x->autoNorm && x->thisTot > 0)
-	{
-	  x->thisRand = x->thisRand / x->thisTot;
-	  for(i = 0; i < x->thisLen; i++)
-	    {
-	      bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
-	      bVal = bVal / x->thisTot;
-	      if(x->thisRand > lastB && x->thisRand < bVal)
-		{
-		  x->lastBound = lastB;
-		  x->thisIndex = i > 0 ? i - 1 : 0;
-		}
-	      lastB = bVal;
-	    }
-	}
+        {
+          x->thisRand = x->thisRand / x->thisTot;
+          for(i = 0; i < x->thisLen; i++)
+            {
+              bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
+              bVal = bVal / x->thisTot;
+              if(x->thisRand > lastB && x->thisRand < bVal)
+                {
+                  x->lastBound = lastB;
+                  x->thisIndex = i > 0 ? i - 1 : 0;
+                }
+              lastB = bVal;
+            }
+        }
       else
-	{
-	  for(i = 0; i < x->thisLen; i++)
-	    {
-	      bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
-	      if(x->thisRand > lastB && x->thisRand < bVal)
-		{
-		  x->lastBound = lastB;
-		  x->thisIndex = i > 0 ? i - 1 : 0;
-		}
-	      lastB = bVal;
-	    }
-	}
+        {
+          for(i = 0; i < x->thisLen; i++)
+            {
+              bVal = atom_getfloatarg(x->thisOffset + i + x->noZero, ARRAYSIZE, x->map.boundary);
+              if(x->thisRand > lastB && x->thisRand < bVal)
+                {
+                  x->lastBound = lastB;
+                  x->thisIndex = i > 0 ? i - 1 : 0;
+                }
+              lastB = bVal;
+            }
+        }
       if(x->noZero)
-	  x->thisSlot += 1;
+          x->thisSlot += 1;
       outlet_float(x->randOut, x->thisRand);
       outlet_float(x->slot, (t_float)x->thisSlot);
       outlet_float(x->value, x->lastBound);
@@ -232,33 +232,33 @@ void markovChains_outList(t_markovChains *x, t_floatarg f)
       x->outLen = x->map.length[ndx];
       x->outOffset = x->map.starts[ndx];
       for(i=0; i < x->outLen; i++)
-	{
-	  j = x->outOffset + i;
-	  val2 = atom_getfloatarg(j, ARRAYSIZE, x->map.values);
-	  if(x->myBug == 3)
-	    {
-	      post("j = i + outOffset = %d, val2 = %f", j, val2);
-	    }
-	  //t_atom listOut[ARRAYSIZE];
-	  SETFLOAT(&x->map.listOut[i], val2);
-	}
+        {
+          j = x->outOffset + i;
+          val2 = atom_getfloatarg(j, ARRAYSIZE, x->map.values);
+          if(x->myBug == 3)
+            {
+              post("j = i + outOffset = %d, val2 = %f", j, val2);
+            }
+          //t_atom listOut[ARRAYSIZE];
+          SETFLOAT(&x->map.listOut[i], val2);
+        }
       outlet_list(x->listValues, gensym("list"), x->outLen, x->map.listOut);
     }
   else if(ndx == -1)
     {
       for(i=0; i < x->thisLen; i++)
-	{
-	  j = x->thisOffset + i;
-	  val2 = atom_getfloatarg(j, ARRAYSIZE, x->map.values);
-	  if(x->myBug == 3)
-	    {
-	      post("j = i + outOffset = %d, val2 = %f", j, val2);
-	    }
-	  //t_atom listOut[ARRAYSIZE];
-	  SETFLOAT(&x->map.listOut[i], val2);
-	}
+        {
+          j = x->thisOffset + i;
+          val2 = atom_getfloatarg(j, ARRAYSIZE, x->map.values);
+          if(x->myBug == 3)
+            {
+              post("j = i + outOffset = %d, val2 = %f", j, val2);
+            }
+          //t_atom listOut[ARRAYSIZE];
+          SETFLOAT(&x->map.listOut[i], val2);
+        }
       outlet_list(x->listValues, gensym("list"), x->thisLen, x->map.listOut);
-    }  
+    }
 }
 
 void markovChains_addSeq(t_markovChains *x, t_symbol *s, int argc, t_atom *argv) //after nextSlot (above)
@@ -269,41 +269,41 @@ void markovChains_addSeq(t_markovChains *x, t_symbol *s, int argc, t_atom *argv)
   // minumum length = 2
   if(argc >= 2 && ARRAYSIZE - x->nextOffset > argc && argc <= x->maxLen)
     {
-      
+
       x->addLen = (t_int)argc;
       if(x->addLen > x->maxLen) x->addLen = x->maxLen;
       x->map.length[newMaxSlot] = x->addLen;
       x->addOffset = x->map.starts[x->maxSlot] + x->map.length[x->maxSlot];
       if(x->myBug == 3)
-	{
-	  post("addOffset = %d", x->addOffset);
-	}
+        {
+          post("addOffset = %d", x->addOffset);
+        }
       x->map.starts[newMaxSlot] = x->addOffset;
       x->addTot = 0;
       // addSeq code goes in here
       if(x->addOffset + x->addLen < 1023)
-	{
-	  for(i=0; i< x->addLen; i++)  
-	    {
-	      val1 = atom_getfloat(argv+i);
-	      val1 = fabs(val1);
-	      if(val1 < 0.001) val1 = 0.001;
-	      x->addTot += val1;
-	      x->map.current[x->addOffset+i] = i;
-	      if(x->addTot > 0)
-		{
-		  x->normValue = 1 / x->addTot;
-		}
-	      SETFLOAT(&x->map.values[x->addOffset + i], val1);
-	      SETFLOAT(&x->map.boundary[x->addOffset + i], x->addTot);
-	      if (x->addOffset + x->addLen * 2 < 1023)
-		SETFLOAT(&x->map.values[x->addOffset + i + x->maxLen], 1);
-	    }
-	  if(x->myBug == 3)
-	    {
-	      post("thisTot = %f, x->addOffset = %d, boundary = %f", x->thisTot, x->addOffset, atom_getfloatarg(x->addOffset + i, ARRAYSIZE, x->map.boundary));
-	    }
-	}
+        {
+          for(i=0; i< x->addLen; i++)
+            {
+              val1 = atom_getfloat(argv+i);
+              val1 = fabs(val1);
+              if(val1 < 0.001) val1 = 0.001;
+              x->addTot += val1;
+              x->map.current[x->addOffset+i] = i;
+              if(x->addTot > 0)
+                {
+                  x->normValue = 1 / x->addTot;
+                }
+              SETFLOAT(&x->map.values[x->addOffset + i], val1);
+              SETFLOAT(&x->map.boundary[x->addOffset + i], x->addTot);
+              if (x->addOffset + x->addLen * 2 < 1023)
+                SETFLOAT(&x->map.values[x->addOffset + i + x->maxLen], 1);
+            }
+          if(x->myBug == 3)
+            {
+              post("thisTot = %f, x->addOffset = %d, boundary = %f", x->thisTot, x->addOffset, atom_getfloatarg(x->addOffset + i, ARRAYSIZE, x->map.boundary));
+            }
+        }
       SETFLOAT(&x->map.normalize[newMaxSlot], 1 / x->normValue);
       x->maxSlot = newMaxSlot;
       x->addOffset += x->addLen;
@@ -327,20 +327,20 @@ void markovChains_addVal(t_markovChains *x, t_floatarg i, t_floatarg f)
       x->addLen = 15;
       x->addTot = 0;
       // addSeq code goes in here
-      for(i=0; i< x->addLen; i++)  
-	{
-	  val1 = f;
-	  val1 = fabs(val1);
-	  x->addTot += val1;
-	  x->map.current[x->thisOffset + index] = index;
-	  if(x->addTot > 0)
-	    {
-	      x->normValue = 1 / x->addTot;
-	      SETFLOAT(&x->map.boundary[x->thisOffset + index], x->addTot);
-	    }
-	  //	  if (x->addOffset + x->addLen * 2 < 1023)
-	  //	    SETFLOAT(&x->map.values[x->addOffset + index + x->maxLen], 1);
-	}
+      for(i=0; i< x->addLen; i++)
+        {
+          val1 = f;
+          val1 = fabs(val1);
+          x->addTot += val1;
+          x->map.current[x->thisOffset + index] = index;
+          if(x->addTot > 0)
+            {
+              x->normValue = 1 / x->addTot;
+              SETFLOAT(&x->map.boundary[x->thisOffset + index], x->addTot);
+            }
+          //      if (x->addOffset + x->addLen * 2 < 1023)
+          //        SETFLOAT(&x->map.values[x->addOffset + index + x->maxLen], 1);
+        }
       if(x->addTot > 0)
         SETFLOAT(&x->map.normalize[x->thisSlot], 1 / x->normValue);
       outlet_list(x->listValues, gensym("list"), x->thisLen, x->map.listOut);
@@ -370,14 +370,14 @@ void markovChains_clear(t_markovChains *x, t_floatarg f)
       SETFLOAT(&x->map.values[i], 1);
       SETFLOAT(&x->map.listOut[i], 1);
       if(i < HALFARRAY)
-	{
-	  x->map.length[i] = x->thisLen;
-	  x->map.starts[i] = 0;
-	  //SETFLOAT[&x->map.normalize[i], 100];
-	  SETFLOAT(&x->map.normalize[i], 100);
-	}
+        {
+          x->map.length[i] = x->thisLen;
+          x->map.starts[i] = 0;
+          //SETFLOAT[&x->map.normalize[i], 100];
+          SETFLOAT(&x->map.normalize[i], 100);
+        }
     }
-  
+
   x->map.current[0] = 0; // slot 0 will be a buffer with maxlength = f
   x->map.length[0] = x->thisLen;
   for(i = 0; i < x->thisLen; i++)
@@ -450,28 +450,28 @@ void markovChains_debug(t_markovChains *x, t_floatarg f)
     {
       x->myBug = (t_int)f;
       if(x->myBug == 1)
-	{
-	  //t_atom listOut[ARRAYSIZE];
-	  SETFLOAT(&x->map.listOut[0], (t_float)x->thisSlot);
-	  SETFLOAT(&x->map.listOut[1], (t_float)x->thisLen);
-	  SETFLOAT(&x->map.listOut[2], (t_float)x->thisOffset);
-	  SETFLOAT(&x->map.listOut[3], (t_float)x->thisIndex);
-	  SETFLOAT(&x->map.listOut[4], (t_float)x->map.starts[x->thisSlot]);
-	  SETFLOAT(&x->map.listOut[5], (t_float)x->map.length[x->thisSlot]);
-	  SETFLOAT(&x->map.listOut[6], atom_getfloatarg(x->thisOffset + x->thisIndex, ARRAYSIZE, x->map.values));
-	  SETFLOAT(&x->map.listOut[7], atom_getfloatarg(x->thisSlot, HALFARRAY, x->map.normalize));
-	  outlet_list(x->debugList, gensym("list"), 8, x->map.listOut);
-	}
+        {
+          //t_atom listOut[ARRAYSIZE];
+          SETFLOAT(&x->map.listOut[0], (t_float)x->thisSlot);
+          SETFLOAT(&x->map.listOut[1], (t_float)x->thisLen);
+          SETFLOAT(&x->map.listOut[2], (t_float)x->thisOffset);
+          SETFLOAT(&x->map.listOut[3], (t_float)x->thisIndex);
+          SETFLOAT(&x->map.listOut[4], (t_float)x->map.starts[x->thisSlot]);
+          SETFLOAT(&x->map.listOut[5], (t_float)x->map.length[x->thisSlot]);
+          SETFLOAT(&x->map.listOut[6], atom_getfloatarg(x->thisOffset + x->thisIndex, ARRAYSIZE, x->map.values));
+          SETFLOAT(&x->map.listOut[7], atom_getfloatarg(x->thisSlot, HALFARRAY, x->map.normalize));
+          outlet_list(x->debugList, gensym("list"), 8, x->map.listOut);
+        }
       else if(x->myBug == 2)
-	{
-	  //t_atom listOut[ARRAYSIZE];
-	  post("x->thisSlot = %d, x->thisLen = %d, x->thisOffset = %d, x->thisIndex = %d, x->map.starts = %d, x->map.length = %d, x->value = %f, x->normalize = %f", x->thisSlot, x->thisLen, x->thisOffset, x->thisIndex, x->map.starts[x->thisSlot], x->map.length[x->thisSlot], atom_getfloatarg(x->thisOffset +x->thisIndex, ARRAYSIZE, x->map.values), atom_getfloatarg(x->thisSlot, HALFARRAY, x->map.normalize));
-	}
+        {
+          //t_atom listOut[ARRAYSIZE];
+          post("x->thisSlot = %d, x->thisLen = %d, x->thisOffset = %d, x->thisIndex = %d, x->map.starts = %d, x->map.length = %d, x->value = %f, x->normalize = %f", x->thisSlot, x->thisLen, x->thisOffset, x->thisIndex, x->map.starts[x->thisSlot], x->map.length[x->thisSlot], atom_getfloatarg(x->thisOffset +x->thisIndex, ARRAYSIZE, x->map.values), atom_getfloatarg(x->thisSlot, HALFARRAY, x->map.normalize));
+        }
       else if(x->myBug == 3)
-	{
-	  x->myBug = 3;
-	  post("x->thisTot = %f", x->thisTot);
-	}
+        {
+          x->myBug = 3;
+          post("x->thisTot = %f", x->thisTot);
+        }
     }
   else x->myBug = 0;
 }
@@ -501,7 +501,7 @@ void *markovChains_new(t_floatarg f) // f = maxlength
       x->thisLen = 16;
       x->maxLen = 16;
     }
-  
+
   for(i=0; i<ARRAYSIZE; i++)
     {
       x->map.current[i] = 0;
@@ -509,15 +509,15 @@ void *markovChains_new(t_floatarg f) // f = maxlength
       SETFLOAT(&x->map.values[i], 1);
       SETFLOAT(&x->map.listOut[i], 1);
       if(i < HALFARRAY)
-	{
-	  x->map.length[i] = x->thisLen;
-	  x->map.starts[i] = 0;
-	  //SETFLOAT[&x->map.normalize[i], 100];
-	  SETFLOAT(&x->map.normalize[i], 100);
-	}
+        {
+          x->map.length[i] = x->thisLen;
+          x->map.starts[i] = 0;
+          //SETFLOAT[&x->map.normalize[i], 100];
+          SETFLOAT(&x->map.normalize[i], 100);
+        }
       x->noZero = 1;
     }
-  
+
   x->map.current[0] = 0; // slot 0 will be a buffer with maxlength = f
   x->map.length[0] = x->thisLen;
   for(i = 0; i < x->thisLen; i++)
@@ -538,7 +538,7 @@ void *markovChains_new(t_floatarg f) // f = maxlength
   x->addSlot = 0;
   x->addOffset = 16;
   x->addLen = 16;
-  
+
   x->myBug = 0;
   x->thisIndex = 0;
   //t_outlet *index, *value, *slot, randOut;

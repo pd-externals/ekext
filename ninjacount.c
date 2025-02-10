@@ -1,7 +1,7 @@
 /*
  * ninjacount - section number skip forwards or backwards for section-based arrangements
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -73,12 +73,12 @@ void *ninjacount_new(t_floatarg f1, t_floatarg f2, t_floatarg f3)
   return(void *)y;
 }
 
-void ninjacount_setup(void) 
+void ninjacount_setup(void)
 {
   ninjacount_class = class_new(gensym("ninjacount"),
   (t_newmethod)ninjacount_new,
   0, sizeof(t_ninjacount),
-			       0, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+                               0, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
   post("ninjacount counts up normally");
   post("and counts down after two bangs");
 

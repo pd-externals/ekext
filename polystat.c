@@ -1,7 +1,7 @@
 /*
  * polystat - polyphony statistics
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -39,43 +39,43 @@ void polystat_float(t_polystat *x, t_floatarg fin)
       inst = instances + 1;
       SETFLOAT(&x->x_map.map[voice], inst);
       if(x->mode == 0)
-	{
-	  if(inst >= x->max && voice != x->maxval)
-	    {
-	      x->maxflag = x->maxcount >= MAXENTRIES ? 1 : x->maxflag == 1 ? 1 : 0;
-	      x->maxcount += 1;
-	      x->maxcount = x->maxcount > MAXENTRIES ? MAXENTRIES : x->maxcount; 
-	      x->maxindex = maxindex % MAXENTRIES;
-	      SETFLOAT(&x->x_map.maxlist[x->maxindex], voice);
-	      x->maxval = voice;
-	      x->max = inst;
-	      outlet_float(x->maxvox, voice);
-	    }
-	  else if(inst >= x->max && voice == x->maxval)
-	    {
-	      x->max = inst;
-	      outlet_float(x->maxvox, voice);
-	    }
-	}
+        {
+          if(inst >= x->max && voice != x->maxval)
+            {
+              x->maxflag = x->maxcount >= MAXENTRIES ? 1 : x->maxflag == 1 ? 1 : 0;
+              x->maxcount += 1;
+              x->maxcount = x->maxcount > MAXENTRIES ? MAXENTRIES : x->maxcount;
+              x->maxindex = maxindex % MAXENTRIES;
+              SETFLOAT(&x->x_map.maxlist[x->maxindex], voice);
+              x->maxval = voice;
+              x->max = inst;
+              outlet_float(x->maxvox, voice);
+            }
+          else if(inst >= x->max && voice == x->maxval)
+            {
+              x->max = inst;
+              outlet_float(x->maxvox, voice);
+            }
+        }
       else if(x->mode != 0)
-	{
-	  if(inst > x->max && voice != x->maxval)
-	    {
-	      x->maxflag = x->maxcount >= MAXENTRIES ? 1 : x->maxflag == 1 ? 1 : 0;
-	      x->maxcount += 1;
-	      x->maxcount = x->maxcount > MAXENTRIES ? MAXENTRIES : x->maxcount; 
-	      x->maxindex = (float)(maxindex % MAXENTRIES);
-	      SETFLOAT(&x->x_map.maxlist[x->maxindex], voice);
-	      x->maxval = voice;
-	      x->max = inst;
-	      outlet_float(x->maxvox, voice);
-	    }
-	  else if(inst > x->max && voice == x->maxval)
-	    {
-	      x->max = inst;
-	      outlet_float(x->maxvox, voice);
-	    }
-	}
+        {
+          if(inst > x->max && voice != x->maxval)
+            {
+              x->maxflag = x->maxcount >= MAXENTRIES ? 1 : x->maxflag == 1 ? 1 : 0;
+              x->maxcount += 1;
+              x->maxcount = x->maxcount > MAXENTRIES ? MAXENTRIES : x->maxcount;
+              x->maxindex = (float)(maxindex % MAXENTRIES);
+              SETFLOAT(&x->x_map.maxlist[x->maxindex], voice);
+              x->maxval = voice;
+              x->max = inst;
+              outlet_float(x->maxvox, voice);
+            }
+          else if(inst > x->max && voice == x->maxval)
+            {
+              x->max = inst;
+              outlet_float(x->maxvox, voice);
+            }
+        }
       x->highest = voice > x->highest ? voice : x->highest;
       outlet_float(x->vars, x->voices);
       outlet_float(x->value, inst);
@@ -98,25 +98,25 @@ void polystat_clear(t_polystat *x, t_floatarg fin)
       SETFLOAT(&x->x_map.map[inst], 0);
       current = 0;
       if(current == 0 && x->maxcount > 0)
-	{
-	  indexed--;
-	  x->maxcount--;
-	  modindex = (indexed+MAXENTRIES) % MAXENTRIES;
-	  voice = atom_getfloatarg(modindex, MAXENTRIES, x->x_map.maxlist);
-	  current = atom_getfloatarg(voice, MAXENTRIES, x->x_map.map);
-	}
+        {
+          indexed--;
+          x->maxcount--;
+          modindex = (indexed+MAXENTRIES) % MAXENTRIES;
+          voice = atom_getfloatarg(modindex, MAXENTRIES, x->x_map.maxlist);
+          current = atom_getfloatarg(voice, MAXENTRIES, x->x_map.map);
+        }
       if(x->maxcount == 0 || current == 0)
-	{
-	  x->max = 0;
-	  x->maxval = 0;
-	  x->maxindex = 0;
-	}
+        {
+          x->max = 0;
+          x->maxval = 0;
+          x->maxindex = 0;
+        }
       else if(x->maxcount > 0 || current > 0)
-	{
-	  x->max = current;
-	  x->maxval = voice;
-	  x->maxindex = modindex;
-	}
+        {
+          x->max = current;
+          x->maxval = voice;
+          x->maxindex = modindex;
+        }
     }
   outlet_float(x->maxvox, x->maxval);
   outlet_float(x->vars, x->voices);
@@ -170,31 +170,31 @@ void polystat_setmap(t_polystat *x, t_symbol *s, int argc, t_atom *argv)
   int i;
   float arg, max, maxval, high;
   max = maxval = high = 0;
-  for(i=0;i<argc;i++) 
+  for(i=0;i<argc;i++)
     {
       arg = atom_getfloat(argv+i);
       if(arg != 0)
-	{
-	  if(x->mode==0)
-	    {
-	      if(arg>=maxval)
-		{
-		  maxval = arg;
-		  max = i;
-		}
-	    }
-	  else if(x->mode!=0)
-	    {
-	      if(arg>maxval)
-		{
-		  maxval = arg;
-		  max = i;
-		}
-	    }
-	  x->highest = i;
-	  SETFLOAT(&x->x_map.map[i], arg);
-	  SETFLOAT(&x->x_map.maxlist[i], 0);
-	}
+        {
+          if(x->mode==0)
+            {
+              if(arg>=maxval)
+                {
+                  maxval = arg;
+                  max = i;
+                }
+            }
+          else if(x->mode!=0)
+            {
+              if(arg>maxval)
+                {
+                  maxval = arg;
+                  max = i;
+                }
+            }
+          x->highest = i;
+          SETFLOAT(&x->x_map.map[i], arg);
+          SETFLOAT(&x->x_map.maxlist[i], 0);
+        }
     }
   x->max = max;
   x->maxval = maxval;
@@ -208,7 +208,7 @@ void polystat_bang(t_polystat *x, t_symbol *s)
   outlet_float(x->voice, x->max);
 }
 
-void polystat_voices(t_polystat *x, t_symbol *s) //list all voices 
+void polystat_voices(t_polystat *x, t_symbol *s) //list all voices
 {
   int i, mindex, current;
   mindex=0;
@@ -216,10 +216,10 @@ void polystat_voices(t_polystat *x, t_symbol *s) //list all voices
     {
       current = atom_getfloatarg(i, MAXENTRIES, x->x_map.map);
       if(current>0)
-	{
-	  SETFLOAT(&x->x_map.outlist[mindex],(float)i);
-	  mindex++;
-	}
+        {
+          SETFLOAT(&x->x_map.outlist[mindex],(float)i);
+          mindex++;
+        }
     }
   outlet_list(x->mapped, gensym("list"), x->voices, x->x_map.outlist);
 }
@@ -229,7 +229,7 @@ void polystat_mode(t_polystat *x, t_floatarg fmode)
   x->mode = fmode;
 }
 
-void *polystat_new(t_floatarg f) 
+void *polystat_new(t_floatarg f)
 {
   t_polystat *x = (t_polystat *)pd_new(polystat_class);
   x->mode = f;
@@ -237,7 +237,7 @@ void *polystat_new(t_floatarg f)
   //memset(x->x_map.map, 0, MAXENTRIES);
   //memset(x->x_map.nomap, 1, MAXENTRIES);
   int i;
-  for(i=0;i<MAXENTRIES;i++) 
+  for(i=0;i<MAXENTRIES;i++)
     {
       SETFLOAT(x->x_map.map+i, 0);
       SETFLOAT(x->x_map.maxlist+i, 0);
@@ -250,7 +250,7 @@ void *polystat_new(t_floatarg f)
   return (void *)x;
 }
 
-void polystat_setup(void) 
+void polystat_setup(void)
 {
 
   polystat_class = class_new(gensym("polystat"),

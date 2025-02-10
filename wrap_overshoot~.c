@@ -40,25 +40,25 @@ static t_int *wrap_overshoot_tilde_perform(t_int *w)
     {
         x->f_s = *in++;
         x->k_i = x->f_s;
-	if(x->k_i > x->lastK && x->shootFlag != 0 && x->limitFlag == 0)
-	  {
-	    *out++ = x->f_s - x->k_i+1 + x->offset;
-	  }
-	else if(x->k_i > x->lastK && x->shootFlag != 0 && x->limitFlag != 0)
-	  {
-	    *out++ = x->f_s - x->k_i + x->offset;
-	  }
-	else if (x->f_s > 0) *out++ = x->f_s - x->k_i + x->offset;
+        if(x->k_i > x->lastK && x->shootFlag != 0 && x->limitFlag == 0)
+          {
+            *out++ = x->f_s - x->k_i+1 + x->offset;
+          }
+        else if(x->k_i > x->lastK && x->shootFlag != 0 && x->limitFlag != 0)
+          {
+            *out++ = x->f_s - x->k_i + x->offset;
+          }
+        else if (x->f_s > 0) *out++ = x->f_s - x->k_i + x->offset;
         else *out++ = x->f_s - (x->k_i - 1) + x->offset;
     }
     if(x->wLimit != 0 && x->k_i > 1)
       {
-	x->limitFlag = 1;
+        x->limitFlag = 1;
       }
     else if(x->wLimit != 0 && x->k_i < 1 && x->lastLimit == 1)
       {
-	x->limitFlag = 0;
-	x->wLimit = 0;
+        x->limitFlag = 0;
+        x->wLimit = 0;
       }
     x->lastK = x->k_i;
     x->lastLimit = x->limitFlag;
@@ -83,8 +83,8 @@ static void wrap_overshoot_tilde_dsp(t_wrap_overshoot_tilde *x, t_signal **sp)
 
 void wrap_overshoot_tilde_setup(void)
 {
-  wrap_overshoot_tilde_class = class_new(gensym("wrap_overshoot~"), 
-  (t_newmethod)wrap_overshoot_tilde_new, 
+  wrap_overshoot_tilde_class = class_new(gensym("wrap_overshoot~"),
+  (t_newmethod)wrap_overshoot_tilde_new,
   0, sizeof(t_wrap_overshoot_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
     CLASS_MAINSIGNALIN(wrap_overshoot_tilde_class, t_wrap_overshoot_tilde, x_f);

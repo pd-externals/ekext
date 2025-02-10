@@ -1,7 +1,7 @@
 /*
  * simile~ : windowed similarity comparison for signals
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -38,8 +38,8 @@ t_int *simile_tilde_perform(t_int *w) {
 }
 
 void simile_tilde_dsp(t_simile_tilde *x, t_signal **sp) {
-  dsp_add(simile_tilde_perform, 6, x, 
-	  sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
+  dsp_add(simile_tilde_perform, 6, x,
+          sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
 }
 
 void *simile_tilde_new(t_floatarg f) {
@@ -56,8 +56,8 @@ void *simile_tilde_new(t_floatarg f) {
 }
 
 void simile_tilde_setup(void) {
-  simile_tilde_class = class_new(gensym("simile~"), 
-  (t_newmethod)simile_tilde_new, 
+  simile_tilde_class = class_new(gensym("simile~"),
+  (t_newmethod)simile_tilde_new,
   0, sizeof(t_simile_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 

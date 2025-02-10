@@ -1,7 +1,7 @@
 /*
  * framespect~ : Weighted alpha comparison, block-by-block.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -9,7 +9,7 @@
 
 static t_class *framespect_tilde_class;
 
-typedef struct _framespect_tilde 
+typedef struct _framespect_tilde
 {
   t_object x_obj;
   t_float f;
@@ -19,7 +19,7 @@ typedef struct _framespect_tilde
 
 t_int *framespect_tilde_perform(t_int *w)
 {
-  t_framespect_tilde *x = (t_framespect_tilde *)(w[1]);  
+  t_framespect_tilde *x = (t_framespect_tilde *)(w[1]);
   t_sample       *real1 =           (t_sample *)(w[2]);
   t_sample       *imag1 =           (t_sample *)(w[3]);
   t_sample       *real2 =           (t_sample *)(w[4]);
@@ -55,14 +55,14 @@ t_int *framespect_tilde_perform(t_int *w)
   block_accum /= x->f_max;
   avg = score / block_accum;
   outlet_float(x->f_score, avg);
-  
+
   return(w+7);
 }
 
 void framespect_tilde_dsp(t_framespect_tilde *x, t_signal **sp)
 {
   dsp_add(framespect_tilde_perform, 6, x,
-	  sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
+          sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
 }
 
 void *framespect_tilde_new(t_floatarg f)
@@ -84,16 +84,16 @@ void *framespect_tilde_new(t_floatarg f)
 void framespect_tilde_setup(void)
 {
   framespect_tilde_class = class_new(gensym("framespect~"),
-				     (t_newmethod)framespect_tilde_new,
-				     0, sizeof(t_framespect_tilde),
-				     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                                     (t_newmethod)framespect_tilde_new,
+                                     0, sizeof(t_framespect_tilde),
+                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|'''''''''''framespect~'''''''''''''|");
   post("|'''''weighted alpha comparison'''''|");
   post("|'''edward'''''''kelly'''''''2005'''|");
 
   class_addmethod(framespect_tilde_class, (t_method)framespect_tilde_dsp,
-		  gensym("dsp"), 0);
+                  gensym("dsp"), 0);
 
   CLASS_MAINSIGNALIN(framespect_tilde_class, t_framespect_tilde, f);
 }

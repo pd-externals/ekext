@@ -1,9 +1,9 @@
 /* power of two?(1) or not?(0)
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution.
  */
- 
+
 #include "m_pd.h"
 #include <math.h>
 
@@ -38,7 +38,7 @@ void *ptwo_new(t_floatarg f)
   return(void *)y;
 }
 
-void ptwo_setup(void) 
+void ptwo_setup(void)
 {
   ptwo_class = class_new(gensym("ptwo"),
   (t_newmethod)ptwo_new,

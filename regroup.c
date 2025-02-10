@@ -1,10 +1,10 @@
 /* only allow standard lengths for rhythmic notation
  * part of the gemnotes system
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution.
  */
- 
+
 #include "m_pd.h"
 
 static t_int regroup_splits[264] =
@@ -36,31 +36,31 @@ void regroup_float(t_regroup *y, t_floatarg f)
     {
       y->input = (t_int)f;
       for(i = 0; i < 8; i++)
-	{
-	  y->thisVal = regroup_splits[y->input + i*33];
-	  if(i < 7)
-	    {
-	      y->nextVal = regroup_splits[y->input + (i+1)*33];
-	      if(y->nextVal > 0)
-		{
-		  y->tiedon = 1;
-		  outlet_float(y->tie, y->tiedon);
-		  outlet_float(y->out, (t_float)y->thisVal);
-		}
-	      else if(y->nextVal == 0 && y->thisVal > 0)
-		{
-		  y->tiedon = 0;
-		  outlet_float(y->tie, y->tiedon);
-		  outlet_float(y->out, (t_float)y->thisVal);
-		}
-	    }
-	  else if(y->thisVal > 0)
-	    {
-	      y->tiedon = 0;
-	      outlet_float(y->tie, y->tiedon);
-	      outlet_float(y->out, (t_float)y->thisVal);
-	    }
-	}
+        {
+          y->thisVal = regroup_splits[y->input + i*33];
+          if(i < 7)
+            {
+              y->nextVal = regroup_splits[y->input + (i+1)*33];
+              if(y->nextVal > 0)
+                {
+                  y->tiedon = 1;
+                  outlet_float(y->tie, y->tiedon);
+                  outlet_float(y->out, (t_float)y->thisVal);
+                }
+              else if(y->nextVal == 0 && y->thisVal > 0)
+                {
+                  y->tiedon = 0;
+                  outlet_float(y->tie, y->tiedon);
+                  outlet_float(y->out, (t_float)y->thisVal);
+                }
+            }
+          else if(y->thisVal > 0)
+            {
+              y->tiedon = 0;
+              outlet_float(y->tie, y->tiedon);
+              outlet_float(y->out, (t_float)y->thisVal);
+            }
+        }
     }
 }
 
@@ -71,27 +71,27 @@ void regroup_bang(t_regroup *y)
     {
       y->thisVal = regroup_splits[y->input + i*33];
       if(i < 7)
-	{
-	  y->nextVal = regroup_splits[y->input + (i+1)*33];
-	  if(y->nextVal > 0)
-	    {
-	      y->tiedon = 1;
-	      outlet_float(y->tie, y->tiedon);
-	      outlet_float(y->out, (t_float)y->thisVal);
-	    }
-	  else if(y->nextVal == 0 && y->thisVal > 0)
-	    {
-	      y->tiedon = 0;
-	      outlet_float(y->tie, y->tiedon);
-	      outlet_float(y->out, (t_float)y->thisVal);
-	    }
-	}
+        {
+          y->nextVal = regroup_splits[y->input + (i+1)*33];
+          if(y->nextVal > 0)
+            {
+              y->tiedon = 1;
+              outlet_float(y->tie, y->tiedon);
+              outlet_float(y->out, (t_float)y->thisVal);
+            }
+          else if(y->nextVal == 0 && y->thisVal > 0)
+            {
+              y->tiedon = 0;
+              outlet_float(y->tie, y->tiedon);
+              outlet_float(y->out, (t_float)y->thisVal);
+            }
+        }
       else if(y->thisVal > 0)
-	{
-	  y->tiedon = 0;
-	  outlet_float(y->tie, y->tiedon);
-	  outlet_float(y->out, (t_float)y->thisVal);
-	}
+        {
+          y->tiedon = 0;
+          outlet_float(y->tie, y->tiedon);
+          outlet_float(y->out, (t_float)y->thisVal);
+        }
     }
 }
 
@@ -104,7 +104,7 @@ void *regroup_new()
   return(void *)y;
 }
 
-void regroup_setup(void) 
+void regroup_setup(void)
 {
   regroup_class = class_new(gensym("regroup"),
   (t_newmethod)regroup_new,

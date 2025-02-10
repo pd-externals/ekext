@@ -1,7 +1,7 @@
 /* wfold~
  * control rate adjusted wavefolder~
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -22,13 +22,13 @@ t_int *wfold_tilde_perform(t_int *w) {
   t_sample     *out =       (t_sample *)(w[3]);
   int             n =              (int)(w[4]);
     t_float insample = 0;
-    
+
     x->threshold = x->threshold > 0 ? x->threshold < 1 ? x->threshold : 0.5 : 0.5;
     x->reciprocal = 1 / x->threshold;
     x->remainder = 1 - x->threshold;
     x->remciprocal = 1 / x->remainder;
-    
-  while (n--) 
+
+  while (n--)
   {
       insample = *in++;
       if(x->bipolar == 0) {
@@ -51,7 +51,7 @@ void wfold_tilde_dsp(t_wfold_tilde *x, t_signal **sp) {
 void wfold_tilde_mode(t_wfold_tilde *x, t_floatarg f) {
     x->mode = f;
 } */
-          
+
 void *wfold_tilde_new(t_floatarg f) {
   t_wfold_tilde *x = (t_wfold_tilde *)pd_new(wfold_tilde_class);
 
@@ -67,8 +67,8 @@ void *wfold_tilde_new(t_floatarg f) {
 }
 
 void wfold_tilde_setup(void) {
-  wfold_tilde_class = class_new(gensym("wfold~"), 
-  (t_newmethod)wfold_tilde_new, 
+  wfold_tilde_class = class_new(gensym("wfold~"),
+  (t_newmethod)wfold_tilde_new,
   0, sizeof(t_wfold_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 

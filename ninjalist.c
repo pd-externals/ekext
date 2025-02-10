@@ -1,7 +1,7 @@
 /* takes a map like 0 1 3 4 7 and only returns the number if it is present */
 /* based on sieve by Edward Kelly
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -35,7 +35,7 @@ void ninjalist_float(t_ninjalist *x, t_floatarg fin)
   outlet_float(x->mapped, arg);
 }
 
-void ninjalist_set(t_ninjalist *x, t_floatarg fmap, t_floatarg fval) /* set one value 
+void ninjalist_set(t_ninjalist *x, t_floatarg fmap, t_floatarg fval) /* set one value
                                                                 in the array */
 {
   t_float fvaller;
@@ -58,18 +58,18 @@ void ninjalist_delete(t_ninjalist *x, t_floatarg loc) /* remove a value */
   if(loc<x->max && loc>=0)
     {
       for(i=addloc;i<=maxentry;i++)
-	{
-	  buffer = atom_getfloatarg(i,MAXENTRIES,x->x_map.map);
-	  SETFLOAT(&x->x_map.map[i-1],buffer);
-	  if(buffer!=0)
-	    {
-	      SETFLOAT(&x->x_map.nomap[i-1],0);
-	    }
-	  else
-	    {
-	      SETFLOAT(&x->x_map.nomap[i-1],1);
-	    }
-	}
+        {
+          buffer = atom_getfloatarg(i,MAXENTRIES,x->x_map.map);
+          SETFLOAT(&x->x_map.map[i-1],buffer);
+          if(buffer!=0)
+            {
+              SETFLOAT(&x->x_map.nomap[i-1],0);
+            }
+          else
+            {
+              SETFLOAT(&x->x_map.nomap[i-1],1);
+            }
+        }
       SETFLOAT(&x->x_map.map[maxentry],0);
       x->max--;
     }
@@ -90,34 +90,34 @@ void ninjalist_insert(t_ninjalist *x, t_floatarg loc, t_floatarg val)
   if(loc>=0 && maxentry < MAXENTRIES)
     {
       for(i=maxentry;i>=location;i--)
-	{
-	  buffer = atom_getfloatarg(i-1,MAXENTRIES,x->x_map.map);
-	  SETFLOAT(&x->x_map.map[i],buffer);
-	  if(buffer!=0)
-	    {
-	      SETFLOAT(&x->x_map.nomap[i],0);
-	    }
-	  else
-	    {
-       	      SETFLOAT(&x->x_map.nomap[i],1);
-	    }
-	}
+        {
+          buffer = atom_getfloatarg(i-1,MAXENTRIES,x->x_map.map);
+          SETFLOAT(&x->x_map.map[i],buffer);
+          if(buffer!=0)
+            {
+              SETFLOAT(&x->x_map.nomap[i],0);
+            }
+          else
+            {
+              SETFLOAT(&x->x_map.nomap[i],1);
+            }
+        }
       x->max++;
       SETFLOAT(&x->x_map.map[location], val);
-      if(val) 
-	{
-	  SETFLOAT(&x->x_map.nomap[location],0);
-	}
+      if(val)
+        {
+          SETFLOAT(&x->x_map.nomap[location],0);
+        }
       else
-	{
-	  SETFLOAT(&x->x_map.nomap[location],1);
-	}
+        {
+          SETFLOAT(&x->x_map.nomap[location],1);
+        }
     }
 }
 
 void ninjalist_get(t_ninjalist *x, t_floatarg inv) /* outlet to map or inverse */
 {
-  if(inv!=0) 
+  if(inv!=0)
     {
       outlet_list(x->mapout, gensym("list"), x->max+1, x->x_map.nomap);
     }
@@ -128,7 +128,7 @@ void ninjalist_get(t_ninjalist *x, t_floatarg inv) /* outlet to map or inverse *
 void ninjalist_clear(t_ninjalist *x)
 {
   int i;
-  for(i=0;i<MAXENTRIES;i++) 
+  for(i=0;i<MAXENTRIES;i++)
     {
       SETFLOAT(&x->x_map.map[i], 0);
       SETFLOAT(&x->x_map.nomap[i], 1);
@@ -139,22 +139,22 @@ void ninjalist_clear(t_ninjalist *x)
 void ninjalist_map(t_ninjalist *x, t_symbol *s, int argc, t_atom *argv) /* set the whole map */
 {
   int i;
-  for(i=0;i<MAXENTRIES;i++) 
+  for(i=0;i<MAXENTRIES;i++)
     {
       SETFLOAT(x->x_map.map+i, 0);
       SETFLOAT(x->x_map.nomap+i, 1);
     }
   x->max = 0;
   t_float arg;
-  for(i=0;i<argc;i++) 
+  for(i=0;i<argc;i++)
     {
       arg = atom_getfloat(argv+i);
       if(arg != 0)
-	{
-	  SETFLOAT(&x->x_map.map[i], arg);
-	  SETFLOAT(&x->x_map.nomap[i], 0);
-	  x->max = i;
-	}
+        {
+          SETFLOAT(&x->x_map.map[i], arg);
+          SETFLOAT(&x->x_map.nomap[i], 0);
+          x->max = i;
+        }
     }
   if (x->max > 0 && x->outmap == 0)
     {
@@ -166,13 +166,13 @@ void ninjalist_map(t_ninjalist *x, t_symbol *s, int argc, t_atom *argv) /* set t
     }
 }
 
-void *ninjalist_new(t_floatarg f) 
+void *ninjalist_new(t_floatarg f)
 {
   t_ninjalist *x = (t_ninjalist *)pd_new(ninjalist_class);
   x->max = 0;
   x->outmap = 0;
   int i;
-  for(i=0;i<MAXENTRIES;i++) 
+  for(i=0;i<MAXENTRIES;i++)
     {
       SETFLOAT(x->x_map.map+i, 0);
       SETFLOAT(x->x_map.nomap+i, 1);
@@ -184,7 +184,7 @@ void *ninjalist_new(t_floatarg f)
   return (void *)x;
 }
 
-void ninjalist_setup(void) 
+void ninjalist_setup(void)
 {
   ninjalist_class = class_new(gensym("ninjalist"),
   (t_newmethod)ninjalist_new,

@@ -1,7 +1,7 @@
 /*
- * hasc~ : Highest Apparent Spectral Component, according to a magnitude threshold 
+ * hasc~ : Highest Apparent Spectral Component, according to a magnitude threshold
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -14,7 +14,7 @@
 
 static t_class *hasc_tilde_class;
 
-typedef struct _hasc_tilde 
+typedef struct _hasc_tilde
 {
   t_object x_obj;
   t_float f;
@@ -53,7 +53,7 @@ t_int *hasc_tilde_perform(t_int *w)
 void hasc_tilde_dsp(t_hasc_tilde *x, t_signal **sp)
 {
   dsp_add(hasc_tilde_perform, 4, x,
-	  sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
+          sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
 }
 
 void *hasc_tilde_new(t_floatarg f)
@@ -73,16 +73,16 @@ void *hasc_tilde_new(t_floatarg f)
 void hasc_tilde_setup(void)
 {
   hasc_tilde_class = class_new(gensym("hasc~"),
-				     (t_newmethod)hasc_tilde_new,
-				     0, sizeof(t_hasc_tilde),
-				     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                                     (t_newmethod)hasc_tilde_new,
+                                     0, sizeof(t_hasc_tilde),
+                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|===============hasc~=================|");
   post("|=highest apparent spectral component=|");
   post("|=====edward======kelly======2005=====|");
 
   class_addmethod(hasc_tilde_class, (t_method)hasc_tilde_dsp,
-		  gensym("dsp"), 0);
+                  gensym("dsp"), 0);
 
   CLASS_MAINSIGNALIN(hasc_tilde_class, t_hasc_tilde, f);
 }

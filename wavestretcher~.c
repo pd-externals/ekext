@@ -1,7 +1,7 @@
 /*
  * wavestretcher~ - above and below a threshold, the waveform is stretched or squashed
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -41,8 +41,8 @@ t_int *wavestretcher_tilde_perform(t_int *w) {
     t_float reciprocal = 0;
     t_float remainder = 0;
     t_float remciprocal = 0;
-        
-  while (n--) 
+
+  while (n--)
   {
       insample = *in++;
       thsample = saturate(*thresh++);
@@ -70,11 +70,11 @@ t_int *wavestretcher_tilde_perform(t_int *w) {
 void wavestretcher_tilde_bipolar(t_wavestretcher_tilde *x, t_floatarg f) {
     x->bipolar = f;
 }
-    
+
 void wavestretcher_tilde_dsp(t_wavestretcher_tilde *x, t_signal **sp) {
   dsp_add(wavestretcher_tilde_perform, 6, x, sp[0]->s_vec, sp[1]->s_vec, sp[2]->s_vec, sp[3]->s_vec, sp[0]->s_n);
 }
-          
+
 void *wavestretcher_tilde_new(t_floatarg f) {
   t_wavestretcher_tilde *x = (t_wavestretcher_tilde *)pd_new(wavestretcher_tilde_class);
 
@@ -85,8 +85,8 @@ void *wavestretcher_tilde_new(t_floatarg f) {
 }
 
 void wavestretcher_tilde_setup(void) {
-  wavestretcher_tilde_class = class_new(gensym("wavestretcher~"), 
-  (t_newmethod)wavestretcher_tilde_new, 
+  wavestretcher_tilde_class = class_new(gensym("wavestretcher~"),
+  (t_newmethod)wavestretcher_tilde_new,
   0, sizeof(t_wavestretcher_tilde),
   CLASS_DEFAULT, A_DEFFLOAT, 0);
 

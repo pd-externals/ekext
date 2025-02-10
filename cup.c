@@ -1,12 +1,12 @@
 /* cup counts up ^_^
  *
- * Oh, for goodness sake. This counts up! That's all. 
+ * Oh, for goodness sake. This counts up! That's all.
  * What grain of sand do I own on the beach that prevents you from walking on it?
  * Go ahead - make your own sandcastle.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
- 
+
 #include "m_pd.h"
 
 t_class *cup_class;
@@ -45,7 +45,7 @@ void *cup_new(t_floatarg f)
   return(void *)y;
 }
 
-void cup_setup(void) 
+void cup_setup(void)
 {
   cup_class = class_new(gensym("cup"),
   (t_newmethod)cup_new,

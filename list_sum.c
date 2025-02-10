@@ -1,6 +1,6 @@
 /* list_sum - total sum of list values, with setting of each element independently
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -32,15 +32,15 @@ void list_sum_all(t_list_sum *x, t_symbol *s, int argc, t_atom *argv)
       current = atom_getfloat(argv+i);
       SETFLOAT(&x->contents.list[i], current);
       if(i<=maxindex)
-	{
-	  x->total += current;
-	}
+        {
+          x->total += current;
+        }
       else if (i > maxindex && x->wrap > x->maxlen && i < x->wrap)
-	{
-	  j = i % (int)x->maxlen;
-	  current = atom_getfloat(argv+j);
-	  x->total += current;
-	}
+        {
+          j = i % (int)x->maxlen;
+          current = atom_getfloat(argv+j);
+          x->total += current;
+        }
     }
   x->highest = (t_float)argc-1;
   outlet_float(x->length, (t_float)argc);
@@ -58,28 +58,28 @@ void list_sum_set(t_list_sum *x, t_floatarg element, t_floatarg value)
       indx = (int)f_indx;
       x->highest = f_indx > x->highest ? f_indx : x->highest;
       if(x->wrap <= x->maxlen)
-	{
-	  top = x->highest >= x->maxlen ? x->maxlen : x->highest + 1;
-	}
+        {
+          top = x->highest >= x->maxlen ? x->maxlen : x->highest + 1;
+        }
       else
-	{
-	  top = x->highest >= x->wrap ? x->wrap : x->highest + 1;
-	}
+        {
+          top = x->highest >= x->wrap ? x->wrap : x->highest + 1;
+        }
       SETFLOAT(&x->contents.list[indx], value);
       for(i=0;i<top;i++)
-	{
-	  if(i<x->maxlen)
-	    {
-	      current = atom_getfloatarg(i, 1024, x->contents.list);
-	      x->total += current;
-	    }
-	  else
-	    {
-	      j = i % (int)x->maxlen;
-	      current = atom_getfloatarg(j, 1024, x->contents.list);
-	      x->total += current;
-	    }
-	}
+        {
+          if(i<x->maxlen)
+            {
+              current = atom_getfloatarg(i, 1024, x->contents.list);
+              x->total += current;
+            }
+          else
+            {
+              j = i % (int)x->maxlen;
+              current = atom_getfloatarg(j, 1024, x->contents.list);
+              x->total += current;
+            }
+        }
       outlet_float(x->length, x->highest+1);
       outlet_float(x->sum, x->total);
     }

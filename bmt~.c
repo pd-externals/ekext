@@ -1,7 +1,7 @@
 /*
- * bmt~ : bassmidtreble, or an arbitrary number of FFT bands according to threshold values. 
+ * bmt~ : bassmidtreble, or an arbitrary number of FFT bands according to threshold values.
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -14,7 +14,7 @@
 
 static t_class *bmt_tilde_class;
 
-typedef struct _bmt_tilde 
+typedef struct _bmt_tilde
 {
   t_object x_obj;
   t_atom levels[128]; // a ridiculous number of bands!!!
@@ -42,7 +42,7 @@ t_int *bmt_tilde_perform(t_int *w)
   t_float bsize = n_real / x->length;
   t_float block = 0;
   t_float reblock = 0;
-  if(x->newLength != x->length && x->newLength <= 128 && x->newLength > 0) 
+  if(x->newLength != x->length && x->newLength <= 128 && x->newLength > 0)
      x->length = x->newLength;
   int ilength = (int)(x->length);
   int iblock = 0;
@@ -52,42 +52,42 @@ t_int *bmt_tilde_perform(t_int *w)
       vectorr = (*real++);
       vectori = (*imag++);
       if (n > n_real)
-	{
-	  if (x->mode == 0)
-	    {
-	      reblock = block;
-	      alpha = sqrt((vectorr * vectorr) + (vectori * vectori));
-	      block = (int)(incr / bsize);
-	      iblock = (int)(block);
-	      if (block != reblock)
-		{
-		  max = alpha;
-		}
-	      else if (alpha > max)
-		{
-		  max = alpha;
-		  SETFLOAT(&x->levels[iblock], max);
-		  SETFLOAT(&x->binmost[iblock], incr-((int)(block*bsize)));
-		}
-	    }
-	  else if (x->mode == 1)
-	    {
-	      reblock = block;
-	      alpha = sqrt((vectorr * vectorr) + (vectori * vectori));
-	      block = (int)(incr / bsize);
-	      iblock = (int)(block);
-	      if (block != reblock)
-		{
-		  max = alpha;
-		}
-	      else if (block == reblock)
-		{
-		  max += alpha;
-		  SETFLOAT(&x->levels[iblock], max);
-		  SETFLOAT(&x->binmost[iblock], incr-((int)(block*bsize)));
-		}
-	    }
-      } 
+        {
+          if (x->mode == 0)
+            {
+              reblock = block;
+              alpha = sqrt((vectorr * vectorr) + (vectori * vectori));
+              block = (int)(incr / bsize);
+              iblock = (int)(block);
+              if (block != reblock)
+                {
+                  max = alpha;
+                }
+              else if (alpha > max)
+                {
+                  max = alpha;
+                  SETFLOAT(&x->levels[iblock], max);
+                  SETFLOAT(&x->binmost[iblock], incr-((int)(block*bsize)));
+                }
+            }
+          else if (x->mode == 1)
+            {
+              reblock = block;
+              alpha = sqrt((vectorr * vectorr) + (vectori * vectori));
+              block = (int)(incr / bsize);
+              iblock = (int)(block);
+              if (block != reblock)
+                {
+                  max = alpha;
+                }
+              else if (block == reblock)
+                {
+                  max += alpha;
+                  SETFLOAT(&x->levels[iblock], max);
+                  SETFLOAT(&x->binmost[iblock], incr-((int)(block*bsize)));
+                }
+            }
+      }
       incr++;
     }
   outlet_list(x->bins, gensym("list"), ilength, x->binmost);
@@ -112,7 +112,7 @@ void bmt_tilde_channels(t_bmt_tilde *x, t_floatarg n)
 void bmt_tilde_dsp(t_bmt_tilde *x, t_signal **sp)
 {
   dsp_add(bmt_tilde_perform, 4, x,
-	  sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
+          sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
 }
 
 void *bmt_tilde_new(t_floatarg nbands)
@@ -127,8 +127,8 @@ void *bmt_tilde_new(t_floatarg nbands)
   x->mode = 0; //make this a creation arg...Ed
   for(i=0;i<128;i++)
     {
-	  SETFLOAT(&x->levels[i], 0);
-	  SETFLOAT(&x->binmost[i], 0);
+          SETFLOAT(&x->levels[i], 0);
+          SETFLOAT(&x->binmost[i], 0);
     }
   x->bmt = outlet_new(&x->x_obj, gensym("list"));
   x->bins = outlet_new(&x->x_obj, gensym("list"));
@@ -138,16 +138,16 @@ void *bmt_tilde_new(t_floatarg nbands)
 void bmt_tilde_setup(void)
 {
   bmt_tilde_class = class_new(gensym("bmt~"),
-				     (t_newmethod)bmt_tilde_new,
-				     0, sizeof(t_bmt_tilde),
-				     CLASS_DEFAULT, A_DEFFLOAT, 0);
+                                     (t_newmethod)bmt_tilde_new,
+                                     0, sizeof(t_bmt_tilde),
+                                     CLASS_DEFAULT, A_DEFFLOAT, 0);
 
   post("|=======bmt~========|");
   post("|=bass==mid==treble=|");
   post("|=ed==kelly===2010==|");
 
   class_addmethod(bmt_tilde_class, (t_method)bmt_tilde_dsp,
-		  gensym("dsp"), 0);
+                  gensym("dsp"), 0);
   class_addmethod(bmt_tilde_class, (t_method)bmt_tilde_mode, gensym("mode"), A_DEFFLOAT, 0);
   class_addmethod(bmt_tilde_class, (t_method)bmt_tilde_channels, gensym("channels"), A_DEFFLOAT, 3);
   CLASS_MAINSIGNALIN(bmt_tilde_class, t_bmt_tilde, f);

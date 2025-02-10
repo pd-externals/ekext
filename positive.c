@@ -1,7 +1,7 @@
 /*
  * positive - wraps floats back into positive numbers from negative
  * Copyright (c) 2005-2023 Edward Kelly
- * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL 
+ * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
 #include "m_pd.h"
@@ -17,14 +17,14 @@ typedef struct _positive
 
 void positive_float(t_positive *y, t_floatarg f)
 {
-	y->value = f;
-	if(y->value < 0)
-	{
-		int i = (int)y->value;
-		i = i * -1 + 1;
-		y->value += (float)i;
-	}
-	outlet_float(y->positive, y->value);
+        y->value = f;
+        if(y->value < 0)
+        {
+                int i = (int)y->value;
+                i = i * -1 + 1;
+                y->value += (float)i;
+        }
+        outlet_float(y->positive, y->value);
 }
 
 void positive_bang(t_positive *y)
@@ -40,12 +40,12 @@ void *positive_new(t_floatarg f)
   return(void *)y;
 }
 
-void positive_setup(void) 
+void positive_setup(void)
 {
   positive_class = class_new(gensym("positive"),
   (t_newmethod)positive_new,
   0, sizeof(t_positive),
-			       0, A_DEFFLOAT, 0);
+                               0, A_DEFFLOAT, 0);
   post("positive always returns a positive value");
   post("negative values are shifted up");
 
