@@ -7,7 +7,7 @@
 
 #include "m_pd.h"
 
-static t_int regroup_splits[264] =
+static int regroup_splits[264] =
   /* 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 */
   {0,1,2,3,4,3,3,4,4,3,3, 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 6, 4, 4, 4, 4, 4,
    0,0,0,0,0,2,3,3,4,3,3, 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 4, 4, 4, 4, 4,
@@ -23,7 +23,7 @@ t_class *regroup_class;
 typedef struct _regroup
 {
   t_object x_obj;
-  t_int input, thisVal, nextVal, tiedon;
+  int input, thisVal, nextVal, tiedon;
   t_outlet *out, *tie;
 } t_regroup;
 
@@ -34,7 +34,7 @@ void regroup_float(t_regroup *y, t_floatarg f)
   else if(f == 0) outlet_float(y->out, 0);
   else
     {
-      y->input = (t_int)f;
+      y->input = (int)f;
       for(i = 0; i < 8; i++)
         {
           y->thisVal = regroup_splits[y->input + i*33];

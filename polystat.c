@@ -23,7 +23,7 @@ typedef struct _polystat
 {
   t_object x_obj;
   t_map x_map;
-  t_int voices, max, maxval, maxindex, maxflag, maxcount, highest, mode;
+  int voices, max, maxval, maxindex, maxflag, maxcount, highest, mode;
   t_outlet *voice, *value, *vars, *maxvox, *mapped;
 } t_polystat;
 

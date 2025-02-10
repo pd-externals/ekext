@@ -161,7 +161,7 @@ t_int *isoWrap_tilde_perform(t_int *w)
   t_isoWrap_tilde *x = (t_isoWrap_tilde *)(w[1]);
   t_sample *in  = (t_sample *)(w[2]);
   t_sample *out = (t_sample *)(w[3]);
-  t_int n       = (t_int)(w[4]);
+  int   n       = (int)(w[4]);
   while(n--)
     {
       x->f_i = *in++ * x->inMult;

@@ -12,7 +12,7 @@ t_class *ptwo_class;
 typedef struct _ptwo
 {
   t_object x_obj;
-  t_int isTwoYes;
+  int isTwoYes;
   unsigned long inVal;
   t_outlet *isTwo;
 } t_ptwo;

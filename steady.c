@@ -13,7 +13,7 @@ typedef struct _steady
   t_float f_min;
   t_float f_max;
   t_float f_prev;
-  t_int resetflag;
+  int resetflag;
   t_float f_in, f_maxjump;
   t_outlet *max, *min, *smooth;
 } t_steady;

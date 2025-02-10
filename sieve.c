@@ -41,7 +41,7 @@ typedef struct _sieve
   t_object x_obj;
   t_map x_map;
   t_float input, mode, outmap, myBug, aim, markovResult, weight, slotVal;
-  t_int markovIndex, max, favourite, urnRem, rLoc, uLoc, umax;
+  int markovIndex, max, favourite, urnRem, rLoc, uLoc, umax;
   t_outlet *mapped, *value, *mapout, *inst;
   unsigned short int seed16v[3];
   double random;
@@ -215,7 +215,7 @@ void sieve_float(t_sieve *x, t_floatarg fin)
     }
 }
 
-t_int randLoc(t_sieve *x, t_float range)
+int randLoc(t_sieve *x, t_float range)
 {
   //timeval tv;
   sieve_makeseed(x);
@@ -224,12 +224,12 @@ t_int randLoc(t_sieve *x, t_float range)
   x->random = (drand48() * range) + 0.9; // I need to check whether the 0.9 is necessary to get the last value!
   if(x->myBug == 3) post("dRand48 == %f",(t_float)x->random);
 
-  return((t_int)x->random);
+  return((int)x->random);
 }
 
 void sieve_umap(t_sieve *x)
 {
-  t_int i;
+  int i;
   t_float f;
   x->umax = 0;
   for(i = 0; i <= x->max; i++)
@@ -252,13 +252,13 @@ void sieve_urn(t_sieve *x)
       x->rLoc = randLoc(x, x->umax);
       x->slotVal = -1;
 
-      t_int uLoc = 0;
+      int uLoc = 0;
 
       //x->urnRem = x->umax; // set this in sieve_umap, not here!
       while(x->urnRem > 0)
         {
           //the umap table cross-references the map table
-          uLoc = (t_int)atom_getfloatarg(x->rLoc, MAXENTRIES, x->x_map.umap);
+          uLoc = (int)atom_getfloatarg(x->rLoc, MAXENTRIES, x->x_map.umap);
           x->slotVal = atom_getfloatarg(uLoc, MAXENTRIES, x->x_map.map);
           if(x->slotVal != -1 && x->urnRem > 0)
             {
@@ -272,7 +272,7 @@ void sieve_urn(t_sieve *x)
           else if(x->urnRem == 0)
             {
               sieve_umap(x);
-              uLoc = (t_int)atom_getfloatarg(x->rLoc, MAXENTRIES, x->x_map.umap);
+              uLoc = (int)atom_getfloatarg(x->rLoc, MAXENTRIES, x->x_map.umap);
               x->slotVal = atom_getfloatarg(uLoc, MAXENTRIES, x->x_map.map);
               outlet_float(x->mapped, (t_float)x->rLoc);
               outlet_float(x->value, x->slotVal);
@@ -330,7 +330,7 @@ void sieve_urn(t_sieve *x)
 void sieve_set(t_sieve *x, t_floatarg fmap, t_floatarg fval) /* set one value in the array */
 {
   t_float fvaller;
-  t_int mapper = (t_int)fmap;
+  int mapper = (int)fmap;
   if(mapper < MAXENTRIES && mapper >= 0)
     {
       fvaller = fval != 0 ? 0 : 1;
@@ -355,7 +355,7 @@ void sieve_anneal(t_sieve *x, t_floatarg aim) /* reduce all values so that they 
 {
   if(aim != 0) x->aim = aim;
   else x->aim = DEFAULTTARGET;
-  t_int index;
+  int index;
   x->aim = aim;
   t_float totalValue = 0;
   t_float multiplier = 1;
@@ -405,9 +405,9 @@ void sieve_anneal(t_sieve *x, t_floatarg aim) /* reduce all values so that they 
 
 void sieve_weight(t_sieve *x, t_floatarg which, t_floatarg weighting)// make a certain location more likely by weighting
 { // re-weight the array so that it is more likely to be one than another, in its Markov probability, by a fractional amount
-  x->favourite = (t_int)which;
+  x->favourite = (int)which;
   x->weight = weighting;
-  t_int index;
+  int index;
   t_float thisValue = 0;
   if(x->favourite >= x->max) post("that location is out-of-range. favour = %d, x->max = %d",x->favourite,x->max);
   if(x->weight >= 1.0) post("warning - you are making it impossible for outher outcomes! weight == %f", x->weight);

@@ -27,10 +27,10 @@ typedef struct drand48_data *randomChoice;
 typedef struct _map
 {
   t_atom values[ARRAYSIZE];
-  t_int current[ARRAYSIZE];
+  int current[ARRAYSIZE];
   t_atom boundary[ARRAYSIZE];
-  t_int length[HALFARRAY];
-  t_int starts[HALFARRAY]; // start of each slot (index offset)
+  int length[HALFARRAY];
+  int starts[HALFARRAY]; // start of each slot (index offset)
   t_atom normalize[HALFARRAY];
   t_atom listOut[ARRAYSIZE];
   //  t_atom infoPos[HALFARRAY]; // position of slot start
@@ -43,18 +43,18 @@ typedef struct _markovChains {
   unsigned short int seed16v[3];
   t_float seed1, seed2, seed3;
   t_float normValue, runningTot; //do we need runningTot ?
-  t_int current, totLen, isInit;
-  t_int thisOffset, thisSlot, thisLen, maxLen, addLen, addOffset, addSlot, noZero;
-  t_int nextSlot, maxSlot, nextOffset, nextLen, maxOffset;
-  t_int autoNorm;
+  int current, totLen, isInit;
+  int thisOffset, thisSlot, thisLen, maxLen, addLen, addOffset, addSlot, noZero;
+  int nextSlot, maxSlot, nextOffset, nextLen, maxOffset;
+  int autoNorm;
 
-  t_int thisIndex, isChange;
+  int thisIndex, isChange;
   t_float val1, valNorm, thisRand, thisTot, addTot, totValue, thisBound, lastBound;
 
   //outList
-  t_int outLen, outOffset, outVal;
+  int outLen, outOffset, outVal;
 
-  t_int myBug;
+  int myBug;
 
   t_outlet *index, *value, *slot, *randOut, *listValues, *debugList;
 
@@ -173,7 +173,7 @@ void markovChains_bang(t_markovChains *x)
 
 void markovChains_float(t_markovChains *x, t_floatarg f) // go to a slot and make a markov choice from there
 {
-  t_int iIn = (t_int)f;
+  int iIn = (int)f;
   double randNum = drand48();
   x->thisRand = (t_float)randNum;
   int i;
@@ -226,8 +226,8 @@ void markovChains_float(t_markovChains *x, t_floatarg f) // go to a slot and mak
 
 void markovChains_outList(t_markovChains *x, t_floatarg f)
 {
-  t_int ndx = (t_int)f;
-  t_int i, j;
+  int ndx = (int)f;
+  int i, j;
   t_float val2;
   if(ndx > -1 && ndx <= x->maxSlot)
     {
@@ -265,14 +265,14 @@ void markovChains_outList(t_markovChains *x, t_floatarg f)
 
 void markovChains_addSeq(t_markovChains *x, t_symbol *s, int argc, t_atom *argv) //after nextSlot (above)
 {
-  t_int i;
-  t_int newMaxSlot = x->maxSlot + 1;
+  int i;
+  int newMaxSlot = x->maxSlot + 1;
   t_float val1;
   // minumum length = 2
   if(argc >= 2 && ARRAYSIZE - x->nextOffset > argc && argc <= x->maxLen)
     {
 
-      x->addLen = (t_int)argc;
+      x->addLen = (int)argc;
       if(x->addLen > x->maxLen) x->addLen = x->maxLen;
       x->map.length[newMaxSlot] = x->addLen;
       x->addOffset = x->map.starts[x->maxSlot] + x->map.length[x->maxSlot];
@@ -319,8 +319,8 @@ void markovChains_addSeq(t_markovChains *x, t_symbol *s, int argc, t_atom *argv)
 
 void markovChains_addVal(t_markovChains *x, t_floatarg i, t_floatarg f)
 {
-  t_int index = (t_int)i;
-  t_int j;
+  int index = (int)i;
+  int j;
   t_float val1;
   SETFLOAT(&x->map.values[x->thisOffset + index], f);
   SETFLOAT(&x->map.listOut[index], f);
@@ -364,7 +364,7 @@ void markovChains_noZeros(t_markovChains *x, t_floatarg f)
 
 void markovChains_clear(t_markovChains *x, t_floatarg f)
 {
-  t_int i;
+  int i;
   for(i=0; i<ARRAYSIZE; i++)
     {
       x->map.current[i] = 0;
@@ -407,7 +407,7 @@ void markovChains_setSlot(t_markovChains *x, t_floatarg f)
 {
   if(f > 0 && f < x->maxSlot)
     {
-      x->thisSlot = (t_int)f;
+      x->thisSlot = (int)f;
       x->thisOffset = x->map.starts[x->thisSlot];
       x->thisLen = x->map.length[x->thisSlot];
       x->normValue = atom_getfloatarg(x->thisSlot, HALFARRAY, x->map.normalize);
@@ -450,7 +450,7 @@ void markovChains_debug(t_markovChains *x, t_floatarg f)
 {
   if(f >= 0)
     {
-      x->myBug = (t_int)f;
+      x->myBug = (int)f;
       if(x->myBug == 1)
         {
           //t_atom listOut[ARRAYSIZE];
@@ -495,7 +495,7 @@ void *markovChains_new(t_floatarg f) // f = maxlength
   x->isInit = 1;
   if(f > 0)
     {
-      x->thisLen = (t_int)f;
+      x->thisLen = (int)f;
       x->maxLen = x->thisLen;
     }
   else

@@ -14,7 +14,7 @@ t_class *cupd_class;
 typedef struct _cupd
 {
   t_object x_obj;
-  t_int f_count;
+  int f_count;
   t_float f_dir, f_prevdir, firstbang, floatset;
   t_outlet *count;
 } t_cupd;

@@ -17,9 +17,9 @@ typedef struct copyarray
   t_symbol *x_sourcearray;
   t_garray *x_destbuf;
   t_garray *x_sourcebuf;
-  t_int    x_start;
-  t_int    x_end;
-  t_int    x_pos;
+  int    x_start;
+  int    x_end;
+  int    x_pos;
   short    x_print;
 } t_copyarray;
 
@@ -79,7 +79,7 @@ static void copyarray_docopy(t_copyarray *x)
   t_garray *b;            /* make local copy of array */
   arraynumber_t *tab;  /* the content itself */
   int sourcesize, destsize;
-  t_int i;
+  int i;
   t_garray *A;
   arraynumber_t *vec;
 
@@ -211,7 +211,7 @@ static void copyarray_copy(t_copyarray *x, t_symbol *s, int argc, t_atom *argv)
       else    // offset given
         {
           t_symbol *offset = atom_getsymbolarg(2, argc, argv);
-          x->x_end = (t_int)atoi(offset->s_name) + x->x_start;
+          x->x_end = (int)atoi(offset->s_name) + x->x_start;
         }
       x->x_pos = 0;
     }
@@ -226,7 +226,7 @@ static void copyarray_copy(t_copyarray *x, t_symbol *s, int argc, t_atom *argv)
       else    // offset given
         {
           t_symbol *offset = atom_getsymbolarg(2, argc, argv);
-          x->x_end = (t_int)atoi(offset->s_name) + x->x_start;
+          x->x_end = (int)atoi(offset->s_name) + x->x_start;
         }
       x->x_destarray = atom_getsymbolarg(3, argc, argv);
       copyarray_setdestarray(x, x->x_destarray);
@@ -243,7 +243,7 @@ static void copyarray_copy(t_copyarray *x, t_symbol *s, int argc, t_atom *argv)
       else    // offset given
         {
           t_symbol *offset = atom_getsymbolarg(2, argc, argv);
-          x->x_end = (t_int)atoi(offset->s_name) + x->x_start;
+          x->x_end = (int)atoi(offset->s_name) + x->x_start;
         }
       x->x_destarray = atom_getsymbolarg(3, argc, argv);
       copyarray_setdestarray(x, x->x_destarray);

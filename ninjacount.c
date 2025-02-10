@@ -11,7 +11,7 @@ t_class *ninjacount_class;
 typedef struct _ninjacount
 {
   t_object x_obj;
-  t_int f_count;
+  int f_count;
   t_float f_dir, f_prevdir, upper, lower, newfloat;
   t_outlet *count; //, *dir;
 } t_ninjacount;

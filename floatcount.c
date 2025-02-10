@@ -14,7 +14,7 @@ typedef struct _floatcount
 {
   t_object x_obj;
   t_float floatcount, prev, recount, remainder, step, sign, low, high, range, difference;
-  t_int f_int, init, signchange, remfloat, newfloat;
+  int f_int, init, signchange, remfloat, newfloat;
   t_outlet *count, *icount, *remain, *diff, *isign, *wrapped;
 } t_floatcount;
 

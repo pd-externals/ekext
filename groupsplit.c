@@ -20,7 +20,7 @@ typedef struct _groupsplit
   t_atom tSig[2];
   t_atom gSig[2];
   t_float barNum, barDen, barPhase, tPhase, num, den;
-  t_int group, rem, iStep, iRem, iSplit, tied, gCount, nCount, firstStep, mode, nGrps, myBug, nSplits, tSplit, allStep, inter, rested;
+  int group, rem, iStep, iRem, iSplit, tied, gCount, nCount, firstStep, mode, nGrps, myBug, nSplits, tSplit, allStep, inter, rested;
   t_outlet *step, *split, *tie, *newGroup, *bar, *groupSig, *beamStart;
 } t_groupsplit;
 
@@ -32,7 +32,7 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
   if(y->iStep <= 0) post("input must be > 0");
   else if(y->mode == 0 || y->mode == 2)
     {
-      y->iStep = (t_int)f;
+      y->iStep = (int)f;
       if(y->firstStep == 1)
         {
           outlet_bang(y->newGroup);
@@ -48,8 +48,8 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
         {
           y->tied = 1;
           y->allStep += y->rem;
-          if(y->mode == 2 || y->mode == 3) y->iSplit = (t_int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
-          if(y->mode == 0) y->iSplit = (t_int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
+          if(y->mode == 2 || y->mode == 3) y->iSplit = (int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
+          if(y->mode == 0) y->iSplit = (int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -75,8 +75,8 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
         {
           y->tied = 0;
           y->allStep += y->rem;
-          if(y->mode == 2 || y->mode == 3) y->iSplit = (t_int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
-          if(y->mode == 0) y->iSplit = (t_int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
+          if(y->mode == 2 || y->mode == 3) y->iSplit = (int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
+          if(y->mode == 0) y->iSplit = (int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -102,8 +102,8 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
           y->tied = 0;
           y->rem -= y->iStep;
           y->allStep += y->iStep;
-          if(y->mode == 2) y->iSplit = (t_int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
-          if(y->mode == 0) y->iSplit = (t_int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
+          if(y->mode == 2) y->iSplit = (int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
+          if(y->mode == 0) y->iSplit = (int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -160,7 +160,7 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
       while(y->iStep > y->rem)
         {
           y->tied = 1;
-          y->iSplit = (t_int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
+          y->iSplit = (int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -199,7 +199,7 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
       if(y->iStep == y->rem)
         {
           y->tied = 0;
-          y->iSplit = (t_int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
+          y->iSplit = (int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -238,7 +238,7 @@ void groupsplit_float(t_groupsplit *y, t_floatarg f)
         {
           y->tied = 0;
           y->rem -= y->iStep;
-          y->iSplit = (t_int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
+          y->iSplit = (int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -282,8 +282,8 @@ void groupsplit_bang(t_groupsplit *y)
         {
           y->tied = 1;
           y->allStep += y->rem;
-          if(y->mode == 2 || y->mode == 3) y->iSplit = (t_int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
-          if(y->mode == 0) y->iSplit = (t_int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
+          if(y->mode == 2 || y->mode == 3) y->iSplit = (int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
+          if(y->mode == 0) y->iSplit = (int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -310,8 +310,8 @@ void groupsplit_bang(t_groupsplit *y)
         {
           y->tied = 0;
           y->allStep += y->rem;
-          if(y->mode == 2 || y->mode == 3) y->iSplit = (t_int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
-          if(y->mode == 0) y->iSplit = (t_int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
+          if(y->mode == 2 || y->mode == 3) y->iSplit = (int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
+          if(y->mode == 0) y->iSplit = (int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -337,8 +337,8 @@ void groupsplit_bang(t_groupsplit *y)
           y->tied = 0;
           y->rem -= y->iStep;
           y->allStep += y->iStep;
-          if(y->mode == 2) y->iSplit = (t_int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
-          if(y->mode == 0) y->iSplit = (t_int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
+          if(y->mode == 2) y->iSplit = (int)atom_getfloatarg(y->allStep,SPLITS,y->splits);
+          if(y->mode == 0) y->iSplit = (int)atom_getfloatarg(y->gCount,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -393,7 +393,7 @@ void groupsplit_bang(t_groupsplit *y)
       while(y->iStep > y->rem)
         {
           y->tied = 1;
-          y->iSplit = (t_int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
+          y->iSplit = (int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -431,7 +431,7 @@ void groupsplit_bang(t_groupsplit *y)
       if(y->iStep == y->rem)
         {
           y->tied = 0;
-          y->iSplit = (t_int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
+          y->iSplit = (int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -469,7 +469,7 @@ void groupsplit_bang(t_groupsplit *y)
         {
           y->tied = 0;
           y->rem -= y->iStep;
-          y->iSplit = (t_int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
+          y->iSplit = (int)atom_getfloatarg(y->tSplit,SPLITS,y->splits);
           if(y->gCount == 0) outlet_float(y->beamStart, 0);
           else if(y->rested == 0) outlet_float(y->beamStart, 1);
           else if(y->rested == 1 && y->rem > 1)
@@ -496,8 +496,8 @@ void groupsplit_group(t_groupsplit *y, t_floatarg f)
 {
   if(f >= 1)
     {
-      y->rem = (t_int)f;
-      y->group = (t_int)f;
+      y->rem = (int)f;
+      y->group = (int)f;
       y->gCount = 0;
       outlet_bang(y->newGroup);
     }
@@ -517,7 +517,7 @@ void groupsplit_bar(t_groupsplit *y, t_symbol *s, int argc, t_atom *argv)
     {
       y->barNum = atom_getfloat(argv);
       y->barDen = atom_getfloat(argv+1);
-      if(y->myBug) post("barNum = %d, barDen = %d, we made it here", (t_int)y->barNum, (t_int)y->barDen);
+      if(y->myBug) post("barNum = %d, barDen = %d, we made it here", (int)y->barNum, (int)y->barDen);
       if(y->barNum <= 0 || y->barDen <= 0) post("ERROR! Bar time signature values must both be > 0");
       else
         {
@@ -526,7 +526,7 @@ void groupsplit_bar(t_groupsplit *y, t_symbol *s, int argc, t_atom *argv)
           SETFLOAT(&y->tSig[1],y->barDen);
           outlet_list(y->bar, gensym("list"), 2, y->tSig);
           y->barPhase = y->barNum / y->barDen;
-          if(y->myBug) post("barNum = %d, barDen = %d, barPhase = %f", (t_int)y->barNum, (t_int)y->barDen, y->barPhase);
+          if(y->myBug) post("barNum = %d, barDen = %d, barPhase = %f", (int)y->barNum, (int)y->barDen, y->barPhase);
           for(i=1; i < argc; i++)
             {
               j = i * 2;
@@ -611,7 +611,7 @@ void groupsplit_debug(t_groupsplit *y, t_floatarg f)
 void *groupsplit_new(t_floatarg f)
 {
   t_groupsplit *y = (t_groupsplit *)pd_new(groupsplit_class);
-  //  t_int group, rem, iStep, iRem, iSplit, tied, gCount;
+  //  int group, rem, iStep, iRem, iSplit, tied, gCount;
   y->group = 4;
   y->rem = 4;
   y->iStep = 1;

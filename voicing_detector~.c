@@ -14,7 +14,7 @@ typedef struct _voicing_control
   t_float *c_input;
   t_float f_sum_abs;
   t_atom otemp[4096];
-  t_int method;
+  int method;
 } t_voicing_control;
 
 typedef struct _voicing_detector_tilde
@@ -29,7 +29,7 @@ static t_int *voicing_detector_tilde_perform(t_int *w)
 {
   t_voicing_detector_tilde     *x =   (t_voicing_detector_tilde *)(w[1]);
   t_voicing_control *ctl = (t_voicing_control *)(w[2]);
-  t_int                n =                 (int)(w[3]);
+  int                  n =                 (int)(w[3]);
   t_float            *in = ctl->c_input;
   if (x->f_high < x->f_low)
     {
@@ -46,7 +46,7 @@ static t_int *voicing_detector_tilde_perform(t_int *w)
   t_float end = samplerate / x->f_low;
   end = end < (n-1) ? end : n-1;
   t_float result, prob, diff, diff2;
-  t_int i = 0;
+  int i = 0;
   int j;
   int l = n;
   int maxp = 0;

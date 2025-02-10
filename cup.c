@@ -14,7 +14,7 @@ t_class *cup_class;
 typedef struct _cup
 {
   t_object x_obj;
-  t_int f_count, fa;
+  int f_count, fa;
   t_outlet *count;
 } t_cup;
 

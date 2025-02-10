@@ -13,11 +13,11 @@ t_class *stavelines_class;
 typedef struct _stavelines
 {
   t_object x_obj;
-  t_int perclines[STAVELINES]; // number of lines in each stave
-  t_int staves[STAVELINES]; // staves used
+  int perclines[STAVELINES]; // number of lines in each stave
+  int staves[STAVELINES]; // staves used
   t_atom breaks[STAVELINES]; // break before stave (after?)
-  t_int staveLinesNum, breakLinesNum, thisStaveNum, thisBreakNum;
-  t_int stavenum;
+  int staveLinesNum, breakLinesNum, thisStaveNum, thisBreakNum;
+  int stavenum;
   t_float staveVal, breakVal, fullStaveVal, fullBreakVal;
   t_float stepMult, groupMult;
   t_outlet *linesOff, *breaksOff, *linesNum;

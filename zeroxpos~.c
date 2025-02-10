@@ -12,7 +12,7 @@ static t_class *zeroxpos_tilde_class;
 typedef struct _zeroxpos_control
 {
   t_float *c_input;
-  t_int final_pol;
+  int final_pol;
 } t_zeroxpos_control;
 
 typedef struct _zeroxpos_tilde
@@ -20,7 +20,7 @@ typedef struct _zeroxpos_tilde
   t_object x_obj;
   t_zeroxpos_control x_ctl;
   t_float f_num, f_dummy, f_dir;
-  t_int i_bang, i_pol, i_count, i_ndx, i_mode;
+  int i_bang, i_pol, i_count, i_ndx, i_mode;
   t_outlet *f_pos, *f_pol;
 } t_zeroxpos_tilde;
 

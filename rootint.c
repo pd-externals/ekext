@@ -10,22 +10,22 @@ t_class *rootint_class;
 typedef struct _rootint
 {
   t_object x_obj;
-  t_int isInt, iDiv;
+  int isInt, iDiv;
   t_float lastDiv, thisDiv;
   t_outlet *rootInteger;//, *pot;
 } t_rootint;
 
 void rootint_float(t_rootint *y, t_floatarg f)
 {
-  if(f != 0 && f > 1 && (t_float)((t_int)f) == f)
+  if(f != 0 && f > 1 && (t_float)((int)f) == f)
     {
       y->thisDiv = y->lastDiv = f;
-      y->iDiv = (t_int)y->thisDiv;
+      y->iDiv = (int)y->thisDiv;
       while((t_float)y->iDiv == y->thisDiv)
         {
           y->lastDiv = y->thisDiv;
           y->thisDiv *= 0.5;
-          y->iDiv = (t_int)y->thisDiv;
+          y->iDiv = (int)y->thisDiv;
         }
       //if(y->lastDiv == 1) y->lastDiv = 2; //musically sensible but mathematically erroneous
       //if(y->lastDiv == 1) outlet_bang(y->pot); //again, if the output is 1 we know it's a power-of-two, so another outlet is irrelevant!
