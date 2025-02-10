@@ -4,7 +4,7 @@
  * Forinformaion on usage and distribution, and for a DICLAIMER OF ALL
  * WARRANTIES, see the file "LICENSE.txt," in this distribution. */
 
-#ifdef __APPLE__
+#ifndef _WIN32
 #include <sys/types.h>
 #include <sys/time.h>
 #endif
@@ -23,11 +23,6 @@ static t_class *sieve_class;
 
 typedef struct drand48_data *markovBuffer;
 
-typedef struct {
-  long tv_sec;
-  long tv_usec;
-} timeval;
-
 /* mode = 0 : block when absent, 1: nearest when absent, 2: shunt when absent */
 typedef struct _map
 {
@@ -40,7 +35,7 @@ typedef struct _map
 
 typedef struct _sieve
 {
-  timeval tv;
+  struct timeval tv;
   t_object x_obj;
   t_map x_map;
   t_float input, mode, outmap, myBug, aim, markovResult, weight, slotVal;
@@ -692,7 +687,7 @@ void sieve_init(t_sieve *x, t_floatarg f)
   seed48(x->seed16v);
 }
 
-void *sieve_new(t_floatarg f, timeval tv)
+void *sieve_new(t_floatarg f)
 {
   t_sieve *x = (t_sieve *)pd_new(sieve_class);
   x->mode = f;
